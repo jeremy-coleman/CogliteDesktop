@@ -1,0 +1,40 @@
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import * as React from 'react';
+
+// import { getClassNames, IValidationErrorsClassNames } from './ValidationErrors.className';
+// import { getStyles, IValidationErrorsStyles } from './ValidationErrors.styles';
+
+  const errorLabelStyle = {
+            fontWeight: 600
+        }
+
+interface IValidationErrorsProps {
+    errors?: any[];
+    className?: string;
+    //styles?: IValidationErrorsStyles;
+}
+
+class ValidationErrors extends React.Component<IValidationErrorsProps, any> {
+    //private _classNames : IValidationErrorsClassNames;
+    protected _renderError = (error : any, idx : number) => {
+        return (
+            <MessageBar key={idx}  messageBarType={MessageBarType.error}>
+                {error.keyTitle ? <label style={errorLabelStyle}>{error.keyTitle}: </label> : undefined}
+                {error.message}
+            </MessageBar>
+        );
+    }
+    
+    render() {
+        //this._classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
+        if(this.props.errors && this.props.errors.length > 0) {
+            const errors = this.props.errors.map(this._renderError);
+            return (
+                <div>{errors}</div>
+            );
+        }
+        return null;
+    }
+}
+
+export { IValidationErrorsProps, ValidationErrors }

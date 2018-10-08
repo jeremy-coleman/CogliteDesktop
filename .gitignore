@@ -1,0 +1,8 @@
+.vscode
+**/.DS_Store
+**/.idea
+**/node_modules
+**/public
+**/dist
+_temp
+**/test-out

@@ -1,0 +1,37 @@
+const stringType = typeof("");
+const objectType = typeof({});
+const numberType = typeof(1);
+const booleanType = typeof(true);
+const functionType = typeof(function() {});
+
+const type = {
+    string: stringType,
+    object: objectType,
+    number: numberType,
+    boolean: booleanType,
+    function: functionType
+};
+
+const isString = function(o : any) : boolean {
+    return typeof(o) === stringType;
+};
+const isObject = function(o : any) : boolean {
+    return typeof(o) === objectType;
+};
+const isNumber = function(o : any) : boolean {
+    return typeof(o) === numberType;
+};
+const isBoolean = function(o : any) : boolean {
+    return typeof(o) === booleanType;
+};
+const isDate = function(o : any) : boolean {
+    return o instanceof Date;
+};
+const isArray = function(o : any) : boolean {
+    return Array.isArray(o);
+};
+const isFunction = function(o : any) : boolean {
+    return typeof(o) === functionType;
+};
+
+export { type, isString, isObject, isNumber, isBoolean, isDate, isArray, isFunction };

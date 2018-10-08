@@ -1,0 +1,15 @@
+enum ListingActivityAction {
+    CREATED = "CREATED",
+    MODIFIED = "MODIFIED",
+    SUBMITTED = "SUBMITTED",
+    APPROVED_ORG = "APPROVED_ORG",
+    APPROVED = "APPROVED",
+    REJECTED = "REJECTED",
+    ENABLED = "ENABLED",
+    DISABLED = "DISABLED",
+    DELETED = "DELETED",
+    REVIEW_EDITED = "REVIEW_EDITED",
+    REVIEW_DELETED = "REVIEW_DELETED"
+}
+
+export { ListingActivityAction }

@@ -1,0 +1,62 @@
+import * as React from 'react';
+
+import Snackbar from "@material-ui/core/Snackbar";
+
+  const errorLabelStyle = {
+            fontWeight: 600
+        }
+
+interface IValidationErrorsProps {
+    errors?: any[];
+    className?: string;
+    message?: any,
+    keyTitle?: any,
+    idx?: any
+    key?: any
+    //styles?: IValidationErrorsStyles;
+}
+
+
+export const isError = (x: any): x is { message: string } => {
+    return null !== x && typeof x !== "undefined" && typeof x.message === "string";
+};
+export const MessageBarError = (props: IValidationErrorsProps) => {
+    const error = props.errors;
+    const message = error ? props.message : "";
+    const open = isError(error);
+    return (
+        <Snackbar
+            open={open}
+            message={message}
+            autoHideDuration={0}
+            style={{ backgroundColor: "red" }}
+        />
+    );
+};
+
+
+
+class ValidationErrors extends React.Component<IValidationErrorsProps, any> {
+    //private _classNames : IValidationErrorsClassNames;
+    protected _renderError = (error : any, idx : number) => {
+        return (
+            <MessageBarError key={idx} >
+                {error.keyTitle ? <label style={errorLabelStyle}>{error.keyTitle}: </label> : undefined}
+                {error.message}
+            </MessageBarError>
+        );
+    }
+    
+    render() {
+        //this._classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
+        if(this.props.errors && this.props.errors.length > 0) {
+            const errors = this.props.errors.map(this._renderError);
+            return (
+                <div>{errors}</div>
+            );
+        }
+        return null;
+    }
+}
+
+export { IValidationErrorsProps, ValidationErrors }
