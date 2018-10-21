@@ -1,12 +1,11 @@
-import * as React from "react";
-import { observer } from "mobx-react";
-import { IAppHostBaseProps } from "../IAppHostBaseProps";
-import { Error, SyncOverlay } from "../components";
+import { observer, Provider as MobxProvider } from 'mobx-react';
+import * as React from 'react';
+import { ThemeProvider } from 'theming';
 
-import {ThemeProvider} from 'theming'
-import theme from '../theme'
+import { Error, SyncOverlay } from '../components';
+import theme from '../theme';
+import { IAppHostBaseProps } from '../types';
 
-import {Provider as MobxProvider} from 'mobx-react'
 
 
 interface IAppHostProps extends IAppHostBaseProps {

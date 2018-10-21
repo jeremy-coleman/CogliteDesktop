@@ -1,23 +1,23 @@
-import { IAppHost, IAppProps } from '@coglite/apphost';
+import { IAppHostModel, IAppProps } from '@coglite/apphost';
 import { autorun, IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
-import { IContextualMenuItem } from 'office-ui-fabric-react';
 import * as React from 'react';
 
 import { PortalAppView } from '../../common/component/PortalAppView';
 import { AppstorePathsContext } from '../../PathsContext';
-import { IUserProfile } from '../../user/IUserProfile';
-import { IListingModel } from '../model/IListingModel';
-import { IListingModelSupplier } from '../model/IListingModelSupplier';
+import { IUserProfile } from '../../user/types/IUserProfile';
+import { ListingViewConfig } from '../constants';
 import { ListingModelSupplier } from '../model/ListingModelSupplier';
+import { IListingModel, IListingModelSupplier } from '../types';
 import { ListingFormContainer } from './ListingForm';
-import { ListingViewConfig } from './ListingViewConfig';
+
+
 
 @observer
 class ListingEditApp extends React.Component<IAppProps, any> {
     private _titleSetDisposer : IReactionDisposer;
     private _listingSupplier : IListingModelSupplier;
-    get host() : IAppHost {
+    get host() : IAppHostModel {
         return this.props.match.host;
     }
     get userProfile() : IUserProfile {
@@ -64,7 +64,7 @@ class ListingEditApp extends React.Component<IAppProps, any> {
         }
     }
     render() {
-        const items : IContextualMenuItem[] = [];
+        const items : any[] = [];
         items.push(
             {
                 key: "cancel",
@@ -97,7 +97,7 @@ class ListingEditApp extends React.Component<IAppProps, any> {
             });
         }
 
-        const backFallback : IContextualMenuItem = {
+        const backFallback : any = {
             key: "backFallback",
             title: `Back to ${ListingViewConfig.label} Details`,
             iconProps: {

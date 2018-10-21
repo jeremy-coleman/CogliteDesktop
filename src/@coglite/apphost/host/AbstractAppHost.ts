@@ -2,10 +2,9 @@ import { IRequest, IRouter } from '@coglite/router';
 import { action, computed, observable } from 'mobx';
 import * as qs from 'qs';
 
-import { IAppLauncher } from '../launcher';
 import { next, StateManager, SyncModel, toPromise as syncToPromise } from '../models';
+import { IAppHostModel, IAppLauncher } from '../types';
 import * as PathUtils from '../util/PathUtils';
-import { IAppHost } from './IAppHost';
 
 const IdPrefix = "app-host-";
 
@@ -13,7 +12,7 @@ const nextId = () => {
     return next(IdPrefix);
 };
 
-abstract class AbstractAppHost extends StateManager implements IAppHost {
+abstract class AbstractAppHost extends StateManager implements IAppHostModel {
     private _id : string;
     private _router : IRouter;
     
@@ -110,6 +109,8 @@ abstract class AbstractAppHost extends StateManager implements IAppHost {
         this._iconUrl = iconUrl;
     }
 
+/* app url */
+
     get url() {
         return this.getUrl(this.request);
     }
@@ -118,7 +119,7 @@ abstract class AbstractAppHost extends StateManager implements IAppHost {
         const initPath = request && request.path ? request.path : this.path;
         let url = initPath ? PathUtils.joinPaths(PathUtils.sep, initPath) : "";
         
-        let queryString;
+        let queryString 
         if(request && request.query) {
             queryString = qs.stringify(request.query);
         }

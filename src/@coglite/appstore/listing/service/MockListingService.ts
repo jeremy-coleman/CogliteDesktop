@@ -1,22 +1,21 @@
-import { IListing } from "../IListing";
-import { IListingBookmark } from "../IListingBookmark";
-import { IListingStoreFront } from "../IListingStoreFront";
-import { IListingReview } from "../IListingReview";
-import { IListingActivity } from "../IListingActivity";
-import { IListingFeedback } from "../IListingFeedback";
-import { ListingApprovalStatus } from "../ListingApprovalStatus";
+import { MockUserProfile } from '../../user/service/MockUserService';
+import { ListingActivityAction, ListingApprovalStatus } from '../constants';
 import {
-    IListingService,
-    IListingRequest,
+    IListing,
+    IListingActivity,
+    IListingBookmark,
+    IListingFeedback,
+    IListingFeedbackListRequest,
     IListingListRequest,
     IListingListResponse,
-    IListingSearchRequest,
-    IListingReviewRequest,
+    IListingRequest,
+    IListingReview,
     IListingReviewListRequest,
-    IListingFeedbackListRequest
-} from "./IListingService";
-import { ListingActivityAction } from "../ListingActivityAction";
-import { MockUserProfile } from "../../user/service/MockUserService";
+    IListingReviewRequest,
+    IListingSearchRequest,
+    IListingService,
+    IListingStoreFront,
+} from '../types';
 
 const state = { listingId: 1, listingBookmarkId: 1 };
 

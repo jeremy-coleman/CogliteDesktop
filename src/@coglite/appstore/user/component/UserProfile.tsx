@@ -1,10 +1,56 @@
-import { Persona } from 'office-ui-fabric-react';
+import { theme } from '@coglite/apphost';
+import { getNameInitials } from '@coglite/design-system';
+import Avatar from '@material-ui/core/Avatar';
 import * as React from 'react';
+import { stylesheet } from 'typestyle';
 
-import { IGroup } from '../IGroup';
-import { IUserProfile } from '../IUserProfile';
-import { getClassNames, IUserProfileClassNames } from './UserProfile.classNames';
-import { getStyles, IUserProfileStyles } from './UserProfile.styles';
+import { IGroup, IUserProfile } from '../types';
+
+
+var userProfileStyles = stylesheet({
+        root: {
+            minWidth: 300
+        },
+        userInfo: {
+            display: 'flex',
+            flexDirection: 'row',
+            padding: 8
+        },
+        userInfoText: {
+            display: 'flex',
+            flexDirection: 'column',
+            padding: 1
+        },
+        body: {
+            borderTop: `1px solid ${theme.palette.neutralLight}`
+        },
+        groups: {
+            padding: 8,
+            lineHeight: '16px'
+        },
+        groupsTitle: {
+            fontSize: '16px',
+            fontWeight: 500,
+            margin: 0,
+            paddingTop: 4,
+            paddingBottom: 8
+        },
+        groupList: {
+        
+        },
+        group: {
+            backgroundColor: theme.palette.neutralSecondary,
+            color: theme.palette.white,
+            fontSize: '16px',
+            fontWeight: 300,
+            padding: 4,
+            borderRadius: 4,
+            margin: 4,
+            textAlign: "center",
+            verticalAlign: "middle"
+        }
+})
+
 
 interface IUserGroupProps {
     group: IGroup;
@@ -24,19 +70,25 @@ class UserGroup extends React.Component<IUserGroupProps, any> {
 interface IUserProfileProps {
     userProfile: IUserProfile;
     className?: string;
-    styles?: IUserProfileStyles;
 }
 
+//<Persona text={displayName} secondaryText={userProfile.user ? userProfile.user.email : undefined }/>
+
 class UserInfo extends React.Component<IUserProfileProps, any> {
-    private _classNames : IUserProfileClassNames;
     render() {
-        const { userProfile, styles, className } = this.props;
+        const { userProfile } = this.props;
+        const initials = getNameInitials(userProfile.display_name) || 'G'
         if(userProfile) {
             const displayName = userProfile.display_name || "Unknown";
-            this._classNames = getClassNames(getStyles(null, styles), className);
             return (
-                <div className={this._classNames.userInfo}>
-                    <Persona text={displayName} secondaryText={userProfile.user ? userProfile.user.email : undefined }/>
+                <div className={userProfileStyles.userInfo}>
+                    <Avatar>
+                    {'G'}
+                    </Avatar>
+                    <span className={userProfileStyles.userInfoText}>
+                    <div>{displayName}</div>
+                    <div>{userProfile.user ? userProfile.user.email : undefined }</div>
+                    </span>
                 </div>
             );
         }
@@ -45,14 +97,12 @@ class UserInfo extends React.Component<IUserProfileProps, any> {
 }
 
 class UserGroups extends React.Component<IUserProfileProps, any> {
-    private _classNames : IUserProfileClassNames;
     render() {
-        this._classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         const groups = this.props.userProfile.user.groups;
         if(groups && groups.length > 0) {
             return (
-                <div className={this._classNames.groupList} role="list">
-                    {groups.map(g => <UserGroup key={g.name} group={g} className={this._classNames.group} />)}
+                <div className={userProfileStyles.groupList} role="list">
+                    {groups.map(g => <UserGroup key={g.name} group={g} className={userProfileStyles.group} />)}
                 </div>
             );
         }
@@ -61,30 +111,28 @@ class UserGroups extends React.Component<IUserProfileProps, any> {
 }
 
 class UserProfile extends React.Component<IUserProfileProps, any> {
-    private _classNames : IUserProfileClassNames;
     private _renderHeader() : React.ReactNode {
         return <UserInfo {...this.props} />
     }
     private _renderGroups() : React.ReactNode {
         return (
-            <div className={this._classNames.groups}>
-                <h5 className={this._classNames.groupsTitle}>Groups</h5>
+            <div className={userProfileStyles.groups}>
+                <h5 className={userProfileStyles.groupsTitle}>Groups</h5>
                 <UserGroups {...this.props} />
             </div>
         );
     }
     private _renderBody() : React.ReactNode {
         return (
-            <div className={this._classNames.body}>
+            <div className={userProfileStyles.body}>
                 {this._renderGroups()}
             </div>
         );
     }
     render() {
         if(this.props.userProfile) {
-            this._classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
             return (
-                <div className={this._classNames.root}>
+                <div className={userProfileStyles.root}>
                     {this._renderHeader()}
                     {this._renderBody()}
                 </div>

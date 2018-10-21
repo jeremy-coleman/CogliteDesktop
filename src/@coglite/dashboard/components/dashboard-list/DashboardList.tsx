@@ -1,27 +1,33 @@
-import * as React from "react";
-import { observer } from "mobx-react";
-import { IDashboardList } from "../../types/IDashboardList";
-import { DashboardView } from "../dashboard";
-import {  SyncComponent } from "@coglite/apphost";
-//import { SyncSpinnerView as Sync } from "@coglite/apphost/component/Sync";
-import { DashboardAddPanel } from "../dashboard-add";
-import { DashboardAddStore } from "../../stores/DashboardAddStore";
-import { DashboardRemoveDialog } from "../dashboard-remove";
-import { DashboardRemoveStore } from "../../stores/DashboardRemoveStore";
-import { DashboardListClearStore } from "../../stores/DashboardListClearStore";
-import { IEventTarget } from "@coglite/apphost";
-import { IDashboardStyles } from "../dashboard/Dashboard.styles";
-import { IDashboardListStyles, getStyles } from "./DashboardList.styles";
-import { getClassNames } from "./DashboardList.classNames";
-import { DashboardListClearDialog } from "./DashboardListClear";
+import { IEventTarget, SyncComponent } from '@coglite/apphost';
+import { observer } from 'mobx-react';
+import * as React from 'react';
+
+import { DashboardAddStore, DashboardListClearStore, DashboardRemoveStore } from '../../stores';
+import { IDashboardList } from '../../types/IDashboardList';
+import { DashboardView } from '../dashboard';
+import { DashboardAddPanel } from '../dashboard-add-panel';
+import { DashboardRemoveDialog } from '../dashboard-remove';
+import { DashboardListClearDialog } from './DashboardListClear';
+
+
+var dashboardListStyles = {
+        root: {
+            position: "absolute",
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            overflow: "hidden"
+        } as React.CSSProperties
+}
 
 interface IDashboardListProps {
     dashboardList: IDashboardList;
     host?: IEventTarget;
-    styles?: IDashboardListStyles;
     className?: string;
-    dashboardStyles?: IDashboardStyles;
+    dashboardStyles?: any;
 }
+
 
 @observer
 class DashboardList extends React.Component<IDashboardListProps, any> {
@@ -29,13 +35,12 @@ class DashboardList extends React.Component<IDashboardListProps, any> {
         this.props.dashboardList.close();
     }
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         const active = this.props.dashboardList.active;
         const dashboards = this.props.dashboardList.dashboards.map(db => {
-            return <DashboardView key={db.id} hidden={db !== active} dashboard={db} host={this.props.host} styles={this.props.dashboardStyles} />
+            return <DashboardView key={db.id} hidden={db !== active} dashboard={db} host={this.props.host} className={this.props.dashboardStyles} />
         });
         return (
-            <div className={classNames.root}>
+            <div style={dashboardListStyles.root}>
                 <DashboardAddPanel add={DashboardAddStore} />
                 <DashboardRemoveDialog supplier={DashboardRemoveStore} />
                 <DashboardListClearDialog supplier={DashboardListClearStore} />

@@ -1,18 +1,17 @@
 import { IMutableSync, SyncModel } from '@coglite/apphost';
-import { IContextualMenuItem } from 'office-ui-fabric-react';
 import * as React from 'react';
 
 import { PortalAppBase } from '../../common/component/PortalAppBase';
 import { PortalAppView } from '../../common/component/PortalAppView';
 import { AppstorePathsContext } from '../../PathsContext';
 import { UserAdminContext } from '../../user/UserAdminContext';
-import { IListing } from '../IListing';
+import { ListingViewConfig } from '../constants';
 import { launch } from '../ListingLaunch';
-import { IListingListModel } from '../model/IListingListModel';
 import ListingListModel from '../model/ListingListModel';
+import { IListing, IListingListModel } from '../types';
 import { ListingLaunchDialog } from './ListingLaunchDialog';
-import { ListingViewConfig } from './ListingViewConfig';
 import { UserListingsContainer } from './UserListings';
+
 
 class UserListingsApp extends PortalAppBase {
     componentWillMount() {
@@ -43,7 +42,7 @@ class UserListingsApp extends PortalAppBase {
         });
     }
     render() {
-        const farItems : IContextualMenuItem[] = [
+        const farItems : any[] = [
             {
                 key: "store",
                 name: `${ListingViewConfig.storeLabel}`,
@@ -67,9 +66,11 @@ class UserListingsApp extends PortalAppBase {
         return (
             <PortalAppView host={this.host} userProfile={this.userProfile} commandBarProps={{ items: [], farItems: farItems }}>
                 <ListingLaunchDialog sync={this.launchSync} />
-                <UserListingsContainer userProfile={this.userProfile}
-                                       listingList={this.listingList}
-                                       onLaunchApp={this._onLaunchApp} />
+                <UserListingsContainer 
+                    userProfile={this.userProfile}
+                    listingList={this.listingList}
+                    onLaunchApp={this._onLaunchApp}
+                />
             </PortalAppView>
         );
     }

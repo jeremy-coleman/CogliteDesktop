@@ -1,8 +1,8 @@
 import { IPredicateFunc, ISyncSupplier } from '@coglite/apphost';
 import { IRequest, IRequestHandler, IRouter, Router } from '@coglite/router';
 
-import { IUserProfile } from './IUserProfile';
 import { UserProfileStore } from './model/UserProfileStore';
+import { IUserProfile } from './types';
 import { isMemberOfGroup } from './UserHelper';
 
 

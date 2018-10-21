@@ -1,5 +1,6 @@
-import { observable, action, computed } from "mobx";
-import { IMutableSupplier } from '../types'
+import { action, computed, observable } from 'mobx';
+
+import { IMutableSupplier } from '../types';
 
 class Supplier<T = any> implements IMutableSupplier<T> {
     @observable.ref protected _value : T;

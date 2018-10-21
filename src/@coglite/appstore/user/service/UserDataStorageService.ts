@@ -1,7 +1,7 @@
-import { IStorageService } from "@coglite/apphost";
-import { IUserDataService } from "./IUserDataService";
-import { IUserData } from "../IUserData";
-import { UserDataServiceContext } from "./UserDataServiceContext";
+import { IStorageService } from '@coglite/apphost';
+
+import { IUserData, IUserDataService } from '../types';
+import { UserDataServiceContext } from './UserDataServiceContext';
 
 const contentType = "application/json";
 

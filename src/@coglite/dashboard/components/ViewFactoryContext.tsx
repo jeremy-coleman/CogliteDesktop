@@ -1,10 +1,11 @@
-import * as React from "react";
-import { MappedViewFactory } from "./MappedViewFactory";
-import { StackViewFactory } from "./stack";
-import { HSplitViewFactory } from "./h-split";
-import { VSplitViewFactory } from "./v-split";
-import { GridViewFactory } from "./grid";
-import { IViewFactory } from "../types/IViewFactory";
+import * as React from 'react';
+
+import { IViewFactory } from '../types';
+import { GridViewFactory } from './grid';
+import { HSplitViewFactory } from './h-split';
+import { MappedViewFactory } from './MappedViewFactory';
+import { StackViewFactory } from './stack';
+import { VSplitViewFactory } from './v-split';
 
 
 const ViewFactoryDefaults = {

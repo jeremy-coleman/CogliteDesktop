@@ -1,5 +1,5 @@
 import { Context } from "@coglite/apphost";
-import { IImageService } from "./IImageService";
+import { IImageService } from "../types";
 
 const ImageServiceContext = new Context<IImageService>();
 

@@ -1,10 +1,11 @@
-import { AbstractAppHost } from "./AbstractAppHost";
-import { EventEmitter  } from "../models";
-import { IRequest } from "@coglite/router";
-import {IEventEmitter} from '../types'
+import { IRequest } from '@coglite/router';
+
+import { EventEmitter } from '../models';
+import { IEventEmitter } from '../types';
+import { AbstractAppHost } from './AbstractAppHost';
 
 
-class AppHost extends AbstractAppHost {
+class AppHostModel extends AbstractAppHost {
     protected _events : IEventEmitter = new EventEmitter();
     private _defaultRequest : IRequest;
 
@@ -35,4 +36,4 @@ class AppHost extends AbstractAppHost {
     }
 }
 
-export { AppHost }
+export { AppHostModel }

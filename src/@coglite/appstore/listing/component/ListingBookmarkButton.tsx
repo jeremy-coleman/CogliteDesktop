@@ -1,10 +1,8 @@
-import * as React from "react";
-import { observer } from "mobx-react";
-import { IListingBookmarkListModel } from "../model/IListingBookmarkListModel";
-import { Spinner, SpinnerSize } from "office-ui-fabric-react";
-import { IButtonProps,IconButton } from "office-ui-fabric-react";
-import { IListing } from "../IListing";
-import { ListingViewConfig } from "./ListingViewConfig";
+import { observer } from 'mobx-react';
+import { IButtonProps, IconButton, Spinner, SpinnerSize } from 'office-ui-fabric-react';
+import * as React from 'react';
+
+import { IListing, IListingBookmarkListModel } from '../types';
 
 interface IListingBookmarkButtonProps {
     listing: IListing;
@@ -29,25 +27,23 @@ class ListingBookmarkButton extends React.Component<IListingBookmarkButtonProps,
         return <Spinner size={SpinnerSize.small} />;
     }
     render() {
-        if(ListingViewConfig.bookmarksEnabled) {
-            const { listing, bookmarkList } = this.props;
-            const sync = bookmarkList.sync;
-            const syncing = sync.syncing && (sync.type !== "update" || sync.id === String(listing.id));
-            const isBookmarked = bookmarkList.isBookmarked(listing);
-            const title = syncing ? "Please wait..." : isBookmarked ? "Bookmarked - Click to Remove" : "Click to Set Bookmark";
-            const props : IButtonProps = {
-                onClick: this._onClick,
-                title: title,
-                primary: true,
-                checked: isBookmarked ? true : false,
-                iconProps: { iconName: isBookmarked ? "SingleBookmarkSolid" : "SingleBookmark" },
-                disabled: syncing,
-                ariaDescription: title,
-                onRenderIcon: syncing ? this._onRenderSyncIcon : undefined
-            };
-            return <IconButton {...props} />;
-        }
-        return null;
+        const { listing, bookmarkList } = this.props;
+        
+        const sync = bookmarkList.sync;
+        const syncing = sync.syncing && (sync.type !== "update" || sync.id === String(listing.id));
+        const isBookmarked = bookmarkList.isBookmarked(listing);
+        const title = syncing ? "Please wait..." : isBookmarked ? "Bookmarked - Click to Remove" : "Click to Set Bookmark";
+        const props : IButtonProps = {
+            onClick: this._onClick,
+            title: title,
+            primary: true,
+            checked: isBookmarked ? true : false,
+            iconProps: { iconName: isBookmarked ? "SingleBookmarkSolid" : "SingleBookmark" },
+            disabled: syncing,
+            ariaDescription: title,
+            onRenderIcon: syncing ? this._onRenderSyncIcon : undefined
+        };
+        return <IconButton {...props} />;
     }
 }
 

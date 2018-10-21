@@ -1,5 +1,5 @@
-import { IListingModelSupplier } from "./IListingModelSupplier";
-import { ListingModelSupplier } from "./ListingModelSupplier";
+import { IListingModelSupplier } from '../types';
+import { ListingModelSupplier } from './ListingModelSupplier';
 
 const deleteAfter = 2 * 60 * 1000;
 

@@ -1,13 +1,13 @@
 import { IAppHostBaseProps, ISyncSupplier } from '@coglite/apphost';
-import { IContextualMenuItem } from 'office-ui-fabric-react';
 import * as React from 'react';
 
 import { PortalAppView } from '../../common/component/PortalAppView';
-import { IListingModel } from '../model/IListingModel';
 import { findById } from '../model/ListingFinder';
 import { getReviews } from '../model/ListingReviewHelper';
+import { IListingModel } from '../types';
 import { ListingReviewListContainer } from './ListingReviewList';
 import { ListingSupplierContainer } from './ListingSupplier';
+
 
 interface IListingReviewListAppProps extends IAppHostBaseProps {
     listingId: number;
@@ -23,7 +23,7 @@ class ListingReviewListApp extends React.Component<IListingReviewListAppProps, a
         });
     }
     render() {
-        const items : IContextualMenuItem[] = [
+        const items : any[] = [
             {
                 key: "title",
                 name: "Listing Reviews"

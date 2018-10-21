@@ -1,11 +1,10 @@
-import axios from "axios";
-import { IUserProfile } from "../IUserProfile";
-import { IUser } from "../IUser";
-import { IUserService, IGetUsersRequest } from "./IUserService";
-import { IBasicAuthCredentials } from "@coglite/apphost";
+import { IBasicAuthCredentials } from '@coglite/apphost';
+import axios from 'axios';
+
+import { IGetUsersRequest, IUser, IUserProfile, IUserService } from '../types';
 
 const Defaults = {
-    baseUrl: "/api",
+    baseUrl: "/coglite/api",
     auth: undefined
 }
 

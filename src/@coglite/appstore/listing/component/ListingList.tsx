@@ -1,11 +1,24 @@
 import { SyncComponent } from '@coglite/apphost';
 import * as React from 'react';
+import { classes, stylesheet } from 'typestyle';
 
-import { IListing } from '../IListing';
-import { IListingListModel } from '../model/IListingListModel';
-import { getClassNames } from './ListingList.classNames';
-import { getStyles, IListingListStyles } from './ListingList.styles';
+import { IListing, IListingListModel } from '../types';
 import { ListingTile } from './ListingTile';
+
+
+
+let listingListStyles = stylesheet({
+            root: {
+            
+        },
+        compactRoot: {
+            display: "flex",
+            alignItems: "center"
+        },
+        wrappingRoot: {
+            flexWrap: "wrap"
+        }
+})
 
 interface IListingListProps {
     listings: IListing[];
@@ -14,7 +27,6 @@ interface IListingListProps {
     onRenderListing?: (listing : IListing, index?: number, props?: IListingListProps) => React.ReactNode;
     onSelectItem?: (item : IListing) => void;
     className?: string;
-    styles?: IListingListStyles;
     onRenderEmpty?: () => React.ReactNode;
 }
 
@@ -29,10 +41,18 @@ class ListingList extends React.Component<IListingListProps, any> {
     }
     render() {
         if(this.props.listings && this.props.listings.length > 0) {
-            const classNames = getClassNames(getStyles(undefined, this.props.styles), this.props.className, this.props.compact, this.props.wrapping);
+            //const classNames = getClassNames(getStyles(undefined, this.props.styles), this.props.className, this.props.compact, this.props.wrapping);
+            const classNames = classes(
+                listingListStyles.root,
+                this.props.className,
+                this.props.compact ? listingListStyles.compactRoot : '',
+                this.props.wrapping ? listingListStyles.wrappingRoot : '',
+            );
+            
+            
             const items = this.props.listings.map(this._onRenderListing);
             return (
-                <div className={classNames.root}>
+                <div className={classNames}>
                     {items}
                 </div>
             );

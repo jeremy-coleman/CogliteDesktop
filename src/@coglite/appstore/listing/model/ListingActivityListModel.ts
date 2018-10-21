@@ -1,7 +1,5 @@
-import { IListingActivity } from "../IListingActivity";
-import { IListingActivityListModel } from "./IListingActivityListModel";
-import { IListingModel } from "./IListingModel";
-import { ListingRelatedListModel } from "./ListingRelatedListModel";
+import { IListingActivity, IListingActivityListModel, IListingModel } from '../types';
+import { ListingRelatedListModel } from './ListingRelatedListModel';
 
 class ListingActivityListModel extends ListingRelatedListModel<IListingActivity> implements IListingActivityListModel {
     constructor(listing : IListingModel) {

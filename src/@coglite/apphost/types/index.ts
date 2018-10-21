@@ -1,3 +1,8 @@
+export * from "./IAppHostBaseProps";
+export * from "./IAppHostModel";
+export * from "./IAppLauncher";
+export * from "./IAppProps";
+export * from "./IBasicAuthCredentials";
 export * from "./IBinding";
 export * from "./IBoundProps";
 export * from "./IConsumerFunc";
@@ -25,3 +30,4 @@ export * from "./ISupplierFunc";
 export * from "./ISyncModel";
 export * from "./ISyncSupplier";
 export * from "./ITypedValue";
+export * from "./IValidatable";

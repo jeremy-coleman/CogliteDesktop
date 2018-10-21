@@ -1,5 +1,4 @@
-import { IUserDataService, IGetUserDataRequest } from "./IUserDataService";
-import { IUserData } from "../IUserData";
+import { IGetUserDataRequest, IUserData, IUserDataService } from '../types';
 
 class MockUserDataService implements IUserDataService {
     private _map : { [key : string] : IUserData } = {};

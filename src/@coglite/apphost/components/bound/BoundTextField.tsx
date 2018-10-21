@@ -3,33 +3,43 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import { getBoundValue, getErrorMessage, setBoundValue } from '../../models';
-import {IBoundProps, IError} from '../../types'
+import { IBoundProps, IError } from '../../types';
 
-//import { ITextFieldProps, TextField } from 'office-ui-fabric-react';
 //import {withProps} from 'recompose'
 
-interface IBoundTextFieldProps extends TextFieldProps, IBoundProps<any, string> {
+interface _IBoundTextFieldProps extends IBoundProps<any, string> {
     errors?: IError[];
     errorMessage?: any
-}
+};
 
-const TextField = (props) =>  <MuiTextField {...props}/>
+type IBoundTextFieldProps = TextFieldProps & _IBoundTextFieldProps;
+
 
 @observer
 class BoundTextField extends React.Component<IBoundTextFieldProps, any> {
-    private _onChanged = (e) => {
+    private _onChange = (e: React.ChangeEvent<any>) => {
         setBoundValue(this.props, e.currentTarget.value);
         if(this.props.onChange) {
             this.props.onChange(e.currentTarget.value);
         }
     }
+
+    // _getValueOrError = () => {
+    //     if(this.props.errors.length > 0){
+    //     getErrorMessage(this.props, this.props.errors)}
+    //     else meh
+    // }
+
+
     render() {
         const value = getBoundValue(this.props);
         return (
-            <TextField {...this.props}
-                onChange={this._onChanged}
+            <MuiTextField {...this.props}
+                onChange={this._onChange}
                 value={value || ""}
-                errorMessage={getErrorMessage(this.props, this.props.errors)}
+                error={this.props.errors && this.props.errors.length ? true : false}
+                helperText={getErrorMessage(this.props, this.props.errors)}
+                //errorMessage={getErrorMessage(this.props, this.props.errors)}
                 style={{margin: '5px', width: '100%'}}
                 />
         )
@@ -39,28 +49,3 @@ class BoundTextField extends React.Component<IBoundTextFieldProps, any> {
 // style={{flex: '0 1 auto' , alignSelf: 'middle', overFlow: 'hidden', margin: '5px', borderColor: 'black'}}
 
 export { IBoundTextFieldProps, BoundTextField }
-
-
-
-    // private _onChanged = (e, value : string) => {
-    //     setBoundValue(this.props, value);
-    //     if(this.props.onChange) {
-    //         this.props.onChange(e, value);
-    //     }
-    // }
-
-// const TextField = withProps({
-//     errors: [] as IError[],
-//     onChange: (e) => {
-//         setBoundValue(this.props, e.value);
-//         if(this.props.onChange) {
-//             this.props.onChange(e.value);
-//         }
-//     },
-//     errorMessage: undefined as any
-// })(MuiTextField as any);
-
-
-// withProps(
-//   createProps: (ownerProps: Object) => Object | Object
-// ): HigherOrderComponent

@@ -30,6 +30,5 @@ export * from "./ListingStoreFront";
 export * from "./ListingStoreFrontApp";
 export * from "./ListingSupplier";
 export * from "./ListingTile";
-export * from "./ListingViewConfig";
 export * from "./UserListings";
 export * from "./UserListingsApp";

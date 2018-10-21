@@ -1,8 +1,8 @@
-import { observable, action, computed, autorun, IReactionDisposer } from "mobx";
-import { ComponentModel } from "./Component";
-import { IComponent } from "../types/IComponent";
-import { ISplit, IHSplit, IVSplit, IVSplitConfig, IHSplitConfig } from "../types/ISplit";
-import * as ComponentTypes from "../types/ComponentTypes";
+import { action, autorun, computed, IReactionDisposer, observable } from 'mobx';
+
+import * as ComponentTypes from '../constants/ComponentTypes';
+import { IComponent, IHSplit, IHSplitConfig, ISplit, IVSplit, IVSplitConfig } from '../types';
+import { ComponentModel } from './Component';
 
 const Defaults = {
     offset: 0.5,

@@ -1,8 +1,5 @@
-import { IDashboard } from "../types/IDashboard";
-import { IHSplit, IVSplit } from "../types/ISplit";
-import * as ComponentTypes from "../types/ComponentTypes";
-import { IWindow } from "../types/IWindow";
-import { IStack } from "../types/IStack";
+import * as ComponentTypes from '../constants/ComponentTypes';
+import { IDashboard, IHSplit, IStack, IVSplit, IWindow } from '../types';
 
 const getColumnCount = (dashboard : IDashboard) : number => {
     return dashboard && dashboard.component && dashboard.component.type === ComponentTypes.hsplit ?

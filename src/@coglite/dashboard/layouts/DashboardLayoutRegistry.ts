@@ -1,9 +1,10 @@
-import { ListModel } from "@coglite/apphost";
-import { IDashboardLayout } from "../types/IDashboardLayout";
-import { TabDashboardLayout } from "./TabDashboardLayout";
-import { TwoColumnSplitDashboardLayout } from "./TwoColumnSplitDashboardLayout";
-import { ThreeColumnSplitDashboardLayout } from "./ThreeColumnSplitDashboardLayout";
-import { GridDashboardLayout } from "./GridDashboardLayout";
+import { ListModel } from '@coglite/apphost';
+
+import { IDashboardLayout } from '../types';
+import { GridDashboardLayout } from './GridDashboardLayout';
+import { TabDashboardLayout } from './TabDashboardLayout';
+import { ThreeColumnSplitDashboardLayout } from './ThreeColumnSplitDashboardLayout';
+import { TwoColumnSplitDashboardLayout } from './TwoColumnSplitDashboardLayout';
 
 
 // the dashboard layout register - initialized with defaults

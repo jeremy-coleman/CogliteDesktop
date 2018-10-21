@@ -1,10 +1,8 @@
-import { action, observable, computed } from "mobx";
-import { IListingReview } from "../IListingReview";
-import { IListingReviewListModel } from "./IListingReviewListModel";
-import { IListingModel } from "./IListingModel";
-import { IListingReviewModel } from "./IListingReviewModel";
-import { ListingReviewModel } from "./ListingReviewModel";
-import { ListingRelatedListModel } from "./ListingRelatedListModel";
+import { action, computed, observable } from 'mobx';
+
+import { IListingModel, IListingReview, IListingReviewListModel } from '../types';
+import { ListingRelatedListModel } from './ListingRelatedListModel';
+import { ListingReviewModel } from './ListingReviewModel';
 
 class ListingReviewListModel extends ListingRelatedListModel<IListingReview> implements IListingReviewListModel {
     @observable _newReview : ListingReviewModel;

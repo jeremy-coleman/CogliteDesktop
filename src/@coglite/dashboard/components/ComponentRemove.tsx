@@ -1,8 +1,13 @@
-import * as React from "react";
-import { observer } from "mobx-react";
-import { Dialog, DialogFooter } from "office-ui-fabric-react";
-import { DefaultButton, PrimaryButton } from "office-ui-fabric-react";
-import { IComponentRemove } from "../types/IComponentRemove";
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { observer } from 'mobx-react';
+import * as React from 'react';
+
+import { IComponentRemove } from '../types/IComponentRemove';
+
 
 interface IComponentRemoveProps {
     remove: IComponentRemove;
@@ -20,13 +25,7 @@ class ComponentRemoveDialog extends React.Component<IComponentRemoveProps, any> 
         this.props.remove.cancel();
     }
     render() {
-        let footer = (
-            <DialogFooter>
-                <DefaultButton className="dashboard-form-action" onClick={this._onClickCancel}>Cancel</DefaultButton>
-                <PrimaryButton className="dashboard-form-action" onClick={this._onClickSave}>OK</PrimaryButton>
-            </DialogFooter>
-        );
-        
+
         const c = this.props.remove.component;
         let title;
         if(c) {
@@ -37,17 +36,17 @@ class ComponentRemoveDialog extends React.Component<IComponentRemoveProps, any> 
         if(!title) {
             title = "the Tab";
         }
-        
-        return (
-            <Dialog hidden={!this.props.remove.active}
-                    onDismiss={this._onDismissed}
-                    dialogContentProps={
-                        {
-                            title: `Close ${title}`,
-                            subText: `Are you sure you want to close ${title}?`
-                        }   
-                    }>
-                {footer}
+    return (
+            <Dialog 
+                open={!this.props.remove.active? false : true}
+                onClose={this._onDismissed}
+            >
+            <DialogTitle>{`Close ${title}`}</DialogTitle>
+            <DialogContentText>{`Are you sure you want to close ${title}?`}</DialogContentText>
+            <DialogActions>
+                <Button variant='contained' color='secondary' onClick={this._onClickCancel}>Cancel</Button>
+                <Button variant='contained' color='primary' onClick={this._onClickSave}>OK</Button>
+            </DialogActions>
             </Dialog>
         )
     }

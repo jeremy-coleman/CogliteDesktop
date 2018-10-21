@@ -1,10 +1,8 @@
-import { IListingSearchModel } from "./IListingSearchModel";
-import { observable, action, computed } from "mobx";
-import { IListing } from "../IListing";
-import {ListModel} from "@coglite/apphost";
-import { IListingService } from "../service/IListingService";
-import { ListingServiceContext } from "../service/ListingServiceContext";
-import { IListingSearchRequest } from "../IListingSearchRequest";
+import { ListModel } from '@coglite/apphost';
+import { action, computed, observable } from 'mobx';
+
+import { ListingServiceContext } from '../service/ListingServiceContext';
+import { IListing, IListingSearchModel, IListingSearchRequest, IListingService } from '../types';
 
 const Defaults = {
     searchDelay: 500

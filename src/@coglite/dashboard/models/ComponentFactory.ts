@@ -1,10 +1,9 @@
-import { IComponent } from "../types/IComponent";
-import { IComponentFactory } from "../types/IComponentFactory";
-import { window, stack, vsplit, hsplit, grid } from "../types/ComponentTypes";
-import { WindowModel } from "./Window";
-import { StackModel } from "./Stack";
-import { HSplitModel, VSplitModel } from "./Split";
-import { GridModel } from "./Grid";
+import { grid, hsplit, stack, vsplit, window } from '../constants/ComponentTypes';
+import { IComponent, IComponentFactory } from '../types';
+import { GridModel } from './Grid';
+import { HSplitModel, VSplitModel } from './Split';
+import { StackModel } from './Stack';
+import { WindowModel } from './Window';
 
 interface IComponentFactoryMap {
     [key : string]: () => IComponent;

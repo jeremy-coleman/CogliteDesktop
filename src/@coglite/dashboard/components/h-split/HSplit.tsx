@@ -1,21 +1,105 @@
+import { css } from '@coglite/design-system';
 import { observer } from 'mobx-react';
-import { css, Icon } from 'office-ui-fabric-react';
 import * as React from 'react';
+import { stylesheet } from 'typestyle';
 
-import { IHSplit } from '../../types/ISplit';
+import { IComponent, IHSplit, IViewFactory } from '../../types';
 import { ComponentView } from '../ComponentView';
-import { getClassNames, IHSplitClassNames } from './HSplit.classNames';
-import { getStyles, IHSplitStyles } from './HSplit.styles';
+
+
+const hsplitStyles = stylesheet({
+    root: {
+            position: "absolute",
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0
+        },
+        splitter: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            backgroundColor: 'black'
+        },
+        splitterHandle: {
+            cursor: "ew-resize",
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: -2,
+            right: -2,
+            overflow: "hidden",
+            backgroundColor: "transparent",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 2,
+            transition: "background-color 0.3s ease",
+            $nest: {
+                ":hover": {
+                    backgroundColor: 'black',
+                    opacity: 0.5,
+                },
+                ".hsplit-icon": {
+                    fontSize: '10px',
+                    visibility: "hidden",
+                    color: 'white'
+                },
+                "&.active": {
+                    backgroundColor: 'black',
+                    opacity: 1.0,
+                    $nest: {
+                        ".hsplit-icon": {
+                            visibility: "visible"
+                        }
+                    }
+                }
+            }
+        },
+        leftPane: {
+            position: "absolute",
+            left: 0,
+            top: 0,
+            bottom: 0,
+            overflow: "hidden"
+        },
+        leftContent: {
+            position: "absolute",
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            overflow: "auto"
+        },
+        rightPane: {
+            position: "absolute",
+            right: 0,
+            top: 0,
+            bottom: 0,
+            overflow: "hidden"
+        },
+        rightContent: {
+            position: "absolute",
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            overflow: "auto"
+        }
+})
+
+
 
 interface IHSplitProps {
     hsplit: IHSplit;
-    styles?: IHSplitStyles;
     className?: string;
 }
 
 @observer
 class HSplit extends React.Component<IHSplitProps, any> {
-    private _classNames : IHSplitClassNames;
     private _ref : HTMLElement;
     private _splitterRef : HTMLElement;
     private _resize(e : MouseEvent) {
@@ -56,23 +140,25 @@ class HSplit extends React.Component<IHSplitProps, any> {
     private _renderLeftPane() : React.ReactNode {
         const { hsplit } = this.props;
         return (
-            <div className={this._classNames.leftPane}
+            <div className={hsplitStyles.leftPane}
                 style={{ width: hsplit.leftWidth }}>
-                <div className={this._classNames.leftContent}>
+                <div className={hsplitStyles.leftContent}>
                     <ComponentView component={hsplit.left} />
                 </div>
             </div>
         );
     }
+
+    //<Icon iconName="GripperBarVertical" className="hsplit-icon" />
     private _renderSplitter() : React.ReactNode {
         const { hsplit } = this.props;
         return (
-            <div className={css(this._classNames.splitter, { active: hsplit.splitActive })}
+            <div className={css(hsplitStyles.splitter, { active: hsplit.splitActive })}
                 onMouseDown={this._onSplitterMouseDown}
                 style={{ left: hsplit.leftWidth, width: hsplit.splitterWidth }}
                 ref={this._onSplitterRef}>
-                <div className={css(this._classNames.splitterHandle, { active: hsplit.splitActive })}>
-                    <Icon iconName="GripperBarVertical" className="hsplit-icon" />
+                <div className={css(hsplitStyles.splitterHandle, { active: hsplit.splitActive })}>
+                    {/*<DragHandle/>*/}
                 </div>
             </div>
         )
@@ -80,20 +166,18 @@ class HSplit extends React.Component<IHSplitProps, any> {
     private _renderRightPane() : React.ReactNode {
         const { hsplit } = this.props;
         return (
-            <div className={this._classNames.rightPane}
+            <div className={hsplitStyles.rightPane}
                     style={{ left: hsplit.leftWidth + hsplit.splitterWidth, width: hsplit.rightWidth }}>
-                <div className={this._classNames.rightContent}>
+                <div className={hsplitStyles.rightContent}>
                     <ComponentView component={hsplit.right} />
                 </div>
             </div>
         )
     }
     render() {
-        const { styles, className } = this.props;
-        this._classNames = getClassNames(getStyles(null, styles), className);
-        
+        const { className } = this.props;   
         return (
-            <div className={this._classNames.root} ref={this._onRef}>
+            <div className={hsplitStyles.root} ref={this._onRef}>
                 {this._renderLeftPane()}
                 {this._renderSplitter()}
                 {this._renderRightPane()}
@@ -102,4 +186,13 @@ class HSplit extends React.Component<IHSplitProps, any> {
     }
 }
 
-export { IHSplitProps, HSplit }
+
+class HSplitViewFactory implements IViewFactory {
+    className : string = undefined;
+    createView(comp : IComponent) : React.ReactNode {
+        return <HSplit hsplit={comp as IHSplit} className={this.className} />;
+    }
+}
+
+
+export { IHSplitProps, HSplit, HSplitViewFactory }

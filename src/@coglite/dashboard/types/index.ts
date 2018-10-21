@@ -1,4 +1,3 @@
-export * from "./ComponentTypes";
 export * from "./IComponent";
 export * from "./IComponentFactory";
 export * from "./IComponentRemove";
@@ -19,4 +18,3 @@ export * from "./IViewport";
 export * from "./IWindow";
 export * from "./IWindowManager";
 export * from "./IWindowSettings";
-export * from "./WindowResizeType";

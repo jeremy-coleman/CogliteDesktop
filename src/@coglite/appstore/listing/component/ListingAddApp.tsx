@@ -1,20 +1,19 @@
-import { IAppHost, IAppProps } from '@coglite/apphost';
+import { IAppHostModel, IAppProps } from '@coglite/apphost';
 import { observer } from 'mobx-react';
-import { IContextualMenuItem } from 'office-ui-fabric-react';
 import * as React from 'react';
 
 import { PortalAppView } from '../../common/component/PortalAppView';
 import { AppstorePathsContext } from '../../PathsContext';
-import { IUserProfile } from '../../user/IUserProfile';
-import { IListingModel } from '../model/IListingModel';
+import { IUserProfile } from '../../user/types';
+import { ListingViewConfig } from '../constants';
 import { ListingModel } from '../model/ListingModel';
+import { IListingModel } from '../types';
 import { ListingForm } from './ListingForm';
-import { ListingViewConfig } from './ListingViewConfig';
 
 @observer
 class ListingAddApp extends React.Component<IAppProps, any> {
     private _listing : ListingModel;
-    get host() : IAppHost {
+    get host() : IAppHostModel {
         return this.props.match.host;
     }
     get userProfile() : IUserProfile {
@@ -41,7 +40,7 @@ class ListingAddApp extends React.Component<IAppProps, any> {
         this.host.title = `Add ${ListingViewConfig.label}`
     }
     render() {
-        const items : IContextualMenuItem[] = [];
+        const items : any[] = [];
         items.push(
             {
                 key: "cancel",

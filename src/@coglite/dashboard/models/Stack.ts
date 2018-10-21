@@ -1,19 +1,15 @@
-import { observable, computed, action, autorun, IReactionDisposer } from "mobx";
-import { IStack, IStackConfig } from "../types/IStack";
-import { IComponent } from "../types/IComponent";
-import { IWindow } from "../types/IWindow";
-import { WindowModel } from "./Window";
-import * as ComponentTypes from "../types/ComponentTypes";
-import { WindowManager } from "./WindowManager";
-import { splitHorizontal, splitVertical } from "../actions/SplitActions";
+import { action, autorun, computed, IReactionDisposer, observable } from 'mobx';
+
+import { splitHorizontal, splitVertical } from '../actions/SplitActions';
+import * as ComponentTypes from '../constants/ComponentTypes';
+import { IComponent, IStack, IStackConfig, IWindow } from '../types';
+import { WindowModel } from './Window';
+import { WindowManager } from './WindowManager';
 
 // const Defaults = {
 //     headerHeight: 32
 // };
 
-/**
- * Stack - a bunch/stack of windows
- */
 export class StackModel extends WindowManager implements IStack {
     @observable Defaults = {
     headerHeight: 32

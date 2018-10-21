@@ -1,0 +1,52 @@
+current fabric deps for 'ContextualMenuItemType':
+    layouts/DashboardLayout.tsx
+    appstore/user/component/UserProfileMenuHelper.tsx
+
+
+dashboard-add is the popout drawer that asks you to create new dashboard and 'use from existing' etc
+
+dashboard-list is the dropdown menu on the command bar
+
+dashboard-remove is just the dialog to confirm removing after clicking 'remove dashboards' on the command bar dropdown menu
+
+
+window is the window-frame on the grid layout (like close and fullscreen buttons etc)
+
+ComponentRemove.tsx is the confirm dialog for the Tab View
+
+
+command bar layout [#1 brand #2Dashboard #3layout #4 grid         <--->     #store #help/about #user]
+(DashboardLayoutRegistry.itemsView)
+Dashboard dropdown schema: 
+        
+        key: "dashboardLayout",
+        name: dashboard.sync.syncing ? "Loading..." : dashboard.sync.error ? "Error" : current ? current.name : "Layout",
+        iconProps: current ? current.iconProps : { iconName: "ViewDashboard"},
+        subMenuProps: {
+            items: [layoutSectionItem]
+        }
+
+'actionItems'
+        key: "add",
+        name: "Add Dashboard",
+        dashboardList: dashboardList,
+        onClick: onAddDashboardClick,
+        iconProps: { iconName: "Add" },
+        disabled: dashboardList.sync.syncing
+
+
+Layout dropdown schema
+        key: "layoutSectionItem",
+        itemType: ContextualMenuItemType.Section,
+        sectionProps: {
+            key: "layoutSection",
+            title: "Layout",
+            items: layoutItems
+        }
+    };
+
+added
+import * as _ComponentTypes from './ComponentTypes'
+type ComponentTypes = keyof typeof _ComponentTypes
+
+to dashboard/types/IComponent

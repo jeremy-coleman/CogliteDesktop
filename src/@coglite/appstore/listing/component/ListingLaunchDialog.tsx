@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { DefaultButton, Dialog, DialogFooter, DialogType, MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import * as React from 'react';
 
-import { IListing } from '../IListing';
+import { IListing } from '../types';
 
 interface IListingLaunchDialogProps {
     sync: IMutableSync<IListing>;
@@ -28,9 +28,11 @@ class ListingLaunchDialog extends React.Component<IListingLaunchDialogProps, any
             </MessageBar>
         );
     }
+
     private _onDismiss = () => {
         this.props.sync.clear();
     }
+    
     render() {
         const { sync } = this.props;
         const open = sync.syncing || sync.error ? true : false;

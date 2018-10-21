@@ -1,4 +1,4 @@
-import { ISyncSupplier } from "../types";
+import { ISyncSupplier } from '../types';
 
 interface IFinder<V> {
     (key : string | number) : ISyncSupplier<V>;

@@ -1,27 +1,50 @@
+import { theme } from '@coglite/apphost';
 import { observer } from 'mobx-react';
-import { Icon } from 'office-ui-fabric-react';
-import { Image } from 'office-ui-fabric-react';
+import { FontSizes, Icon, Image } from 'office-ui-fabric-react';
 import * as React from 'react';
+import { stylesheet } from 'typestyle';
 
-import { IListing } from '../IListing';
-import { getClassNames, IListingPreviewClassNames } from './ListingPreview.classNames';
-import { getStyles, IListingPreviewStyles } from './ListingPreview.styles';
+import { IListing } from '../types';
+
+
+
+const listingPreviewStyles = stylesheet({
+        root: {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: 228,
+            height: 145
+        },
+        fallback: {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: 220,
+            height: 137,
+            backgroundColor: theme.palette.neutralLight,
+            color: theme.palette.themePrimary
+        },
+        fallbackIcon: {
+            fontSize: FontSizes.xxLarge
+        }
+})
+
 
 
 interface IListingPreviewProps {
     listing: IListing;
-    styles?: IListingPreviewStyles;
+    //styles?: IListingPreviewStyles;
     className?: string;
 }
 
 @observer
 class ListingPreview extends React.Component<IListingPreviewProps, any> {
-    private _classNames : IListingPreviewClassNames;
+    //private _classNames : IListingPreviewClassNames;
     private _renderFallback() {
-        return <div className={this._classNames.fallback}><Icon className={this._classNames.fallbackIcon} iconName="Puzzle" /></div>;
+        return <div className={listingPreviewStyles.fallback}><Icon className={listingPreviewStyles.fallbackIcon} iconName="Puzzle" /></div>;
     }
     render() {
-        this._classNames = getClassNames(getStyles(undefined, this.props.styles), this.props.className);
         let fallback;
         let image;
         if(this.props.listing.banner_icon && this.props.listing.banner_icon.url) {
@@ -30,7 +53,7 @@ class ListingPreview extends React.Component<IListingPreviewProps, any> {
             image = this._renderFallback();
         }
         return (
-            <div className={this._classNames.root}>
+            <div className={listingPreviewStyles.root}>
                 {image}
             </div>
         );

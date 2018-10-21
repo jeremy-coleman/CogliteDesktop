@@ -1,8 +1,8 @@
 import { SyncComponent } from '@coglite/apphost';
 import * as React from 'react';
 
-import { IUserProfile } from '../IUserProfile';
 import { UserProfileStore } from '../model/UserProfileStore';
+import { IUserProfile } from '../types';
 
 interface IUserContainerProps {
     onRenderUser?: (userProfile : IUserProfile) => React.ReactNode;

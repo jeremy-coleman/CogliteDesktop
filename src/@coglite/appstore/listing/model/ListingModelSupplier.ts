@@ -1,8 +1,7 @@
 import { SyncSupplier } from '@coglite/apphost';
 
 import { ListingServiceContext } from '../service/ListingServiceContext';
-import { IListingModel } from './IListingModel';
-import { IListingModelSupplier } from './IListingModelSupplier';
+import { IListingModel, IListingModelSupplier } from '../types';
 import { ListingModel } from './ListingModel';
 
 class ListingModelSupplier extends SyncSupplier<IListingModel> implements IListingModelSupplier {

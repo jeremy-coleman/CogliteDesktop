@@ -1,10 +1,10 @@
-import { IAppHost, IConsumerFunc } from '@coglite/apphost';
+import { IAppHostModel, IConsumerFunc } from '@coglite/apphost';
 import { IRequest } from '@coglite/router';
 
 import { IComponent } from './IComponent';
 import { IWindowManager } from './IWindowManager';
 import { IWindowSettings } from './IWindowSettings';
-import { WindowResizeType } from './WindowResizeType';
+import { WindowResizeType } from '../constants';
 
 interface IWindowConfig {
     type?: string;
@@ -26,7 +26,7 @@ interface IWindow extends IComponent {
     onClose : IConsumerFunc<IWindow>
     active : boolean;
     contentHidden : boolean;
-    appHost: IAppHost;
+    appHost: IAppHostModel;
     transient : boolean;
     manager : IWindowManager;
     settings : IWindowSettings;

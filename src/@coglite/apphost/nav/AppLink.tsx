@@ -1,19 +1,19 @@
 import { IRequest } from '@coglite/router';
 import * as React from 'react';
 
-import { IAppHost } from '../host';
+import { IAppHostModel } from '../types';
 
 
 
 interface IAppLinkProps {
-    host: IAppHost;
+    host: IAppHostModel;
     request?: IRequest;
     title?: string;
     className?: string;
     onClick?: () => void;
     style?: React.CSSProperties;
     open?: boolean;
-    onHostOpened?: (host : IAppHost) => void;
+    onHostOpened?: (host : IAppHostModel) => void;
 }
 
 class AppLink extends React.Component<IAppLinkProps, undefined> {
@@ -38,7 +38,7 @@ class AppLink extends React.Component<IAppLinkProps, undefined> {
         const href = this.props.host.getUrl(this.props.request);
         const content = React.Children.count(this.props.children) > 0 ? this.props.children : this.props.title;
         return (
-            <a style={this.props.style} className={this.props.className} title={this.props.title} href={href} onClick={this._onClick}>{content}</a>
+            <a style={{color: 'blue'}} className={this.props.className} title={this.props.title} href={href} onClick={this._onClick}>{content}</a>
         );
     }
 }

@@ -1,10 +1,8 @@
 import { ListModel } from '@coglite/apphost';
 import { computed, observable } from 'mobx';
 
-import { IListingService } from '../service/IListingService';
 import { ListingServiceContext } from '../service/ListingServiceContext';
-import { IListingModel } from './IListingModel';
-import { IListingRelatedListModel } from './IListingRelatedListModel';
+import { IListingModel, IListingRelatedListModel, IListingService } from '../types';
 
 class ListingRelatedListModel<T> extends ListModel<T> implements IListingRelatedListModel<T> {
     private _listingService : IListingService;

@@ -1,12 +1,10 @@
-import * as React from "react";
-import { IDashboardLayout } from "../types/IDashboardLayout";
-import { IDashboard } from "../types/IDashboard";
-import { IGrid } from "../types/IGrid";
-import { IContextualMenuItem, ContextualMenuItemType } from "office-ui-fabric-react";
-import { GridCellSizeSlider } from "../components/grid/GridCellSizeSlider";
-import { GridCellMarginSlider } from "../components/grid/GridCellMarginSlider";
-import * as ComponentTypes from "../types/ComponentTypes";
-import { GridModel } from "../models/Grid";
+import { ContextualMenuItemType } from 'office-ui-fabric-react';
+import * as React from 'react';
+
+import { GridCellMarginSlider, GridCellSizeSlider } from '../components/grid';
+import * as ComponentTypes from '../constants/ComponentTypes';
+import { GridModel } from '../models/Grid';
+import { IDashboard, IDashboardLayout, IGrid } from '../types';
 
 const applyLayout = (dashboard : IDashboard) => {
     const windows = dashboard.windows;
@@ -20,12 +18,12 @@ const isLayoutApplied = (dashboard : IDashboard) => {
 };
 
 
-const onRenderGridCellSize = (item : IContextualMenuItem) => {
+const onRenderGridCellSize = (item : any) => {
     const grid = item.grid as IGrid;
     return <GridCellSizeSlider key={item.key} grid={grid} />;
 };
 
-const onRenderGridCellMargin = (item : IContextualMenuItem) => {
+const onRenderGridCellMargin = (item : any) => {
     const grid = item.grid as IGrid;
     return <GridCellMarginSlider key={item.key} grid={grid} />;
 };
@@ -37,7 +35,7 @@ const GridDashboardLayout : IDashboardLayout = {
     applyLayout: applyLayout,
     isLayoutApplied: isLayoutApplied,
     createActions(dashboard : IDashboard) {
-        const items : IContextualMenuItem[] = [];
+        const items : any[] = [];
         const grid = dashboard.component as IGrid;
         // this is the grid settings icon
         items.push(

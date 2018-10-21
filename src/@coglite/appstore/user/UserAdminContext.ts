@@ -1,6 +1,6 @@
-import { Context ,IPredicateFunc } from "@coglite/apphost";
-import { IUserProfile } from "./IUserProfile";
-import { equalsIgnoreCase } from "@coglite/apphost";
+import { Context, equalsIgnoreCase, IPredicateFunc } from '@coglite/apphost';
+
+import { IUserProfile } from './types';
 
 const defaultAdminCheck = (userProfile : IUserProfile) => {
     return userProfile && userProfile.user && userProfile.user.groups && userProfile.user.groups.some(g => {

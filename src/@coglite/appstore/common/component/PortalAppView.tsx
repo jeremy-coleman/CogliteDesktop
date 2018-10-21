@@ -1,18 +1,20 @@
-import * as React from "react";
-import { IHostAppViewProps, HostAppView } from "@coglite/apphost";
-import { IContextualMenuItem } from "office-ui-fabric-react";
-import { observer } from "mobx-react";
-import { createUserProfileMenu } from "../../user/component/UserProfileMenuHelper";
-import { IUserProfile } from "../../user/IUserProfile";
+import { HostAppView, IHostAppViewProps } from '@coglite/apphost';
+import { observer } from 'mobx-react';
+import * as React from 'react';
+
+import { createUserProfileMenu } from '../../user/component/UserProfileMenuHelper';
+import { IUserProfile } from '../../user/types';
+
 
 interface IPortalAppViewProps extends IHostAppViewProps {
     userProfile?: IUserProfile;
 }
 
+
 @observer
 class PortalAppView extends React.Component<IPortalAppViewProps, any> {
     render() {
-        const farItems : IContextualMenuItem[] = [];
+        const farItems : any[] = [];
         if(this.props.host.root && this.props.userProfile) {
             farItems.push(createUserProfileMenu(this.props.userProfile));
         }

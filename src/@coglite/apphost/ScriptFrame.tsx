@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { AppFrame, IAppFrame } from './frame';
-import { IAppHostBaseProps } from './IAppHostBaseProps';
+import { IAppHostBaseProps } from './types';
 import * as PathUtils from './util/PathUtils';
 
 

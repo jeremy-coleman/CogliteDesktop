@@ -1,6 +1,6 @@
-import { observable, action } from "mobx";
-import { IComponent } from "../types/IComponent";
-import { IComponentRemove, IComponentRemoveOptions } from "../types/IComponentRemove";
+import { action, observable } from 'mobx';
+
+import { IComponent, IComponentRemove, IComponentRemoveOptions } from '../types';
 
 export class ComponentRemoveModel implements IComponentRemove {
     private _saveHandler : (component : IComponent) => void;

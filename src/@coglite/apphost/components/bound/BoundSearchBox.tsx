@@ -1,15 +1,13 @@
+import Input from '@material-ui/core/Input';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import Input from '@material-ui/core/Input';
+import { getBoundValue, setBoundValue } from '../../models';
+import { IBoundProps } from '../../types';
 
 function SearchBox(props){
    return <Input placeholder="Search…" disableUnderline {...props}>{props.children}</Input>
 }
-
-import { getBoundValue, setBoundValue } from '../../models';
-
-import {IBoundProps} from '../../types'
 
 type AnyProps = any
 interface IBoundSearchBoxProps extends AnyProps, IBoundProps<any, string> { }
@@ -17,7 +15,7 @@ interface IBoundSearchBoxProps extends AnyProps, IBoundProps<any, string> { }
 @observer
 class BoundSearchBox extends React.Component<IBoundSearchBoxProps, any> {
     
-    private _onChanged = (value : string) => {
+    private _onChange = (value : string) => {
         setBoundValue(this.props, value);
         if(this.props.onChange) {
             this.props.onChange(value);
@@ -25,11 +23,13 @@ class BoundSearchBox extends React.Component<IBoundSearchBoxProps, any> {
     }
     render() {
         const value = getBoundValue(this.props);
-        return <SearchBox
+        return (
+            <SearchBox
                 {...this.props}
-                onChange={this._onChanged}
+                onChange={this._onChange}
                 value={value || ""}
-                />
+            />
+        )
     }
 }
 

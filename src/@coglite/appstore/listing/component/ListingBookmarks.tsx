@@ -1,21 +1,18 @@
 import { IConsumerFunc, SyncComponent } from '@coglite/apphost';
+import Snackbar from '@material-ui/core/Snackbar';
 import { observer } from 'mobx-react';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import * as React from 'react';
 
-import { IListingBookmark } from '../IListingBookmark';
-import { IListingBookmarkListModel } from '../model/IListingBookmarkListModel';
-import { getClassNames } from './ListingBookmarks.classNames';
-import { getStyles, IListingBookmarkStyles } from './ListingBookmarks.styles';
+import { IListingBookmark, IListingBookmarkListModel } from '../types';
 import { ListingBookmarkTile } from './ListingBookmarkTile';
 
 interface IListingBookmarksProps {
     bookmarkList: IListingBookmarkListModel;
     onLaunch?: IConsumerFunc<IListingBookmark>;
     onRenderNoBookmarks?: () => React.ReactNode;
-    styles?: IListingBookmarkStyles;
     className?: string;
 }
+
 
 @observer
 class ListingBookmarks extends React.Component<IListingBookmarksProps, any> {
@@ -30,18 +27,17 @@ class ListingBookmarks extends React.Component<IListingBookmarksProps, any> {
     }
     render() {
         if(this.props.bookmarkList.value && this.props.bookmarkList.value.length > 0) {
-            const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
             return (
-                <div className={classNames.root}>
+                <div style={{display: "flex", flexWrap: "wrap"}}>
                     {this.props.bookmarkList.value.map(this._onRenderBookmark)}
                 </div>
             );
         }
         return this.props.onRenderNoBookmarks ? this.props.onRenderNoBookmarks() :
             (
-                <MessageBar messageBarType={MessageBarType.warning}>
+                <Snackbar open={this.props.onRenderNoBookmarks ? true : false} autoHideDuration={1000}>
                     You haven't bookmarked anything.
-                </MessageBar>
+                </Snackbar>
             );
     }
 }

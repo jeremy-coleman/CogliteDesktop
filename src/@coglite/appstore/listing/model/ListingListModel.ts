@@ -1,10 +1,15 @@
 import { isNotBlank, ListModel } from '@coglite/apphost';
 import { action, computed, observable } from 'mobx';
 
-import { IListing } from '../IListing';
-import { IListingListCounts, IListingListRequest, IListingListResponse, IListingService } from '../service/IListingService';
 import { ListingServiceContext } from '../service/ListingServiceContext';
-import { IListingListModel } from './IListingListModel';
+import {
+    IListing,
+    IListingListCounts,
+    IListingListModel,
+    IListingListRequest,
+    IListingListResponse,
+    IListingService,
+} from '../types';
 
 class ListingListModel extends ListModel<IListing> implements IListingListModel {
     private _listingService : IListingService;

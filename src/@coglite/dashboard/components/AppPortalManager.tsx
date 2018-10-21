@@ -2,9 +2,7 @@ import { AppHostContainer } from '@coglite/apphost';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { IPortal } from '../types/IPortal';
-import { IPortalManager } from '../types/IPortalManager';
-import { IWindow } from '../types/IWindow';
+import { IPortal, IPortalManager, IWindow } from '../types';
 import { Window } from './window';
 
 class AppPortal implements IPortal {

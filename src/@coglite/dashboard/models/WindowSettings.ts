@@ -1,6 +1,6 @@
-import { observable, computed, action } from "mobx";
-import { IWindowSettings } from "../types/IWindowSettings";
-import { IWindow } from "../types/IWindow";
+import { action, computed, observable } from 'mobx';
+
+import { IWindow, IWindowSettings } from '../types';
 
 export class WindowSettings implements IWindowSettings {
     @observable protected _window : IWindow;

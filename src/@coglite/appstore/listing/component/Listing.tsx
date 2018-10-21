@@ -1,36 +1,137 @@
-import * as React from "react";
-import { observer } from "mobx-react";
-import { IListing } from "../IListing";
-import { IListingModel } from "../model/IListingModel";
-import { ISyncSupplier } from "@coglite/apphost";
-import { SyncOverlay, SyncComponent } from "@coglite/apphost";
-import { IListingStyles, getStyles } from "./Listing.styles";
-import { getClassNames } from "./Listing.classNames";
-import { Pivot, PivotItem } from "office-ui-fabric-react";
-import { Rating } from "office-ui-fabric-react";
-import { DefaultButton, PrimaryButton } from "office-ui-fabric-react";
-import { ListingSupplierContainer } from "./ListingSupplier";
-import { ListingReviewListContainer } from "./ListingReviewList";
-import { getReviews } from "../model/ListingReviewHelper";
-import { ListingActivityListContainer } from "./ListingActivityList";
-import { getActivity } from "../model/ListingActivityHelper";
-import { ListingBookmarkListStore } from "../model/ListingBookmarkListStore";
-import { Dialog, DialogFooter } from "office-ui-fabric-react";
-import { ListingLinks } from "./ListingLinks";
-import { IListingBookmarkListModel } from "../model/IListingBookmarkListModel";
-import { ListingBookmarkButton } from "./ListingBookmarkButton";
-import { ListingLaunchAction } from "./ListingLaunchAction";
-import { UserAdminContainer, UserAuthContainer } from "../../user/component/UserAuthContainer";
-import { Toggle } from "office-ui-fabric-react";
-import { ListingSaveSyncError } from "./ListingSaveSyncError";
-import { Link } from "office-ui-fabric-react";
-import { ICategory } from "../../category/ICategory";
-import { ListingViewConfig } from "./ListingViewConfig";
-import { isNotBlank } from "@coglite/apphost";
-import { UserAdminContext } from "../../user/UserAdminContext";
-import { IUserProfile } from "../../user/IUserProfile";
-import { canUserAccess } from "../ListingHelper";
-import { ListingBannerIcon } from "./ListingBannerIcon";
+import { isNotBlank, ISyncSupplier, SyncComponent, SyncOverlay, theme } from '@coglite/apphost';
+import Toggle from '@material-ui/core/Switch';
+import { observer } from 'mobx-react';
+import {
+    DefaultButton,
+    Dialog,
+    DialogFooter,
+    FontSizes,
+    Link,
+    Pivot,
+    PivotItem,
+    PrimaryButton,
+    Rating,
+} from 'office-ui-fabric-react';
+import * as React from 'react';
+import { stylesheet } from 'typestyle';
+
+import { UserAdminContainer, UserAuthContainer } from '../../user/component/UserAuthContainer';
+import { IUserProfile } from '../../user/types';
+import { UserAdminContext } from '../../user/UserAdminContext';
+import { ListingViewConfig } from '../constants';
+import { canUserAccess } from '../ListingHelper';
+import { getActivity } from '../model/ListingActivityHelper';
+import { ListingBookmarkListStore } from '../model/ListingBookmarkListStore';
+import { getReviews } from '../model/ListingReviewHelper';
+import { ICategory, IListing, IListingBookmarkListModel, IListingModel } from '../types';
+import { ListingActivityListContainer } from './ListingActivityList';
+import { ListingBannerIcon } from './ListingBannerIcon';
+import { ListingBookmarkButton } from './ListingBookmarkButton';
+import { ListingLaunchAction } from './ListingLaunchAction';
+import { ListingLinks } from './ListingLinks';
+import { ListingReviewListContainer } from './ListingReviewList';
+import { ListingSaveSyncError } from './ListingSaveSyncError';
+import { ListingSupplierContainer } from './ListingSupplier';
+
+
+
+const listingStyles = stylesheet({
+            root: {
+            position: "absolute",
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            overflow: "hidden"
+        },
+        metadata: {
+            position: "absolute",
+            top: 0,
+            left: 0,
+            bottom: 0,
+            width: 240,
+            paddingTop: 8,
+            paddingLeft: 12,
+            paddingBottom: 8,
+            overflow: "auto"
+        },
+        metadataSection: {
+            marginTop: 8
+        },
+        metadataSectionTitle: {
+            margin: 0,
+            paddingBottom: 4,
+            fontSize: FontSizes.small,
+            fontWeight: 600
+        },
+        metadataSectionContent: {
+            fontWeight: 100,
+            fontSize: FontSizes.small
+        },
+        detailContent: {
+            position: "absolute",
+            left: 260,
+            top: 0,
+            bottom: 0,
+            right: 0,
+            paddingTop: 8,
+            paddingRight: 12,
+            overflow: "auto"
+        },
+        detailTabs: {
+
+        },
+        title: {
+            paddingLeft: 8,
+            fontSize: FontSizes.xLarge,
+            fontWeight: 600
+        },
+        overview: {
+            paddingTop: 8
+        },
+        shortDescription: {
+            padding: 8,
+            fontSize: FontSizes.mediumPlus,
+            fontWeight: 600
+        },
+        actions: {
+            display: "flex",
+            alignItems: "center",
+            marginTop: 8,
+            $nest: {
+                ".ms-Button+.ms-Button": {
+                    marginLeft: 8
+                }
+            }
+        },
+        description: {
+            padding: 8,
+            whiteSpace: "pre-wrap",
+            fontSize: FontSizes.medium,
+            fontWeight: 300
+        },
+        banner: {
+            width: 220,
+            height: 137,
+            overflow: "hidden",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: theme.palette.neutralLight
+        },
+        rating: {
+            marginTop: 8,
+            display: "flex"
+        },
+        ratingStars: {
+            color: theme.palette.yellow
+        },
+        reviewCount: {
+            paddingLeft: 8
+        }
+})
+
+
 
 interface IListingProps {
     listing: IListingModel;
@@ -40,7 +141,7 @@ interface IListingProps {
     onLaunch?: (listing : IListing) => void;
     onDelete?: (listing : IListingModel) => void;
     onSelectCategory?: (category : ICategory) => void;
-    styles?: IListingStyles;
+    //styles?: IListingStyles;
     className?: string;
 }
 
@@ -110,13 +211,13 @@ interface IListingMetadataSectionProps extends IListingProps {
 
 class ListingMetadataSection extends React.Component<IListingMetadataSectionProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
+        //const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         const { title } = this.props;
         return (
-            <div className={classNames.metadataSection}>
-                {title && <h5 className={classNames.metadataSectionTitle}>{title}</h5>}
+            <div className={listingStyles.metadataSection}>
+                {title && <h5 className={listingStyles.metadataSectionTitle}>{title}</h5>}
                 {React.Children.count(this.props.children) > 0 && (
-                    <div className={classNames.metadataSectionContent}>
+                    <div className={listingStyles.metadataSectionContent}>
                         {this.props.children}
                     </div>
                 )}
@@ -128,10 +229,10 @@ class ListingMetadataSection extends React.Component<IListingMetadataSectionProp
 @observer
 class ListingBanner extends React.Component<IListingProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
+        //const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         const { listing } = this.props;
         return (
-            <div className={classNames.banner}>
+            <div className={listingStyles.banner}>
                 <ListingBannerIcon listing={listing} />
             </div>
         );
@@ -141,18 +242,18 @@ class ListingBanner extends React.Component<IListingProps, any> {
 @observer
 class ListingRating extends React.Component<IListingProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
+        //const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         const { listing } = this.props;
         let content;
         let reviewCount;
         if(listing.avg_rate !== undefined && listing.avg_rate > 0) {
-            content = <Rating className={classNames.ratingStars} min={1} max={5} rating={listing.avg_rate} readOnly={true} ariaLabelFormat="Rated {0} out of {1}" />;
-            reviewCount = <div className={classNames.reviewCount}>({listing.total_rate1 + listing.total_rate2 + listing.total_rate3 + listing.total_rate4 + listing.total_rate5})</div>;
+            content = <Rating className={listingStyles.ratingStars} min={1} max={5} rating={listing.avg_rate} readOnly={true} ariaLabelFormat="Rated {0} out of {1}" />;
+            reviewCount = <div className={listingStyles.reviewCount}>({listing.total_rate1 + listing.total_rate2 + listing.total_rate3 + listing.total_rate4 + listing.total_rate5})</div>;
         } else {
             content = <Rating title="No Reviews Available" min={1} max={5} rating={5} readOnly={true} disabled={true} ariaLabelFormat="No reviews available" />;
         }
         return (
-            <div className={classNames.rating}>
+            <div className={listingStyles.rating}>
                 {content}{reviewCount}
             </div>
         );
@@ -164,9 +265,9 @@ class ListingActions extends React.Component<IListingProps, any> {
         return UserAdminContext.value(userProfile) || canUserAccess(this.props.listing, userProfile);
     }
     private _onRenderAuth = () => {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
+        //const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         return (
-            <div className={classNames.actions}>
+            <div className={listingStyles.actions}>
                 <ListingBookmarkButton bookmarkList={ListingBookmarkListStore} listing={this.props.listing} />
                 <ListingLaunchAction onLaunch={this.props.onLaunch} listing={this.props.listing} />
             </div>
@@ -213,12 +314,12 @@ interface IListingToggleProps extends IListingProps {
 
 @observer
 class ListingEnabledToggle extends React.Component<IListingToggleProps, any> {
-    private _onChanged = (checked : boolean) => {
+    private _onChange = (e, checked : boolean) => {
         this.props.listing.savedEnabled(checked);
     }
     render() {
         return (
-            <Toggle checked={this.props.listing.is_enabled} title={this.props.listing.is_enabled ? "Yes" : "No"} onChanged={this._onChanged} disabled={this.props.disabled} />
+            <Toggle checked={this.props.listing.is_enabled} title={this.props.listing.is_enabled ? "Yes" : "No"} onChange={this._onChange} disabled={this.props.disabled} />
         );
     }
 }
@@ -241,12 +342,12 @@ class ListingEnabled extends React.Component<IListingProps, any> {
 
 @observer
 class ListingFeaturedToggle extends React.Component<IListingToggleProps, any> {
-    private _onChanged = (checked : boolean) => {
+    private _onChange = (e, checked : boolean) => {
         this.props.listing.saveFeatured(checked);
     }
     render() {
         return (
-            <Toggle checked={this.props.listing.is_featured} title={this.props.listing.is_featured ? "Yes" : "No"} onChanged={this._onChanged} disabled={this.props.disabled} />
+            <Toggle checked={this.props.listing.is_featured} title={this.props.listing.is_featured ? "Yes" : "No"} onChange={this._onChange} disabled={this.props.disabled} />
         );
     }
 }
@@ -284,9 +385,9 @@ class ListingSecurity extends React.Component<IListingProps, any> {
 
 class ListingMetadata extends React.Component<IListingProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
+        //const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         return (
-            <div className={classNames.metadata}>
+            <div className={listingStyles.metadata}>
                 <ListingBanner {...this.props} />
                 <ListingActions {...this.props} />
                 <ListingRating {...this.props} />
@@ -306,9 +407,9 @@ class ListingMetadata extends React.Component<IListingProps, any> {
 @observer
 class ListingTitle extends React.Component<IListingProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
+        //const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         return (
-            <div className={classNames.title}>
+            <div className={listingStyles.title}>
                 {this.props.listing.title}
             </div>
         );
@@ -318,9 +419,9 @@ class ListingTitle extends React.Component<IListingProps, any> {
 @observer
 class ListingShortDescription extends React.Component<IListingProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
+        //const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         return (
-            <div className={classNames.shortDescription}>
+            <div className={listingStyles.shortDescription}>
                 {this.props.listing.description_short}
             </div>
         );
@@ -330,9 +431,9 @@ class ListingShortDescription extends React.Component<IListingProps, any> {
 @observer
 class ListingDescription extends React.Component<IListingProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
+        //const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         return (
-            <div className={classNames.description}>
+            <div className={listingStyles.description}>
                 {this.props.listing.description}
             </div>
         );
@@ -341,9 +442,9 @@ class ListingDescription extends React.Component<IListingProps, any> {
 
 class ListingOverview extends React.Component<IListingProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
+        //const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         return (
-            <div className={classNames.overview}>
+            <div className={listingStyles.overview}>
                 <ListingShortDescription {...this.props} />
                 <ListingDescription {...this.props } />
             </div>
@@ -353,7 +454,7 @@ class ListingOverview extends React.Component<IListingProps, any> {
 
 class ListingDetailTabs extends React.Component<IListingProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
+        //const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         const overviewVisible = isNotBlank(this.props.listing.description_short) || isNotBlank(this.props.listing.description);
         const pivotItems = [];
         if(overviewVisible) {
@@ -379,9 +480,9 @@ class ListingDetailTabs extends React.Component<IListingProps, any> {
             </PivotItem>
         );
         return (
-            <div className={classNames.detailTabs}>
+            <div className={listingStyles.detailTabs}>
                 <Pivot>
-                    {...pivotItems}
+                    {[pivotItems]}
                 </Pivot>
             </div>
         );
@@ -390,9 +491,9 @@ class ListingDetailTabs extends React.Component<IListingProps, any> {
 
 class ListingDetails extends React.Component<IListingProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
+        //const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         return (
-            <div className={classNames.detailContent}>
+            <div className={listingStyles.detailContent}>
                 <ListingSaveSyncError {...this.props} />
                 <ListingTitle {...this.props} />
                 <ListingDetailTabs {...this.props} />
@@ -403,9 +504,9 @@ class ListingDetails extends React.Component<IListingProps, any> {
 
 class Listing extends React.Component<IListingProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(undefined, this.props.styles), this.props.className);
+        //const classNames = getClassNames(getStyles(undefined, this.props.styles), this.props.className);
         return (
-            <div className={classNames.root}>
+            <div className={listingStyles.root}>
                 <SyncOverlay sync={this.props.listing.saveSync} syncLabel="Please wait..." />
                 <ListingMetadata {...this.props} />
                 <ListingDetails {...this.props} />

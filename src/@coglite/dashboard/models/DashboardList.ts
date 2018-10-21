@@ -1,12 +1,11 @@
-import { observable, action, computed, autorun, reaction, IReactionDisposer } from "mobx";
-import { IDashboardList } from "../types/IDashboardList";
-import { IDashboard } from "../types/IDashboard";
-import { IComponent } from "../types/IComponent";
-import { ComponentModel } from "./Component";
-import { DashboardModel } from "./Dashboard";
-import { StackModel } from "./Stack";
-import { SyncModel } from "@coglite/apphost";
-import * as ComponentTypes from "../types/ComponentTypes";
+import { SyncModel } from '@coglite/apphost';
+import { action, autorun, computed, IReactionDisposer, observable, reaction } from 'mobx';
+
+import * as ComponentTypes from '../constants/ComponentTypes';
+import { IComponent, IDashboard, IDashboardList } from '../types';
+import { ComponentModel } from './Component';
+import { DashboardModel } from './Dashboard';
+import { StackModel } from './Stack';
 
 export class DashboardListModel extends ComponentModel implements IDashboardList {
     @observable sync = new SyncModel();

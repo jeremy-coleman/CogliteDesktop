@@ -3,6 +3,8 @@ import { observable, computed, action } from "mobx"
 import {loadTheme} from 'office-ui-fabric-react'
 import * as _ from 'lodash'
 
+
+
 export const palette = {
   myriad: {
     primary: "#F44336",

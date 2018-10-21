@@ -1,4 +1,4 @@
-import { IConsumerFunc } from '../types'
+import { IConsumerFunc } from '../types';
 
 const useless : IConsumerFunc = () => {};
 

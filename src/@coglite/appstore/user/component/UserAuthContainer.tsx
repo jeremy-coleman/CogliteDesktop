@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { IUserProfile } from '../IUserProfile';
 import { UserProfileStore } from '../model/UserProfileStore';
+import { IUserProfile } from '../types';
 import { UserAdminContext } from '../UserAdminContext';
 import { IUserContainerProps, UserContainer } from './UserContainer';
 

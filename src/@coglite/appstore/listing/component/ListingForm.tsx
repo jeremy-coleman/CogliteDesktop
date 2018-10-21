@@ -1,32 +1,62 @@
 import { BoundCheckbox, BoundTextField, ISyncSupplier, SyncComponent, ValidationErrors } from '@coglite/apphost';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Save from '@material-ui/icons/Save';
+import Share from '@material-ui/icons/Share';
 import { observer } from 'mobx-react';
-import {
-    DefaultButton,
-    Dropdown,
-    ICheckboxStyles,
-    IDropdownOption,
-    PrimaryButton,
-    Spinner,
-    SpinnerSize,
-} from 'office-ui-fabric-react';
+import { Dropdown, FontSizes, ICheckboxStyles } from 'office-ui-fabric-react';
 import * as React from 'react';
+import { stylesheet } from 'typestyle';
 
-import { CategoryListStore } from '../../category/model/CategoryListStore';
 import { ImageField } from '../../media/component/ImageField';
-import { IImage } from '../../media/IImage';
-import { ListingApprovalStatus } from '../ListingApprovalStatus';
-import { IListingModel } from '../model/IListingModel';
-import { getClassNames } from './ListingForm.classNames';
-import { getStyles, IListingFormStyles } from './ListingForm.styles';
+import { IImage } from '../../media/types';
+import { ListingApprovalStatus } from '../constants';
+import { CategoryListStore } from '../model';
+import { IListingModel } from '../types';
 import { ListingLinkForm } from './ListingLinkForm';
 import { ListingSaveSyncError } from './ListingSaveSyncError';
+
+
+
+
+const listingFormStyles = stylesheet({
+ root: {
+            padding: 10
+        },
+        editor: {
+
+        },
+        section: {
+
+        },
+        sectionTitle: {
+            fontSize: FontSizes.icon,
+            margin: 0,
+            paddingTop: 16,
+            paddingBottom: 16
+        },
+        sectionBody: {
+
+        },
+        actions: {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            $nest: {
+                ".action+.action": {
+                    marginLeft: 8
+                }
+            }
+        }
+})
+
 
 interface IListingEditorProps {
     listing: IListingModel;
     onCancel?: () => void;
     onSave?: (listing : IListingModel) => void;
     onSubmitForApproval?: (listing : IListingModel) => void;
-    styles?: IListingFormStyles;
+    //styles?: IListingFormStyles;
     className?: string;
 }
 
@@ -83,7 +113,7 @@ class ListingCategorySelector extends React.Component<IListingEditorProps, any> 
     componentWillMount() {
         CategoryListStore.load();
     }
-    private _onChange = (option : IDropdownOption, index : number) => {
+    private _onChange = (option : any, index : number) => {
         if(option.selected) {
             this.props.listing.addCategory(option.data);
         } else {
@@ -91,7 +121,7 @@ class ListingCategorySelector extends React.Component<IListingEditorProps, any> 
         }
     }
     render() {
-        const options : IDropdownOption[] = [];
+        const options : any[] = [];
         CategoryListStore.itemsView.forEach(c => {
             options.push({
                 key: String(c.title),
@@ -103,7 +133,8 @@ class ListingCategorySelector extends React.Component<IListingEditorProps, any> 
         return (
             <Dropdown label="Categories"
                       options={options}
-                      onChanged={this._onChange}
+                      //@ts-ignore
+                      onChange={this._onChange}
                       selectedKeys={selectedKeys}
                       multiSelect />
         );
@@ -113,8 +144,8 @@ class ListingCategorySelector extends React.Component<IListingEditorProps, any> 
 @observer
 class ListingEditor extends React.Component<IListingEditorProps, any> {
     render() {
-        const { listing, styles, className } = this.props;
-        const classNames = getClassNames(getStyles(null, styles), className);
+        const { listing} = this.props;
+        //const classNames = getClassNames(getStyles(null, styles), className);
         const inputDisabled = this.props.listing.saveSync.syncing;
         const cbStyles : ICheckboxStyles = {
             root: {
@@ -124,7 +155,7 @@ class ListingEditor extends React.Component<IListingEditorProps, any> {
         const validationErrors = listing.validationErrors;
         const approvalStatus = listing.approval_status;
         return (
-            <div className={classNames.editor}>
+            <div className={listingFormStyles.editor}>
                 <BoundTextField label="Title"
                                 disabled={inputDisabled}
                                 required
@@ -157,21 +188,21 @@ class ListingEditor extends React.Component<IListingEditorProps, any> {
                                 errors={validationErrors} />
                 <ListingCategorySelector {...this.props} />
                 <ListingFormSection title="Images"
-                                    className={classNames.section}
-                                    titleClassName={classNames.sectionTitle}
-                                    bodyClassName={classNames.sectionBody}>
+                                    className={listingFormStyles.section}
+                                    titleClassName={listingFormStyles.sectionTitle}
+                                    bodyClassName={listingFormStyles.sectionBody}>
                     <ListingImagesEditor {...this.props} />
                 </ListingFormSection>
                 <ListingFormSection title="Documents"
-                                    className={classNames.section}
-                                    titleClassName={classNames.sectionTitle}
-                                    bodyClassName={classNames.sectionBody}>
+                                    className={listingFormStyles.section}
+                                    titleClassName={listingFormStyles.sectionTitle}
+                                    bodyClassName={listingFormStyles.sectionBody}>
                     <ListingLinkForm listing={listing} />
                 </ListingFormSection>
                 <ListingFormSection title="Settings"
-                                    className={classNames.section}
-                                    titleClassName={classNames.sectionTitle}
-                                    bodyClassName={classNames.sectionBody}>
+                                    className={listingFormStyles.section}
+                                    titleClassName={listingFormStyles.sectionTitle}
+                                    bodyClassName={listingFormStyles.sectionBody}>
                     <BoundCheckbox binding={{ target: listing, key: "is_featured", setter: "setFeatured"}} name="Featured" disabled={inputDisabled} styles={cbStyles} />
                     <BoundCheckbox binding={{ target: listing, key: "is_enabled", setter: "setEnabled"}} name="Enabled" disabled={inputDisabled} styles={cbStyles} />
                     <BoundCheckbox binding={{ target: listing, key: "is_private", setter: "setPrivate" }} name="Private" disabled={inputDisabled} styles={cbStyles} />
@@ -188,15 +219,20 @@ class ListingSaveAction extends React.Component<IListingEditorProps, any> {
         this.props.onSave(this.props.listing);
     }
     private _onRenderSyncIcon = () => {
-        return <Spinner size={SpinnerSize.small} />;
+        return <CircularProgress size={'16px'} />;
     }
     render() {
         const syncing = this.props.listing.saveSync.syncing;
         const syncSave = this.props.listing.saveSync.type === "save";
+        // onRenderIcon={syncing && syncSave ? this._onRenderSyncIcon : undefined}
         return (
-            <PrimaryButton className="action save-action" onClick={this._onClick} iconProps={syncing && syncSave ? undefined : { iconName: "Save" }} onRenderIcon={syncing && syncSave ? this._onRenderSyncIcon : undefined} disabled={syncing}>
+            <Button 
+                className="action save-action"
+                onClick={this._onClick}
+                disabled={syncing}>
+                {syncing && syncSave ? undefined : <Save/>}
                 {syncing && syncSave ? "Saving..." : "Save"}
-            </PrimaryButton>
+            </Button>
         );
     }
 }
@@ -207,21 +243,23 @@ class ListingSubmitAction extends React.Component<IListingEditorProps, any> {
         this.props.onSubmitForApproval(this.props.listing);
     }
     private _onRenderSyncIcon = () => {
-        return <Spinner size={SpinnerSize.small} />;
+        return <CircularProgress size={'16px'} />;
     }
     render() {
         const { listing } = this.props;
         if(listing.canSubmit) {
             const syncing = listing.saveSync.syncing;
             const syncSubmit = listing.saveSync.type === "submit";
+
+            //onRenderIcon={syncing && syncSubmit ? this._onRenderSyncIcon : undefined}
             return (
-                <PrimaryButton className="action submit-action"
+                <Button className="action submit-action"
                                 onClick={this._onClick}
-                                iconProps={syncing && syncSubmit ? undefined : { iconName: "WorkFlow" }} onRenderIcon={syncing && syncSubmit ? this._onRenderSyncIcon : undefined}
                                 disabled={syncing}
                                 title="Submit for Approval">
+                    {syncing && syncSubmit ? undefined : <Share/>} 
                     {syncing && syncSubmit ? "Submitting for Approval..." : "Submit for Approval"}
-                </PrimaryButton>
+                </Button>
             );
         }
         return null;
@@ -237,15 +275,25 @@ class ListingCancelAction extends React.Component<IListingEditorProps, any> {
         }
     }
     render() {
-        return <DefaultButton className="action cancel-action" onClick={this._onClick} disabled={this.props.listing.saveSync.syncing}>Cancel</DefaultButton>;
+        return (
+        <Button 
+            color='secondary'
+            variant='contained'
+            className="action cancel-action"
+            onClick={this._onClick}
+            disabled={this.props.listing.saveSync.syncing}
+        >
+        {'Cancel'}
+        </Button>
+        )
     }
 }
 
 class ListingActions extends React.Component<IListingEditorProps, any> {
     render() {
-        const styles = getStyles(undefined, this.props.styles);
+        //const styles = getStyles(undefined, this.props.styles);
         return (
-            <div className={getClassNames(styles).actions}>
+            <div className={listingFormStyles.actions}>
                 {this.props.onCancel ? <ListingCancelAction {...this.props} /> : undefined}
                 {this.props.onSave ? <ListingSaveAction {...this.props} /> : undefined}
                 {this.props.onSubmitForApproval ? <ListingSubmitAction {...this.props} /> : undefined}
@@ -263,9 +311,9 @@ class ListingValidationErrors extends React.Component<IListingEditorProps, any> 
 
 class ListingForm extends React.Component<IListingEditorProps, any> {
     render() {
-        const styles = getStyles(undefined, this.props.styles);
+        //const styles = getStyles(undefined, this.props.styles);
         return (
-            <div className={getClassNames(styles).root}>
+            <div className={listingFormStyles.root}>
                 <ListingValidationErrors {...this.props} />
                 <ListingSaveSyncError {...this.props} />
                 <ListingEditor {...this.props} />

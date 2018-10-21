@@ -1,21 +1,20 @@
-import { IAppHost, IAppProps, IMutableSync, SyncModel } from '@coglite/apphost';
+import { IAppHostModel, IAppProps, IMutableSync, SyncModel } from '@coglite/apphost';
 import { observer } from 'mobx-react';
-import { IContextualMenuItem } from 'office-ui-fabric-react';
 import * as React from 'react';
 
 import { PortalAppView } from '../../common/component/PortalAppView';
 import { AppstorePathsContext } from '../../PathsContext';
-import { IUserProfile } from '../../user/IUserProfile';
-import { IListing } from '../IListing';
+import { IUserProfile } from '../../user/types/IUserProfile';
+import { ListingViewConfig } from '../constants';
 import { launch } from '../ListingLaunch';
 import { ListingListModel } from '../model/ListingListModel';
+import { IListing } from '../types';
 import { ListingLaunchDialog } from './ListingLaunchDialog';
 import { ListingListPage } from './ListingListPage';
-import { ListingViewConfig } from './ListingViewConfig';
 
 @observer
 class ListingListApp extends React.Component<IAppProps, any> {
-    get host() : IAppHost {
+    get host() : IAppHostModel {
         return this.props.match.host;
     }
     get userProfile() : IUserProfile {
@@ -57,7 +56,7 @@ class ListingListApp extends React.Component<IAppProps, any> {
         this.listings.load();
     }
     render() {
-        const items : IContextualMenuItem[] = [];
+        const items = [];
         items.push(
             {
                 key: "add",
@@ -69,7 +68,7 @@ class ListingListApp extends React.Component<IAppProps, any> {
                 onClick: this._onAdd
             }
         );
-        const farItems : IContextualMenuItem[] = [
+        const farItems = [
             {
                 key: "refresh",
                 title: `Refresh ${ListingViewConfig.labelPlural}`,

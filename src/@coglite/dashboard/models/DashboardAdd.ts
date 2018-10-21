@@ -1,9 +1,8 @@
-import { observable, action, computed } from "mobx";
-import { IDashboardList } from "../types/IDashboardList";
-import { IDashboard } from "../types/IDashboard";
-import { DashboardModel } from "./Dashboard";
-import { IDashboardAdd, IDashboardAddOptions } from "../types/IDashboardAdd";
-import { isNotBlank } from "@coglite/apphost";
+import { isNotBlank } from '@coglite/apphost';
+import { action, computed, observable } from 'mobx';
+
+import { IDashboard, IDashboardAdd, IDashboardAddOptions, IDashboardList } from '../types';
+import { DashboardModel } from './Dashboard';
 
 export class DashboardAddModel implements IDashboardAdd {
     @observable active : boolean = false;

@@ -1,9 +1,10 @@
-import * as React from "react";
-import { IAppProps,IAppHost} from "@coglite/apphost";
-import { IUserProfile } from "../../user/IUserProfile";
+import { IAppHostModel, IAppProps } from '@coglite/apphost';
+import * as React from 'react';
+
+import { IUserProfile } from '../../user/types';
 
 class PortalAppBase extends React.Component<IAppProps, any> {
-    get host() : IAppHost {
+    get host() : IAppHostModel {
         return this.props.match.host;
     }
     get userProfile() : IUserProfile {

@@ -1,21 +1,20 @@
-import { AppLink, IAppHost, IAppProps, IMutableSync, SyncModel } from '@coglite/apphost';
-import { IContextualMenuItem, MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { AppLink, IAppHostModel, IAppProps, IMutableSync, SyncModel } from '@coglite/apphost';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import * as React from 'react';
 
 import { PortalAppView } from '../../common/component/PortalAppView';
 import { AppstorePathsContext } from '../../PathsContext';
-import { IUserProfile } from '../../user/IUserProfile';
+import { IUserProfile } from '../../user/types/IUserProfile';
 import { UserAdminContext } from '../../user/UserAdminContext';
-import { IListing } from '../IListing';
-import { IListingBookmark } from '../IListingBookmark';
+import { ListingViewConfig } from '../constants';
 import { launch } from '../ListingLaunch';
 import { ListingBookmarkListStore } from '../model/ListingBookmarkListStore';
+import { IListing, IListingBookmark } from '../types';
 import { ListingBookmarksContainer } from './ListingBookmarks';
 import { ListingLaunchDialog } from './ListingLaunchDialog';
-import { ListingViewConfig } from './ListingViewConfig';
 
 class ListingBookmarksApp extends React.Component<IAppProps, any> {
-    get host() : IAppHost {
+    get host() : IAppHostModel {
         return this.props.match.host;
     }
     get userProfile() : IUserProfile {
@@ -53,7 +52,7 @@ class ListingBookmarksApp extends React.Component<IAppProps, any> {
         );
     }
     render() {
-        const farItems : IContextualMenuItem[] = [
+        const farItems : any[] = [
             {
                 key: "store",
                 name: `${ListingViewConfig.storeLabel}`,

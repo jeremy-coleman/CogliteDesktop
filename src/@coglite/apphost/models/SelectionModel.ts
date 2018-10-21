@@ -1,5 +1,6 @@
-import { observable, action, computed } from "mobx";
-import {ISelectionModel} from "../types";
+import { action, computed, observable } from 'mobx';
+
+import { ISelectionModel } from '../types';
 
 class SelectionModel<T> implements ISelectionModel<T> {
     @observable selectedItems: T[] = [];

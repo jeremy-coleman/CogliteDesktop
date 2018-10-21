@@ -2,19 +2,31 @@ import { SyncComponent } from '@coglite/apphost';
 import { observer } from 'mobx-react';
 import { DefaultButton, MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import * as React from 'react';
+import { stylesheet } from 'typestyle';
 
 import { UserContainer } from '../../user/component/UserContainer';
 import { canUserAccess } from '../ListingHelper';
-import { IListingReviewListModel } from '../model/IListingReviewListModel';
+import { IListingReviewListModel } from '../types';
 import { ListingReview } from './ListingReview';
 import { ListingReviewForm } from './ListingReviewForm';
-import { getClassNames } from './ListingReviewList.classNames';
-import { getStyles, IListingReviewListStyles } from './ListingReviewList.styles';
+
+
+
+
+const listingReviewListStyles = stylesheet({
+        root: {},
+        items: {
+            padding: 8
+        },
+        addContainer: {
+            margin: "16px 8px"
+        }
+})
 
 interface IListingReviewListProps {
     reviewList: IListingReviewListModel;
     className?: string;
-    styles?: IListingReviewListStyles;
+    //styles?: IListingReviewListStyles;
 }
 
 @observer
@@ -107,11 +119,11 @@ class ListingReviewSummary extends React.Component<IListingReviewListProps, any>
 
 class ListingReviewList extends React.Component<IListingReviewListProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(undefined, this.props.styles), this.props.className);
+        //const classNames = getClassNames(getStyles(undefined, this.props.styles), this.props.className);
         return (
-            <div className={classNames.root}>
-                <ListingReviewAddContainer {...this.props} className={classNames.addContainer} />
-                <ListingReviewListItems {...this.props} className={classNames.items} />
+            <div className={listingReviewListStyles.root}>
+                <ListingReviewAddContainer {...this.props} className={listingReviewListStyles.addContainer} />
+                <ListingReviewListItems {...this.props} className={listingReviewListStyles.items} />
             </div>
         );
     }

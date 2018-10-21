@@ -10,17 +10,6 @@ const webpack = require('webpack')
 
 
 
-const TsConfigPathsPlugin = require('ts-config-webpack-plugin')
-
-// const contains = (...values) => {
-//     return (filename) => {
-//         return values.some(value => {
-//             return filename.indexOf(value) >= 0;
-//         });
-//     }
-// };
-
-
 const contains = (...values) => filename => values.some(value => filename.indexOf(value) >= 0)
 const endsWith = (...extensions) => filename => extensions.some(ext => filename.endsWith(ext));
 const isNodeModuleFile = contains("node_modules");
@@ -28,17 +17,7 @@ const isNodeModuleFile = contains("node_modules");
 const some = (...p) => filename => p.some(e => e(filename));
 
 
-// const endsWith = (...extensions) => {
-//     return (filename) => {
-//         return extensions.some(ext => {
-//             return filename.endsWith(ext);
-//         });
-//     };
-// };
-
-
 const pkgInfo = require('./package.json')
-
 
 const createConfig = (env) => {
 
@@ -62,11 +41,11 @@ const createConfig = (env) => {
     const config = {
         mode: AppConfig.production ? "production" : "development",
         entry: {
-            main: ["./src/main.tsx"]
+            main: ["./src/client/main.tsx"]
         },
         output: {
             filename: AppConfig.production ? "[name].[chunkhash].js" : "[name].js",
-            path: path.join(__dirname, "dist"),
+            path: path.join(__dirname, "dist", "client"),
             publicPath: publicPath
         },
         externals: [
@@ -81,9 +60,19 @@ const createConfig = (env) => {
                     exclude: some(isNodeModuleFile, endsWith(".template.ts"))
                 },
                 {
+                    enforce: "pre",
                     test: endsWith(".ts", ".tsx"),
                     use: [
+                        //{loader: "babel-loader"}
                         {loader: "ts-loader", options: {transpileOnly: true}}
+                    ],
+                    exclude: isNodeModuleFile
+                },
+                {
+                    test: endsWith(".js", ".jsx"),
+                    use: [
+                        {loader: "babel-loader"}
+                        //{loader: "ts-loader", options: {transpileOnly: true}}
                     ],
                     exclude: isNodeModuleFile
                 },
@@ -124,31 +113,36 @@ const createConfig = (env) => {
         resolve: {
             extensions: [".js", ".tsx", ".ts"],
             modules: [
-                path.resolve(__dirname, "src"), path.resolve(__dirname, "@coglite"), "node_modules"
+                path.resolve(__dirname, "src"), path.resolve(__dirname, "src/client"), path.resolve(__dirname, "src/@coglite"), "node_modules"
             ],
             alias: {
                 "package.json$": path.resolve(__dirname, "package.json")
             }
         },
+        
         devtool: "source-map",
+        
         devServer: {
-            contentBase: "./dist",
+            contentBase: "./dist/client",
             open: true,
             historyApiFallback: true
         },
+        
         plugins: [
+            
             new HtmlWebpackPlugin({
                 title: "Coglite",
-                template: "src/index.html",
+                template: "src/client/index.html",
                 baseHref: publicPath,
                 AppConfig: AppConfig,
                 chunks: ["main"],
                 chunksSortMode: "none"
             }),
+
             new CopyWebpackPlugin([
-                { from: 'report_templates', to: 'report_templates' },
-                { from: "fonts", to: "fonts" },
-                { from: `${path.dirname(require.resolve('@uifabric/icons'))}/../fonts`, to: "icons/fabric" }
+                //{ from: 'report_templates', to: 'report_templates' },
+                //{ from: "fonts", to: "fonts" },
+                //{ from: `${path.dirname(require.resolve('@uifabric/icons'))}/../fonts`, to: "icons/fabric" }
             ]),
             new GeneratorPlugin({
                 generator: () => {
@@ -158,7 +152,7 @@ const createConfig = (env) => {
             }),
             new WriteFilePlugin(),
             new webpack.DefinePlugin({'pkgInfo': JSON.stringify(pkgInfo)}),
-            //new WebpackShellPlugin({onBuildEnd: {scripts: ['yarn tse']}}),
+            //new WebpackShellPlugin({onBuildEnd: {scripts: ['npm run tse']}}),
             new CleanWebpackPlugin('dist')
         ]
     };

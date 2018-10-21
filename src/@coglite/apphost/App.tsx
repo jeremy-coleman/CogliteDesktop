@@ -1,7 +1,8 @@
-import * as React from "react";
-import { IAppHostProps, AppHostContainer ,AppHost, IAppHost  } from "./host";
-import { IRequest, IRouter } from "@coglite/router";
-import { IAppLauncher } from "./launcher";
+import { IRequest, IRouter } from '@coglite/router';
+import * as React from 'react';
+
+import { AppHostContainer, AppHostModel, IAppHostProps } from './host';
+import { IAppHostModel, IAppLauncher } from './types';
 
 
 
@@ -16,20 +17,20 @@ interface IAppContainerBaseProps {
 interface IAppContainerProps extends IRequest, IAppContainerBaseProps {}
 
 interface IAppContainer {
-    host: IAppHost;
+    host: IAppHostModel;
 }
 
 class AppContainer extends React.Component<IAppContainerProps, any> implements IAppContainer {
-    protected _host : AppHost;
+    protected _host : AppHostModel;
     constructor(props : IAppContainerProps) {
         super(props);
-        this._host = new AppHost();
+        this._host = new AppHostModel();
         this._host.setRoot(this.props.root ? true : false);
         this._host.router = this.props.router;
         this._host.launcher = this.props.launcher;
         this._host.setDefaultRequest(props);
     }
-    get host() : IAppHost {
+    get host() : IAppHostModel {
         return this._host;
     }
     componentWillReceiveProps(nextProps : IAppContainerProps) {
@@ -42,9 +43,11 @@ class AppContainer extends React.Component<IAppContainerProps, any> implements I
     }
     render() {
         return (
-            <AppHostContainer host={this._host}
-                              onRenderSync={this.props.onRenderSync}
-                              onRenderError={this.props.onRenderError} />
+            <AppHostContainer 
+                host={this._host}
+                onRenderSync={this.props.onRenderSync}
+                onRenderError={this.props.onRenderError}
+            />
         );
     }
 }

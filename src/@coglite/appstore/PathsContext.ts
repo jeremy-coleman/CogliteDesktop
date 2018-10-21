@@ -1,5 +1,6 @@
-import { Context } from "@coglite/apphost";
-import { IAppstorePaths, AppstorePaths } from "./Paths";
+import { Context } from '@coglite/apphost';
+
+import { AppstorePaths, IAppstorePaths } from './Paths';
 
 const AppstorePathsContext = new Context<IAppstorePaths>({
     factory() {

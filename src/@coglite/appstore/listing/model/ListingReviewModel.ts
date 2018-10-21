@@ -1,10 +1,9 @@
-import { observable, action, computed } from "mobx";
-import { IListingModel } from "./IListingModel";
-import { IListingReview } from "../IListingReview";
-import { IListingReviewModel } from "./IListingReviewModel";
-import { IUserProfile } from "../../user/IUserProfile";
-import { ListingServiceContext } from "../service/ListingServiceContext";
-import { SyncModel } from "@coglite/apphost";
+import { SyncModel } from '@coglite/apphost';
+import { action, computed, observable } from 'mobx';
+
+import { IUserProfile } from '../../user';
+import { ListingServiceContext } from '../service/ListingServiceContext';
+import { IListingModel, IListingReview, IListingReviewModel } from '../types';
 
 class ListingReviewModel implements IListingReviewModel {
     @observable sync = new SyncModel();

@@ -1,16 +1,52 @@
+import { css } from '@coglite/design-system';
 import { observer } from 'mobx-react';
-import { css } from 'office-ui-fabric-react';
 import * as React from 'react';
+import { stylesheet } from 'typestyle';
 
-import { IGrid } from '../../types/IGrid';
-import { getClassNames, IGridClassNames } from './Grid.classNames';
-import { getStyles, IGridStyles } from './Grid.styles';
+import { IGrid } from '../../types';
 import { GridPortalManager } from './GridPortalManager';
+
+
+let gridStyles = stylesheet({
+    root: {
+            position: "relative",
+            overflow: "auto",
+            background: "transparent",
+            $nest:{
+                "&.has-maximized": {
+                    overflow: "hidden"
+                }
+            }
+    },
+        
+        gridCells: {},
+        overlay: {
+            position: "absolute",
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            backgroundColor: 'white',
+            opacity: 0.1,
+            zIndex: 2
+        },
+        row: {
+            display: "flex"
+        },
+        cell: {
+            backgroundColor: '#eaeaea'
+        },
+        portal: {
+            boxShadow: `0 0 ${5}px 0 rgba(0, 0, 0, 0.4)`,
+            transition: "top 0.2s ease, right 0.2s ease, bottom 0.2s ease, left 0.2s ease, width 0.2s ease, height 0.2s ease"
+        }
+})
+
 
 interface IGridProps {
     grid: IGrid;
     className?: string;
-    styles?: IGridStyles;
+    //styles?: IGridStyles;
     moveTimeout?: number;
 }
 
@@ -36,11 +72,11 @@ const getColIndex = (grid : IGrid, vx : number) : number => {
 
 @observer
 class GridCells extends React.Component<IGridProps, any> {
-    private _classNames : IGridClassNames;
+    //private _classNames : IGridClassNames;
     private _renderCell(row : number, column : number) : React.ReactNode {
         return (
             <div key={column}
-                 className={this._classNames.cell}
+                 className={gridStyles.cell}
                  style={{
                      minWidth: this.props.grid.cellSize,
                      width: this.props.grid.cellSize,
@@ -57,20 +93,19 @@ class GridCells extends React.Component<IGridProps, any> {
             cells.push(this._renderCell(row, i));
         }
         return (
-            <div className={this._classNames.row} key={row} style={{ marginTop: this.props.grid.cellMargin }}>
+            <div className={gridStyles.row} key={row} style={{ marginTop: this.props.grid.cellMargin }}>
                 {cells}
             </div>
         );
     }
     render() {
-        const { grid, styles, className } = this.props;
-        this._classNames = getClassNames(getStyles(null, styles), className); 
+        const { grid, className } = this.props;
         const rows = [];
         for(let r = 0; r < grid.rows; r ++) {
             rows.push(this._renderRow(r));
         }
         return (
-            <div className={this._classNames.gridCells}>
+            <div className={gridStyles.gridCells}>
                 {rows}
             </div>
         );
@@ -146,11 +181,10 @@ class GridDragOverlay extends React.Component<IGridProps, any> {
         grid.moveTo(colIndex, rowIndex);
     }
     render() {
-        const { grid, styles, className } = this.props;
+        const { grid, className } = this.props;
         if(grid.drag) {
-            const classNames = getClassNames(getStyles(null, styles), className);
             return (
-                <div className={css(classNames.overlay, "drag")}
+                <div className={css(gridStyles.overlay, "drag")}
                     onDragOver={this._onDragOver}
                     onDrop={this._onDrop}
                     ref={this._onRef}>
@@ -181,9 +215,8 @@ class GridResizeOverlay extends React.Component<IGridProps, any> {
     }
     render() {
         if(this.props.grid.resizing) {
-            const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
             return (
-                <div className={css(classNames.overlay, "resize", this.props.grid.resizeType)}
+                <div className={css(gridStyles.overlay, "resize", this.props.grid.resizeType)}
                     onDragOver={this._onDragOver}
                     onDrop={this._onDrop}
                     ref={this._onRef}>
@@ -196,21 +229,22 @@ class GridResizeOverlay extends React.Component<IGridProps, any> {
 
 @observer
 class Grid extends React.Component<IGridProps, any> {
-    private _classNames : IGridClassNames;
+
     private _portalManager : GridPortalManager;
     private _setPortalManager(props : IGridProps) {
-        this._portalManager = new GridPortalManager(this.props.grid, { portalClassName: this._classNames.portal });
+        this._portalManager = new GridPortalManager(this.props.grid, { portalClassName: gridStyles.portal });
         this.props.grid.setPortalManager(this._portalManager);
     }
     componentWillMount() {
-        const { grid, styles, className } = this.props;
-        this._classNames = getClassNames(getStyles(null, styles), className);
+        const { grid, className } = this.props;
         this._setPortalManager(this.props);
     }
+
     componentWillReceiveProps(nextProps : IGridProps) {
-        if(nextProps.styles !== this.props.styles) {
-            this._classNames = getClassNames(getStyles(null, this.props.styles));
-        }
+        // if(nextProps.styles !== this.props.styles) {
+        //     this._classNames = getClassNames(getStyles(null, this.props.styles));
+        // }
+        
         if(this._portalManager && nextProps.grid !== this._portalManager.grid) {
             this._setPortalManager(nextProps);
         }
@@ -224,7 +258,7 @@ class Grid extends React.Component<IGridProps, any> {
     render() {
         const { grid } = this.props;
         return (
-            <div className={css(this._classNames.root, { "has-maximized": grid.maximized ? true : false})}
+            <div className={css(gridStyles.root, { "has-maximized": grid.maximized ? true : false})}
                  style={{
                      position: grid.maximized ? "absolute" : undefined,
                      top: grid.maximized ? 0 : undefined,

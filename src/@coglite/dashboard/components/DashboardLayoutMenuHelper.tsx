@@ -1,15 +1,14 @@
-import * as React from "react";
-import { IContextualMenuItem, ContextualMenuItemType } from "office-ui-fabric-react";
-import { IDashboard } from "../types/IDashboard";
-import { IDashboardList } from "../types/IDashboardList";
-import { IDashboardLayout } from "../types/IDashboardLayout";
-import { DashboardLayoutRegistry } from "../layouts/DashboardLayoutRegistry";
+import { ContextualMenuItemType } from 'office-ui-fabric-react';
+import * as React from 'react';
 
-const onClickDashboardLayoutItem = (e : React.MouseEvent<HTMLButtonElement>, item : IContextualMenuItem) => {
+import { DashboardLayoutRegistry } from '../layouts/DashboardLayoutRegistry';
+import { IDashboard, IDashboardLayout, IDashboardList } from '../types';
+
+const onClickDashboardLayoutItem = (e : React.MouseEvent<HTMLButtonElement>, item : any) => {
     item.applyLayout(item.dashboard);
 };
 
-const createDashboardLayoutMenuItem = (dashboard : IDashboard, item : IDashboardLayout) : IContextualMenuItem => {
+const createDashboardLayoutMenuItem = (dashboard : IDashboard, item : IDashboardLayout) : any => {
     return {
         key: item.key,
         name: item.name,
@@ -22,7 +21,7 @@ const createDashboardLayoutMenuItem = (dashboard : IDashboard, item : IDashboard
     };
 };
 
-const createDashboardLayoutMenuItems = (dashboard : IDashboard, items : IDashboardLayout[] = DashboardLayoutRegistry.itemsView) : IContextualMenuItem[] => {
+const createDashboardLayoutMenuItems = (dashboard : IDashboard, items : IDashboardLayout[] = DashboardLayoutRegistry.itemsView) : any[] => {
     const isAnyLayoutApplied = items.some(item => item.isLayoutApplied(dashboard));
     const r = items.map(item => {
         return createDashboardLayoutMenuItem(dashboard, item);
@@ -39,8 +38,8 @@ const createDashboardLayoutMenuItems = (dashboard : IDashboard, items : IDashboa
     return r;
 };
 
-const createDashboardLayoutMenuSection = (dashboard : IDashboard, items : IDashboardLayout[] = DashboardLayoutRegistry.itemsView) : IContextualMenuItem => {
-    const layoutItems : IContextualMenuItem[] = createDashboardLayoutMenuItems(dashboard, items);
+const createDashboardLayoutMenuSection = (dashboard : IDashboard, items : IDashboardLayout[] = DashboardLayoutRegistry.itemsView) : any => {
+    const layoutItems : any[] = createDashboardLayoutMenuItems(dashboard, items);
     return {
         key: "layoutSectionItem",
         itemType: ContextualMenuItemType.Section,
@@ -52,7 +51,7 @@ const createDashboardLayoutMenuSection = (dashboard : IDashboard, items : IDashb
     };
 };
 
-const createDashboardMenu = (dashboard : IDashboard, items : IDashboardLayout[] = DashboardLayoutRegistry.itemsView) : IContextualMenuItem => {
+const createDashboardMenu = (dashboard : IDashboard, items : IDashboardLayout[] = DashboardLayoutRegistry.itemsView) : any => {
     const layoutSectionItem = createDashboardLayoutMenuSection(dashboard, items);
     const current = layoutSectionItem.sectionProps.items.find(item => item.checked);
     return {
@@ -65,7 +64,7 @@ const createDashboardMenu = (dashboard : IDashboard, items : IDashboardLayout[] 
     };
 };
 
-const createDashboardSettingsItem = (name: string, dashboard : IDashboard, items : IDashboardLayout[] = DashboardLayoutRegistry.itemsView) : IContextualMenuItem => {
+const createDashboardSettingsItem = (name: string, dashboard : IDashboard, items : IDashboardLayout[] = DashboardLayoutRegistry.itemsView) : any => {
     const layoutSectionItem = createDashboardLayoutMenuSection(dashboard, items);
     return {
         key: "dashboardSettings",
@@ -77,17 +76,17 @@ const createDashboardSettingsItem = (name: string, dashboard : IDashboard, items
     }
 };
 
-const createDashboardListMenu = (dashboardList : IDashboardList, items : IDashboardLayout[] = DashboardLayoutRegistry.itemsView) : IContextualMenuItem => {
+const createDashboardListMenu = (dashboardList : IDashboardList, items : IDashboardLayout[] = DashboardLayoutRegistry.itemsView) : any => {
     const sync = dashboardList.sync;
     const active = dashboardList.active;
     return !sync.syncing && active ? createDashboardMenu(active, items) : undefined;
 };
 
-const createDashboardLayoutActions = (dashboard : IDashboard, items : IDashboardLayout[] = DashboardLayoutRegistry.itemsView) : IContextualMenuItem[] => {
+const createDashboardLayoutActions = (dashboard : IDashboard, items : IDashboardLayout[] = DashboardLayoutRegistry.itemsView) : any[] => {
     const currentLayout = items.find(item => {
         return item.isLayoutApplied(dashboard);
     });
-    let actions : IContextualMenuItem[];
+    let actions : any[];
     if(currentLayout && currentLayout.createActions) {
         actions = currentLayout.createActions(dashboard);
     }
@@ -97,7 +96,7 @@ const createDashboardLayoutActions = (dashboard : IDashboard, items : IDashboard
     return actions;
 };
 
-const createDashboardListLayoutActions = (dashboardList : IDashboardList, items : IDashboardLayout[] = DashboardLayoutRegistry.itemsView) : IContextualMenuItem[] => {
+const createDashboardListLayoutActions = (dashboardList : IDashboardList, items : IDashboardLayout[] = DashboardLayoutRegistry.itemsView) : any[] => {
     const sync = dashboardList.sync;
     const active = dashboardList.active;
     return !sync.syncing && active ? createDashboardLayoutActions(active, items) : [];

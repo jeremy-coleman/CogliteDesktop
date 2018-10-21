@@ -1,9 +1,7 @@
 import { IError, isBlank } from '@coglite/apphost';
 import { action, computed, observable } from 'mobx';
 
-import { IListingLink } from '../IListingLink';
-import { IListingLinkModel } from './IListingLinkModel';
-import { IListingModel } from './IListingModel';
+import { IListingLink, IListingLinkModel, IListingModel } from '../types';
 
 class ListingLinkModel implements IListingLinkModel {
     @observable private _listing : IListingModel;

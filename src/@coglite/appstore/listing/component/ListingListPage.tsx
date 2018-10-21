@@ -1,16 +1,29 @@
 import { observer } from 'mobx-react';
 import { SearchBox } from 'office-ui-fabric-react';
 import * as React from 'react';
+import { stylesheet } from 'typestyle';
 
-import { IListing } from '../IListing';
+import { ListingViewConfig } from '../constants';
+import { IListing } from '../types';
 import { IListingListContainerProps, ListingListContainer } from './ListingList';
-import { getClassNames } from './ListingListPage.classNames';
-import { getStyles, IListingListPageStyles } from './ListingListPage.styles';
 import { ListingTile } from './ListingTile';
-import { ListingViewConfig } from './ListingViewConfig';
+
+
+
+const listingListPageStyles = stylesheet({
+        root: {},
+        input: {
+            paddingTop: 8,
+            paddingBottom: 0,
+            paddingLeft: 16,
+            paddingRight: 16
+        },
+        results: {}
+
+})
 
 interface IListingListPageProps extends IListingListContainerProps {
-    styles?: IListingListPageStyles;
+    //styles?: IListingListPageStyles;
     className?: string;
     onLaunch?: (listing : IListing) => void;
 }
@@ -21,9 +34,9 @@ class ListingListSearchInput extends React.Component<IListingListPageProps, any>
         this.props.listings.setSearchText(newValue);
     } 
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className); 
+        //const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className); 
         return (
-            <div className={classNames.input}>
+            <div className={listingListPageStyles.input}>
                 <SearchBox value={this.props.listings.searchText} placeholder={`Search ${ListingViewConfig.labelPlural}`} onChange={this._onSearchChange} />
             </div>
         );
@@ -38,11 +51,11 @@ class ListingListPage extends React.Component<IListingListPageProps, any> {
                             onLaunch={this.props.onLaunch} />;
     }
     render() {
-        const classNames = getClassNames(getStyles(undefined, this.props.styles), this.props.className); 
+        //const classNames = getClassNames(getStyles(undefined, this.props.styles), this.props.className); 
         return (
-            <div className={classNames.root}>
+            <div className={listingListPageStyles.root}>
                 <ListingListSearchInput {...this.props} />
-                <div className={classNames.results}>
+                <div className={listingListPageStyles.results}>
                     <ListingListContainer {...this.props} onRenderListing={this._onRenderItem} />
                 </div>
             </div>

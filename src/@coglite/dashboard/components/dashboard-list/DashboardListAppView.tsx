@@ -1,9 +1,8 @@
 import { HostAppView, IHostAppViewProps } from '@coglite/apphost';
 import { observer } from 'mobx-react';
-import { IContextualMenuItem } from 'office-ui-fabric-react';
 import * as React from 'react';
 
-import { IDashboardList } from '../../types/IDashboardList';
+import { IDashboardList } from '../../types';
 import { createDashboardListLayoutActions, createDashboardListMenu } from '../DashboardLayoutMenuHelper';
 import { createCommandBarMenuItem } from '../DashboardMenuHelper';
 import { DashboardListContainer } from './DashboardList';
@@ -19,7 +18,7 @@ class DashboardListAppView extends React.Component<IDashboardListAppViewProps, a
     }
     render() {
         const { dashboardList } = this.props;
-        const items : IContextualMenuItem[] = [
+        const items : any[] = [
             createCommandBarMenuItem(dashboardList)
         ];
         const layoutItem = createDashboardListMenu(dashboardList);

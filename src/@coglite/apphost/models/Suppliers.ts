@@ -1,4 +1,4 @@
-import { ISupplierFunc } from "../types";
+import { ISupplierFunc } from '../types';
 
 const constant = <T = any>(value : T) : ISupplierFunc<T> => {
     return () => {

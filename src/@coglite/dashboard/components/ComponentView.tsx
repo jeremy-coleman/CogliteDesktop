@@ -1,6 +1,7 @@
-import * as React from "react";
-import { IComponent } from "../types/IComponent";
-import { ViewFactoryContext } from "./ViewFactoryContext";
+import * as React from 'react';
+
+import { IComponent } from '../types';
+import { ViewFactoryContext } from './ViewFactoryContext';
 
 interface IComponentViewProps {
     component: IComponent;

@@ -1,4 +1,4 @@
-import { IRequestHandler } from './IRequestHandler';
+import { IRequestHandler } from './types';
 
 interface IExactPathOptions {
     allowTrailingSlash?: boolean;

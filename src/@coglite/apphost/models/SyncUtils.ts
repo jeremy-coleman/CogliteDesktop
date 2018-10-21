@@ -1,5 +1,6 @@
-import { ISyncModel } from "../types";
-import { autorun } from "mobx";
+import { autorun } from 'mobx';
+
+import { ISyncModel } from '../types';
 
 const toPromise = (sync : ISyncModel) : Promise<any> => {
     return new Promise((resolve, reject) => {

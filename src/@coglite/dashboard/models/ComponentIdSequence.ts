@@ -1,4 +1,4 @@
-import { SequenceId } from "@coglite/apphost";
+import { SequenceId } from '@coglite/apphost';
 
 const ComponentIdSequence = new SequenceId("db-comp-");
 

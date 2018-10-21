@@ -1,9 +1,8 @@
-import { action, observable } from "mobx";
-import { IListingBookmark } from "../IListingBookmark";
-import { ListingServiceContext } from "../service/ListingServiceContext";
-import { ListModel } from "@coglite/apphost";
-import { IListingBookmarkListModel } from "./IListingBookmarkListModel";
-import { IListing } from "../IListing";
+import { ListModel } from '@coglite/apphost';
+import { action } from 'mobx';
+
+import { ListingServiceContext } from '../service/ListingServiceContext';
+import { IListing, IListingBookmark, IListingBookmarkListModel } from '../types';
 
 class ListingBookmarkListModel extends ListModel<IListingBookmark> implements IListingBookmarkListModel {
     protected _loadImpl() {

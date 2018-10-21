@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { stylesheet } from 'typestyle';
 
-import { IAppHostBaseProps } from '../IAppHostBaseProps';
-
-//import { IAppFrameStyles, getStyles } from "./AppFrame.styles";
-//import { getClassNames } from "./AppFrame.classNames";
+import { IAppHostBaseProps } from '../types';
 
 interface IAppFrame {
     containerRef: HTMLDivElement;
@@ -13,11 +10,9 @@ interface IAppFrame {
 
 interface IAppFrameProps extends IAppHostBaseProps {
     src?: string;
-    //styles?: IAppFrameStyles;
     className?: string;
     componentRef?: (appFrame : IAppFrame) => void;
 }
-
 
 
 let appFrameStylesheet = stylesheet({
@@ -80,8 +75,7 @@ class AppFrame extends React.Component<IAppFrameProps, any> {
     private _onFrameRef = (ref : HTMLIFrameElement) => {
         this._frameRef = ref;
     }
-    render() {
-        //const classNames = getClassNames(getStyles(undefined, this.props.styles), this.props.className);            
+    render() {       
         return (
             <div className={appFrameStylesheet.root} ref={this._onContainerRef}>
                 <iframe className={appFrameStylesheet.frame} ref={this._onFrameRef} src={this.props.src} />

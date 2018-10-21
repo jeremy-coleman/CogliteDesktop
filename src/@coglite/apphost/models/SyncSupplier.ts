@@ -1,7 +1,8 @@
-import { observable, action, computed } from "mobx";
-import { ISyncSupplier } from "../types";
-import { SyncModel } from "./SyncModel";
-import { toPromise } from "./SyncUtils";
+import { action, computed, observable } from 'mobx';
+
+import { ISyncSupplier } from '../types';
+import { SyncModel } from './SyncModel';
+import { toPromise } from './SyncUtils';
 
 class SyncSupplier<T = any> implements ISyncSupplier<T> {
     @observable sync = new SyncModel();

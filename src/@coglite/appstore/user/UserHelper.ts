@@ -1,6 +1,6 @@
 import { equalsIgnoreCase, isBlank } from '@coglite/apphost';
 
-import { IUserProfile } from './IUserProfile';
+import { IUserProfile } from './types';
 
 const isMemberOfGroup = (userProfile : IUserProfile, group : string) : boolean => {
     return isBlank(group) ||

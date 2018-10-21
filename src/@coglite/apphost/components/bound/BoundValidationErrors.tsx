@@ -2,8 +2,8 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import { getBoundValue } from '../../models';
-import {IBoundProps} from '../../types'
-import { IValidationErrorsProps, ValidationErrors } from '../validation';
+import { IBoundProps } from '../../types';
+import { IValidationErrorsProps, ValidationErrors } from '../ValidationErrors';
 
 interface IBoundValidationErrorsProps extends IValidationErrorsProps, IBoundProps<any, any[]> {}
 

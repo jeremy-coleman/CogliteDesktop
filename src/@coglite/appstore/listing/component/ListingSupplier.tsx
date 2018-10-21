@@ -1,7 +1,7 @@
 import { ISyncSupplier, SyncComponent } from '@coglite/apphost';
 import * as React from 'react';
 
-import { IListingModel } from '../model/IListingModel';
+import { IListingModel } from '../types';
 
 class IListingSupplierProps {
     listingSupplier?: ISyncSupplier<IListingModel>;

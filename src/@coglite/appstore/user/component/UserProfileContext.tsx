@@ -1,5 +1,6 @@
-import * as React from "react";
-import { IUserProfile } from "../IUserProfile";
+import * as React from 'react';
+
+import { IUserProfile } from '../types';
 
 const UserProfileContext = React.createContext<IUserProfile>({});
 

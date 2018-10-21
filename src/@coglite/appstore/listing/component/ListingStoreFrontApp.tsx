@@ -1,23 +1,23 @@
-import { IAppHost, IAppProps, IMutableSync, SyncModel } from '@coglite/apphost';
+import { IAppHostModel, IAppProps, IMutableSync, SyncModel } from '@coglite/apphost';
 import { observer } from 'mobx-react';
-import { IContextualMenuItem } from 'office-ui-fabric-react';
 import * as React from 'react';
 
 import { PortalAppView } from '../../common/component/PortalAppView';
 import { AppstorePathsContext } from '../../PathsContext';
-import { IUserProfile } from '../../user/IUserProfile';
+import { IUserProfile } from '../../user/types/IUserProfile';
 import { UserAdminContext } from '../../user/UserAdminContext';
-import { IListing } from '../IListing';
+import { ListingViewConfig } from '../constants';
 import { launch } from '../ListingLaunch';
 import { ListingSearchModel } from '../model/ListingSearchModel';
+import { IListing } from '../types';
 import { ListingLaunchDialog } from './ListingLaunchDialog';
 import { ListingSearch } from './ListingSearch';
-import { ListingViewConfig } from './ListingViewConfig';
+
 
 
 @observer
 class ListingStoreFrontApp extends React.Component<IAppProps, any> {
-    get host() : IAppHost {
+    get host() : IAppHostModel {
         return this.props.match.host;
     }
     get userProfile() : IUserProfile {
@@ -65,8 +65,9 @@ class ListingStoreFrontApp extends React.Component<IAppProps, any> {
             this.listingSearch.setRequest({ search: this.searchText, category: this.category });
         }
     }
+    
     render() {
-        const items : IContextualMenuItem[] = [];
+        const items : any[] = [];
         const isAdmin = UserAdminContext.value(this.userProfile);
         if(isAdmin) {
             items.push(
@@ -81,7 +82,12 @@ class ListingStoreFrontApp extends React.Component<IAppProps, any> {
                 }
             );
         }
-        const farItems : IContextualMenuItem[] = [];
+
+        // if(this.props.host.root && this.props.userProfile) {
+        //     farItems.push(createUserProfileMenu(this.props.userProfile));
+        // }
+
+        const farItems : any[] = [];
         if(isAdmin) {
             farItems.push({
                 key: "listings",

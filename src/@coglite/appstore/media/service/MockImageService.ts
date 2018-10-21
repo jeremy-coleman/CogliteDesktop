@@ -1,6 +1,4 @@
-import axios from "axios";
-import { IImage } from "../IImage";
-import { IImageService, IGetImagesRequest } from "./IImageService";
+import { IGetImagesRequest, IImage, IImageService } from '../types';
 
 class MockImageService implements IImageService {
     private _images : IImage[] = [];

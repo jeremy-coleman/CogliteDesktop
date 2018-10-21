@@ -1,6 +1,4 @@
-import { IUserService, IGetUsersRequest } from "./IUserService";
-import { IUserProfile } from "../IUserProfile";
-import { IUser } from "../IUser";
+import { IGetUsersRequest, IUser, IUserProfile, IUserService } from '../types';
 
 const MockUserProfile : IUserProfile = {
     id: 1,

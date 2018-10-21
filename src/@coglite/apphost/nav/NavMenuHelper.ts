@@ -1,8 +1,6 @@
-import { IContextualMenuItem } from 'office-ui-fabric-react';
+import { IAppHostModel } from '../types';
 
-import { IAppHost } from '../host';
-
-const createBackItem = (host : IAppHost, fallback?: IContextualMenuItem, showLabel?: boolean) : IContextualMenuItem => {
+const createBackItem = (host : IAppHostModel, fallback?: any, showLabel?: boolean) => {
     if(host.canGoBack) {
         const backRequest = host.backRequest;
         const title = backRequest.title ? `Back to ${backRequest.title}` : "Back";

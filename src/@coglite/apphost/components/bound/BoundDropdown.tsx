@@ -2,9 +2,8 @@ import { observer } from 'mobx-react';
 import { Dropdown } from 'office-ui-fabric-react';
 import * as React from 'react';
 
-import { getBoundValue,setBoundValue } from '../../models';
-
-import {IBoundProps, IOptionListModel} from '../../types'
+import { getBoundValue, setBoundValue } from '../../models';
+import { IBoundProps, IOptionListModel } from '../../types';
 
 type AnyProps = any
 
@@ -17,7 +16,7 @@ interface IBoundDropdownProps extends AnyProps, IBoundProps<any, string> {
 
 @observer
 class BoundDropdown extends React.Component<IBoundDropdownProps, any> {
-    private _onChanged = (option : any, index?: number) => {
+    private _onChange = (option : any, index?) => {
         setBoundValue(this.props, String(option.key));
         if(this.props.onChange) {
             this.props.onChange(option, index);
@@ -44,7 +43,7 @@ class BoundDropdown extends React.Component<IBoundDropdownProps, any> {
         }
 
         const value = getBoundValue(this.props);
-        return <Dropdown {...this.props} options={dropdownOptions} onChanged={this._onChanged} selectedKey={value || ""} />
+        return <Dropdown {...this.props} options={dropdownOptions} onChange={this._onChange} selectedKey={value || ""} />
     }
 }
 

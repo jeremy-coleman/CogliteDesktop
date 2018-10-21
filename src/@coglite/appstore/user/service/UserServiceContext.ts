@@ -1,5 +1,6 @@
-import { Context } from "@coglite/apphost";
-import { IUserService } from "./IUserService";
+import { Context } from '@coglite/apphost';
+
+import { IUserService } from '../types';
 
 const UserServiceContext = new Context<IUserService>();
 

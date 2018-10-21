@@ -1,4 +1,4 @@
-import { ListingBookmarkListModel } from "./ListingBookmarkListModel";
+import { ListingBookmarkListModel } from './ListingBookmarkListModel';
 
 const ListingBookmarkListStore = new ListingBookmarkListModel();
 

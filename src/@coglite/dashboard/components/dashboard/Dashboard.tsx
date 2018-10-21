@@ -1,25 +1,76 @@
 import { IEventTarget, SyncComponent } from '@coglite/apphost';
 import { observer } from 'mobx-react';
-import { css } from 'office-ui-fabric-react';
+import { css} from '@coglite/design-system/helpers'
 import * as React from 'react';
 
 import { ComponentRemoveStore } from '../../stores/ComponentRemoveStore';
-import { IDashboard } from '../../types/IDashboard';
-import { IWindowManager } from '../../types/IWindowManager';
+import { IDashboard } from '../../types';
+import { IWindowManager } from '../../types';
 import { AppPortalManager } from '../AppPortalManager';
 import { ComponentRemoveDialog } from '../ComponentRemove';
 import { ComponentView } from '../ComponentView';
-import { getClassNames } from './Dashboard.classNames';
-import { getStyles, IDashboardStyles } from './Dashboard.styles';
 
-//import { SyncSpinnerView as Sync } from "@coglite/apphost/component/Sync";
+
+import {withStyles, createStyles} from '@material-ui/core/styles'
+
+// using typestyle causes the app tiles to not render on startup
+//import {stylesheet, classes} from 'typestyle'
+
+export const dashboardStyles = theme => createStyles({
+        root: {
+            position: "absolute",
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            background: "transparent",
+            overflow: "hidden",
+            "&.hidden": {
+                    top: -1,
+                    left: -1,
+                    width: 0,
+                    height: 0,
+                    overflow: "hidden"
+                }
+            
+        },
+        content: {
+            position: "absolute",
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            overflow: "hidden",
+            background: "transparent",
+                "&.overflow": {
+                    overflow: "auto"
+                }
+            
+        },
+        overlay: {
+            backgroundColor: 'white',
+            opacity: 0.1,
+                "&.hsplit": {
+                    cursor: "ew-resize"
+                },
+                "&.vsplit": {
+                    cursor: "ns-resize"
+                }
+            
+        }
+    })
+
+
+
+
+
 
 interface IDashboardProps {
     dashboard: IDashboard;
     className?: string;
     hidden?: boolean;
     host?: IEventTarget;
-    styles?: IDashboardStyles;
+    classes?: any
 }
 
 interface IDashboardOverlayProps {
@@ -66,7 +117,7 @@ class DashboardPortals extends React.Component<IDashboardProps, any> {
 }
 
 @observer
-class DashboardView extends React.Component<IDashboardProps, any> {
+class DashboardViewTemplate extends React.Component<IDashboardProps, any> {
     private _ref : HTMLDivElement;
     private _onRef = (ref : HTMLDivElement) => {
         this._ref = ref;
@@ -104,26 +155,29 @@ class DashboardView extends React.Component<IDashboardProps, any> {
         }
     }
     render() {
-        const { dashboard, styles, className } = this.props;
-        const classNames = getClassNames(getStyles(null, styles), className);
+        const { dashboard, classes} = this.props;
         const component = dashboard.component;
         return (
             <div id={this.props.dashboard.id}
-                className={css(classNames.root, { hidden: this.props.hidden })}
+                className={css(classes.root, { hidden: this.props.hidden })}
                 ref={this._onRef}>
-                <DashboardBlockOverlay dashboard={this.props.dashboard} className={classNames.overlay} />
+                <DashboardBlockOverlay dashboard={this.props.dashboard} className={classes.overlay} />
                 <ComponentRemoveDialog remove={ComponentRemoveStore} />
-                <div className={css(classNames.content, { "overflow": component && component.isWindowManager && (component as IWindowManager).isRequiresOverflow ? true : false })}>
+                <div className={css(classes.content, { "overflow": component && component.isWindowManager && (component as IWindowManager).isRequiresOverflow ? true : false })}>
                     <DashboardPortals {...this.props} />
                     <ComponentView component={component} />
                 </div>
             </div>
         );
     }
+
+    //@TODO debounce this
     componentDidUpdate() {
         this._resizeToViewport();
     }
 }
+
+let DashboardView = withStyles(dashboardStyles, {withTheme: true})(DashboardViewTemplate)
 
 class DashboardContainer extends React.Component<IDashboardProps, any> {
     private _onRenderDone = () => {

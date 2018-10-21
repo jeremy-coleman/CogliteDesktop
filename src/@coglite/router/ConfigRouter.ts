@@ -1,6 +1,4 @@
-import { IRouter } from "./IRouter";
-import { IRequest } from "./IRequest";
-import { IRequestHandler } from "./IRequestHandler";
+import { IRequest, IRequestHandler, IRouter } from './types';
 
 const RouterDefaults = {
     configId: "default"
@@ -24,6 +22,8 @@ interface IConfigRouterOptions {
  * configuration id which can be overridden by a _configId request parameter.
  * An instance of ConfigRouter is typically placed early in your app/router configuration (as just about everything else depends on configuration)
  */
+
+
 class ConfigRouter implements IRouter {
     private _env : any;
     private _configMap : IConfigMap;

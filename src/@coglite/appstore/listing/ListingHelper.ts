@@ -1,5 +1,5 @@
-import { IListing } from "./IListing";
-import { IUserProfile } from "../user/IUserProfile";
+import { IListing } from "./types";
+import { IUserProfile } from "../user/types/IUserProfile";
 import { UserListingAccessContext } from "./UserListingAccessContext";
 import { UserAdminContext } from "../user/UserAdminContext";
 

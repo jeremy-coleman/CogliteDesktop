@@ -1,8 +1,11 @@
 import { ContextualMenuItemType, IContextualMenuItem } from 'office-ui-fabric-react';
 import * as React from 'react';
 
-import { IUserProfile } from '../IUserProfile';
+import { IUserProfile } from '../types';
 import { UserGroups, UserInfo } from './UserProfile';
+
+
+
 
 const createUserProfileMenu = (userProfile : IUserProfile) : IContextualMenuItem => {
     return {
@@ -17,7 +20,7 @@ const createUserProfileMenu = (userProfile : IUserProfile) : IContextualMenuItem
                     key: "userInfo",
                     userProfile: userProfile,
                     onRender(item) {
-                        return <UserInfo key={item.key} userProfile={userProfile} />;
+                        return (<UserInfo key={item.key} userProfile={userProfile} />);
                     }
                 },
                 {
@@ -28,7 +31,12 @@ const createUserProfileMenu = (userProfile : IUserProfile) : IContextualMenuItem
                 {
                     key: "userGroups",
                     onRender(item) {
-                        return <UserGroups key={item.key} userProfile={userProfile} />;
+                        return (
+                            <UserGroups
+                                key={item.key}
+                                userProfile={userProfile}
+                            />
+                        );
                     }
                 }
             ]

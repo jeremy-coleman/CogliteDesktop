@@ -1,15 +1,43 @@
 import { observer } from 'mobx-react';
-import { DefaultButton, PrimaryButton, Rating, TextField } from 'office-ui-fabric-react';
+import { DefaultButton, PrimaryButton, Rating, TextField as x } from 'office-ui-fabric-react';
 import * as React from 'react';
+import { stylesheet } from 'typestyle';
 
-import { IListingReviewModel } from '../model/IListingReviewModel';
-import { getClassNames } from './ListingReviewForm.classNames';
-import { getStyles, IListingReviewFormStyles } from './ListingReviewForm.styles';
+import Button from '@material-ui/core/Button'
+import Save from '@material-ui/icons/Save'
+import TextField from '@material-ui/core/TextField'
+
+import { IListingReviewModel } from '../types';
+
+let listingReviewStyles = stylesheet({
+    root: {
+            boxShadow: "0 0 5px 0 rgba(0, 0, 0, 0.4)"
+        },
+        editor: {
+            $nest: {
+                ".rating": {
+                    padding: "4px 8px"
+                },
+                ".review": {
+                    padding: "4px 8px"
+                }
+            }
+        },
+        actions: {
+            padding: "4px 8px",
+            $nest: {
+                "button+button": {
+                    marginLeft: 8
+                }
+            }
+            }
+        
+})
+
 
 interface IListingReviewFormProps {
     review: IListingReviewModel;
     className?: string;
-    styles?: IListingReviewFormStyles;
     onAfterSave?: (review : IListingReviewModel) => void;
     onCancel?: () => void;
 }
@@ -24,12 +52,20 @@ class ListingReviewEditor extends React.Component<IListingReviewFormProps, any> 
     }
     render() {
         return (
-            <div className={this.props.className}>
+            <div className={this.props.className} style={{overflow: 'hidden', textOverflow: 'hidden'}}>
                 <div className="rating">
-                    <Rating min={1} max={5} onChanged={this._onRatingChanged} rating={this.props.review.rate || null} disabled={this.props.review.sync.syncing} />
+                    <Rating min={1} max={5} onChange={(e) => this._onRatingChanged} rating={this.props.review.rate || null} disabled={this.props.review.sync.syncing} />
                 </div>
                 <div className="review">
-                    <TextField placeholder="Tell us what you think" multiline={true} resizable={false} onChanged={this._onCommentsChanged} disabled={this.props.review.sync.syncing} />
+                    <TextField 
+                        placeholder="Tell us what you think"
+                        multiline={true}
+                        fullWidth={true}
+                        variant='outlined'
+                        margin='dense'
+                        onChange={(e) => this._onCommentsChanged}
+                        disabled={this.props.review.sync.syncing}
+                    />
                 </div>
             </div>
         )
@@ -53,9 +89,9 @@ class ListingReviewActions extends React.Component<IListingReviewFormProps, any>
     render() {
         const savedDisabled = this.props.review.sync.syncing || this.props.review.rate === null || this.props.review.rate === undefined;
         return (
-            <div className={this.props.className}>
-                <DefaultButton className="listing-review-action" onClick={this._onClickCancel} disabled={this.props.review.sync.syncing}>Cancel</DefaultButton>
-                <PrimaryButton className="listing-review-action" iconProps={{ iconName: "Save" }} onClick={this._onClickSave} disabled={savedDisabled}>Save</PrimaryButton>
+            <div className={this.props.className} style={{flex: '0 0 auto', overflow: 'hidden', textOverflow: 'hidden'}}>
+                <Button className="listing-review-action" onClick={this._onClickCancel} disabled={this.props.review.sync.syncing}>Cancel</Button>
+                <Button className="listing-review-action" onClick={this._onClickSave} disabled={savedDisabled}><Save/>Save - Disabled-ListingRevForm</Button>
             </div>
         )
     }
@@ -63,11 +99,10 @@ class ListingReviewActions extends React.Component<IListingReviewFormProps, any>
 
 class ListingReviewForm extends React.Component<IListingReviewFormProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(undefined, this.props.styles), this.props.className);
         return (
-            <div className={classNames.root}>
-                <ListingReviewEditor {...this.props} className={classNames.editor} />
-                <ListingReviewActions {...this.props} className={classNames.actions} />
+            <div className={listingReviewStyles.root}>
+                <ListingReviewEditor {...this.props} className={listingReviewStyles.editor} />
+                <ListingReviewActions {...this.props} className={listingReviewStyles.actions} />
             </div>
         );
     }

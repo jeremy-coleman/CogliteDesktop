@@ -1,10 +1,10 @@
-import axios from "axios";
-import { IUserData } from "../IUserData";
-import { IUserDataService, IGetUserDataRequest } from "./IUserDataService";
-import { IBasicAuthCredentials } from "@coglite/apphost";
+import { IBasicAuthCredentials } from '@coglite/apphost';
+import axios from 'axios';
+
+import { IGetUserDataRequest, IUserData, IUserDataService } from '../types';
 
 const Defaults = {
-    baseUrl: "/iwc-api",
+    baseUrl: "/coglite/api",
     auth: undefined
 };
 

@@ -1,5 +1,6 @@
-import { observable, action } from "mobx";
-import { IMutableSync, ISyncOptions } from "../types";
+import { action, observable } from 'mobx';
+
+import { IMutableSync, ISyncOptions } from '../types';
 
 export class SyncModel<I = any> implements IMutableSync<I> {
     @observable id: I;

@@ -5,7 +5,7 @@ import * as qs from 'qs';
 import * as PathUtils from '../util/PathUtils';
 import { stripRight } from '../util/StringUtils';
 import { AbstractAppHost } from './AbstractAppHost';
-import { IAppHost } from './IAppHost';
+import { IAppHostModel } from '../types';
 
 
 
@@ -136,7 +136,7 @@ class BrowserAppHost extends AbstractAppHost {
         return super._init(request);
     }
 
-    protected _defaultLaunch(request : IRequest) : Promise<IAppHost> {
+    protected _defaultLaunch(request : IRequest) : Promise<IAppHostModel> {
         const url = this.getUrl(request);
         const newWindow = this.window.open(url, request ? request.windowName : undefined, request ? request.windowFeatures : undefined);
         return new Promise((resolve, reject) => {
@@ -157,7 +157,7 @@ class BrowserAppHost extends AbstractAppHost {
         });
     }
 
-    open(request: IRequest) : Promise<IAppHost> {
+    open(request: IRequest) : Promise<IAppHostModel> {
         return this.launcher ? Promise.resolve(this.launcher(request)) : this._defaultLaunch(request);
     }
 

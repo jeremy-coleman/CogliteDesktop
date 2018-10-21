@@ -1,7 +1,6 @@
-import { IDashboardLayout } from "../types/IDashboardLayout";
-import { IDashboard } from "../types/IDashboard";
-import * as ComponentTypes from "../types/ComponentTypes";
-import { StackModel } from "../models";
+import * as ComponentTypes from '../constants/ComponentTypes';
+import { StackModel } from '../models';
+import { IDashboard, IDashboardLayout } from '../types';
 
 const applyLayout = (dashboard : IDashboard) => {
     // grab windows

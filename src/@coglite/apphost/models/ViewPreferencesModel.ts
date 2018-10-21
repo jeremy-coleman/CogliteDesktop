@@ -1,4 +1,4 @@
-import {PreferencesModel , IPreferencesModel} from "./PreferencesModel";
+import { IPreferencesModel, PreferencesModel } from './PreferencesModel';
 
 interface IViewPreferencesModel extends IPreferencesModel {
     isFieldVisible(fieldKey: string): boolean;

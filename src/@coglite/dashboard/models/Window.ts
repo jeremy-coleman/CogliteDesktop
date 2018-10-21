@@ -2,11 +2,9 @@ import { IConsumerFunc } from '@coglite/apphost';
 import { IRequest } from '@coglite/router';
 import { action, autorun, computed, IReactionDisposer, observable } from 'mobx';
 
-import * as ComponentTypes from '../types/ComponentTypes';
-import { IStack } from '../types/IStack';
-import { IWindow, IWindowConfig } from '../types/IWindow';
-import { IWindowManager } from '../types/IWindowManager';
-import { WindowResizeType } from '../types/WindowResizeType';
+import * as ComponentTypes from '../constants/ComponentTypes';
+import { WindowResizeType } from '../constants/WindowResizeType';
+import { IStack, IWindow, IWindowConfig, IWindowManager } from '../types';
 import { ComponentModel } from './Component';
 import { WindowAppHost } from './WindowAppHost';
 import { WindowSettings } from './WindowSettings';

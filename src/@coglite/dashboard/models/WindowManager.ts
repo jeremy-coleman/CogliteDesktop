@@ -1,14 +1,13 @@
-import { IWindowManager } from "../types/IWindowManager";
-import { observable, computed, action } from "mobx";
-import { IWindow } from "../types/IWindow";
-import { WindowModel } from "./Window";
-import { ComponentModel } from "./Component";
-import { isFunction } from "@coglite/apphost";
-import { ISupplierFunc } from "@coglite/apphost";
-import { IRequest } from "@coglite/router";
-import { IComponent } from "../types/IComponent";
-import { WindowSettings } from "./WindowSettings";
-import { WindowResizeType } from "../types/WindowResizeType";
+import { isFunction, ISupplierFunc } from '@coglite/apphost';
+import { IRequest } from '@coglite/router';
+import { action, computed, observable } from 'mobx';
+
+import { WindowResizeType } from '../constants/WindowResizeType';
+import { IComponent, IWindow, IWindowManager } from '../types';
+import { ComponentModel } from './Component';
+import { WindowModel } from './Window';
+import { WindowSettings } from './WindowSettings';
+
 
 export class WindowManager extends ComponentModel implements IWindowManager {
     @observable windows : IWindow[] = [];

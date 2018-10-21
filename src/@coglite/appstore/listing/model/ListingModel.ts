@@ -1,16 +1,12 @@
 import { IError, isBlank, StateManager, SyncModel } from '@coglite/apphost';
 import { action, computed, observable } from 'mobx';
 
-import { ICategory } from '../../category/ICategory';
-import { IImage } from '../../media/IImage';
-import { IScreenShot } from '../../media/IScreenShot';
 import { ImageServiceContext } from '../../media/service/ImageServiceContext';
-import { IUserProfile } from '../../user/IUserProfile';
-import { IListing } from '../IListing';
-import { ListingApprovalStatus } from '../ListingApprovalStatus';
-import { IListingService } from '../service/IListingService';
+import { IImage, IScreenShot } from '../../media/types';
+import { IUserProfile } from '../../user/types';
+import { ListingApprovalStatus } from '../constants';
 import { ListingServiceContext } from '../service/ListingServiceContext';
-import { IListingModel } from './IListingModel';
+import { ICategory, IListing, IListingModel, IListingService } from '../types';
 import { ListingLinkModel } from './ListingLinkModel';
 
 class ListingModel extends StateManager implements IListingModel {

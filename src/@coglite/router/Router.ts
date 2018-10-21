@@ -1,9 +1,6 @@
-//import { isFunction, isString } from 'ts-util-is';
-import { IRequest } from './IRequest';
-import { IRequestHandler } from './IRequestHandler';
-import { IRouter } from './IRouter';
-import { IRouterManager } from './IRouterManager';
 import { PathTemplate } from './PathTemplate';
+import { IRequest, IRequestHandler, IRouter, IRouterManager } from './types';
+
 
 export function isFunction(value: any): value is Function {
   return typeof value === 'function';
@@ -12,6 +9,8 @@ export function isFunction(value: any): value is Function {
 export function isString(value: any): value is string {
   return typeof value === 'string';
 }
+
+//import { isFunction, isString } from 'ts-util-is';
 // interface IRouterEntry {
 //     r: IRouter;
 //     next?: IRouterEntry;

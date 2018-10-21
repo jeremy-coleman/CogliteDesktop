@@ -1,31 +1,29 @@
-import { IAppHost, IAppProps, IMutableSync, SyncModel } from '@coglite/apphost';
+import { IAppHostModel, IAppProps, IMutableSync, SyncModel } from '@coglite/apphost';
 import { autorun, IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
-import { IContextualMenuItem } from 'office-ui-fabric-react';
 import * as React from 'react';
 
-import { ICategory } from '../../category/ICategory';
 import { PortalAppView } from '../../common/component/PortalAppView';
 import { AppstorePathsContext } from '../../PathsContext';
-import { IUserProfile } from '../../user/IUserProfile';
+import { IUserProfile } from '../../user/types/IUserProfile';
 import { UserAdminContext } from '../../user/UserAdminContext';
-import { IListing } from '../IListing';
-import { ListingApprovalStatus } from '../ListingApprovalStatus';
+import { ListingApprovalStatus, ListingViewConfig } from '../constants';
 import { isOwner } from '../ListingHelper';
 import { launch } from '../ListingLaunch';
-import { IListingModel } from '../model/IListingModel';
-import { IListingModelSupplier } from '../model/IListingModelSupplier';
 import { ListingDeleteStore } from '../model/ListingDeleteStore';
 import { ListingModelSupplier } from '../model/ListingModelSupplier';
+import { ICategory, IListing, IListingModel, IListingModelSupplier } from '../types';
 import { ListingContainer, ListingDeleteDialog } from './Listing';
 import { ListingLaunchDialog } from './ListingLaunchDialog';
-import { ListingViewConfig } from './ListingViewConfig';
+
+
+
 
 @observer
 class ListingApp extends React.Component<IAppProps, any> {
     private _listingSupplier : IListingModelSupplier;
     private _titleSetDisposer : IReactionDisposer;
-    get host() : IAppHost {
+    get host() : IAppHostModel {
         return this.props.match.host;
     }
     get userProfile() : IUserProfile {
@@ -95,7 +93,7 @@ class ListingApp extends React.Component<IAppProps, any> {
         }
     }
     render() {
-        const items : IContextualMenuItem[] = [];
+        const items : any[] = [];
         
         if(!this.syncing && this.listing) {
             if(this.isAdmin || this.isOwner) {
@@ -148,7 +146,7 @@ class ListingApp extends React.Component<IAppProps, any> {
             }
         }
 
-        const farItems : IContextualMenuItem[] = [
+        const farItems : any[] = [
             {
                 key: "refresh",
                 title: `Refresh ${ListingViewConfig.label}`,

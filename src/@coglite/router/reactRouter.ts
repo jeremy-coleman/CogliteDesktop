@@ -1,8 +1,7 @@
 import * as React from 'react';
 
 import { exactPath } from './exactPath';
-import { IRequest } from './IRequest';
-import { IRequestHandler } from './IRequestHandler';
+import { IRequest, IRequestHandler } from './types';
 
 interface IReactRouterOptions {
     exportKey?: string;

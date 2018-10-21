@@ -1,8 +1,8 @@
-import { AbstractAppHost, EventEmitter, IAppHost } from '@coglite/apphost';
+import { AbstractAppHost, EventEmitter, IAppHostModel } from '@coglite/apphost';
 import { IRequest, IRouter } from '@coglite/router';
 import { action } from 'mobx';
 
-import { IWindow } from '../types/IWindow';
+import { IWindow } from '../types';
 
 export class WindowAppHost extends AbstractAppHost {
     private _window : IWindow;
@@ -29,7 +29,7 @@ export class WindowAppHost extends AbstractAppHost {
         this._window.setRouter(router);
     }
 
-    open(request: IRequest) : Promise<IAppHost> {
+    open(request: IRequest) : Promise<IAppHostModel> {
         return this._window.open(request).then(w => {
             return w.appHost;
         });

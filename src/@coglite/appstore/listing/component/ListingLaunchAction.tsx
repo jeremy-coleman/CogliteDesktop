@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import { IconButton } from 'office-ui-fabric-react';
 import * as React from 'react';
 
-import { IListing } from '../IListing';
+import { IListing } from '../types';
 
 interface IListingLaunchActionProps {
     listing: IListing;

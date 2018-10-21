@@ -1,21 +1,21 @@
 import { IConsumerFunc } from '@coglite/apphost';
 
-import { IListing } from '../IListing';
-import { IListingActivity } from '../IListingActivity';
-import { IListingBookmark } from '../IListingBookmark';
-import { IListingFeedback } from '../IListingFeedback';
-import { IListingReview } from '../IListingReview';
-import { IListingSearchRequest } from '../IListingSearchRequest';
-import { IListingStoreFront } from '../IListingStoreFront';
 import {
+    IListing,
+    IListingActivity,
+    IListingBookmark,
+    IListingFeedback,
     IListingFeedbackListRequest,
     IListingListRequest,
     IListingListResponse,
     IListingRequest,
+    IListingReview,
     IListingReviewListRequest,
     IListingReviewRequest,
+    IListingSearchRequest,
     IListingService,
-} from './IListingService';
+    IListingStoreFront,
+} from '../types';
 
 interface IDecoratorListingServiceOpts {
     target: IListingService;

@@ -1,5 +1,6 @@
-import { observable, action } from "mobx";
-import { ISortModel } from "../types";
+import { action, observable } from 'mobx';
+
+import { ISortModel } from '../types';
 
 class SortModel implements ISortModel {
     @observable field : string;

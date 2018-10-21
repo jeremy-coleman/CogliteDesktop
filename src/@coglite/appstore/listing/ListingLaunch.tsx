@@ -1,21 +1,20 @@
-import * as React from "react";
-import { IRequest } from "@coglite/router";
-import { ListingServiceContext } from "./service/ListingServiceContext";
-import { ListingApprovalStatus } from "./ListingApprovalStatus";
-import { isExternalListing, canUserAccess } from "./ListingHelper";
-import { IUserProfile } from "../user/IUserProfile";
-import { ListingAppFrame } from "./component/ListingAppFrame";
-import { IListing } from "./IListing";
-import { IListingService } from "./service/IListingService";
-import { IError } from "@coglite/apphost";
-import { MessageBar, MessageBarType } from "office-ui-fabric-react";
-import { HostAppView, IAppHost } from "@coglite/apphost";
-import { AppstorePathsContext } from "../PathsContext";
+import { HostAppView, IAppHostModel, IError } from '@coglite/apphost';
+import { IRequest } from '@coglite/router';
+import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import * as React from 'react';
+
+import { AppstorePathsContext } from '../PathsContext';
+import { IUserProfile } from '../user/types/IUserProfile';
+import { ListingAppFrame } from './component';
+import { ListingApprovalStatus } from './constants';
+import { canUserAccess, isExternalListing } from './ListingHelper';
+import { ListingServiceContext } from './service/ListingServiceContext';
+import { IListing, IListingService } from './types';
 
 interface ILaunchOptions {
     listingId: string | number;
     userProfile: IUserProfile;
-    host: IAppHost;
+    host: IAppHostModel;
     noReplace?: boolean;
     openNew?: boolean;
 }
@@ -95,7 +94,7 @@ const openAppWindow = (app : IListing) => {
 }
 
 const launchHandler = (request : IRequest) => {
-    const host = request.host as IAppHost;
+    const host = request.host as IAppHostModel;
     const userProfile = request.userProfile as IUserProfile;
     const listingId = request.params.listingId;
     if(!listingId) {

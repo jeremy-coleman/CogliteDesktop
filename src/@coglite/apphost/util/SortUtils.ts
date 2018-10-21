@@ -1,6 +1,6 @@
 import * as StringUtils from "./StringUtils";
 import { ISortProps,IKeyMapFunc } from "../types";
-import {defaultKeyMap} from '../models'
+import {defaultKeyMap} from './KeyMapFuncs'
 import { isNumber, isDate, isString, isBoolean, isObject } from "./LangUtils";
 
 const toSortNumber = (o : any) : number => {

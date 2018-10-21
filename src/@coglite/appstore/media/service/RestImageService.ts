@@ -1,11 +1,10 @@
 import { extname, IBasicAuthCredentials } from '@coglite/apphost';
 import axios from 'axios';
 
-import { IImage } from '../IImage';
-import { IGetImagesRequest, IImageService } from './IImageService';
+import { IGetImagesRequest, IImage, IImageService } from '../types';
 
 const Defaults = {
-    baseUrl: "/api",
+    baseUrl: "/coglite/api",
     auth: undefined
 };
 

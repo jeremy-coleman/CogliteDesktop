@@ -1,9 +1,8 @@
 import { FileField } from '@coglite/apphost';
-import { Image } from 'office-ui-fabric-react';
 import { getId } from 'office-ui-fabric-react';
 import * as React from 'react';
 
-import { IImage } from '../IImage';
+import { IImage } from '../types';
 
 interface IImageFieldProps {
     image?: IImage;
@@ -51,12 +50,12 @@ class ImageFile extends React.Component<IImageFileProps, any> {
         }
     }
     render() {
-        return <Image src={this._blobUrl} width={this.props.width} height={this.props.height} alt={this.props.alt || this.props.file.name} />;
+        return <img src={this._blobUrl} width={this.props.width} height={this.props.height} alt={this.props.alt || this.props.file.name} />;
     }
 }
 
 const defaultRenderImageSelect = (props : IImageFieldProps) => {
-    return <Image src={props.image.url} width={props.width} height={props.height} alt={props.label} />;
+    return <img src={props.image.url} width={props.width} height={props.height} alt={props.label} />;
 };
 
 const defaultRenderImageFile = (file : File, props : IImageFieldProps) => {
@@ -95,15 +94,18 @@ class ImageField extends React.Component<IImageFieldProps, any> {
         }
     }
     render() {
-        return <FileField files={this.props.image && this.props.image.file ? [this.props.image.file] : undefined}
-                        label={this.props.label}
-                        multiple={false}
-                        accept="image/*"
-                        defaultSelectText={this.props.defaultSelectText || "Select an Image..."}
-                        onRenderSelect={this.props.image && this.props.image.url ? this._onRenderSelectImage : undefined}
-                        onRenderFiles={this._onRenderFiles}
-                        onChange={this._onChange}
-                        onClear={this.props.image ? this._onClear : undefined} />
+        return (
+            <FileField 
+                files={this.props.image && this.props.image.file ? [this.props.image.file] : undefined}
+                label={this.props.label}
+                multiple={false}
+                accept="image/*"
+                defaultSelectText={this.props.defaultSelectText || "Select an Image..."}
+                onRenderSelect={this.props.image && this.props.image.url ? this._onRenderSelectImage : undefined}
+                onRenderFiles={this._onRenderFiles}
+                onChange={this._onChange}
+                onClear={this.props.image ? this._onClear : undefined} />
+            )
     }
 }
 

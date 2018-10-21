@@ -1,21 +1,27 @@
 import { isWhitespace, split } from '@coglite/apphost';
-import { ActivityItem } from 'office-ui-fabric-react';
-import { Link } from 'office-ui-fabric-react';
-import { Rating } from 'office-ui-fabric-react';
-import { TooltipHost } from 'office-ui-fabric-react';
+import { ActivityItem, Link, Rating, TooltipHost } from 'office-ui-fabric-react';
 import * as React from 'react';
+import { stylesheet } from 'typestyle';
 
 import { UserInfo } from '../../user/component/UserProfile';
-import { IListingReview } from '../IListingReview';
-import { getClassNames } from './ListingReview.classNames';
-import { getStyles, IListingReviewStyles } from './ListingReview.styles';
+import { IListingReview } from '../types';
+
 
 //import { timestampIO } from "@coglite/common/MomentDataUtils";
+
+const listingReviewStyles = stylesheet({
+    root: {
+            marginBottom: 12
+        },
+    text: {
+            paddingTop: 4,
+            paddingBottom: 4
+        }
+})
 
 interface IListingReviewProps {
     review: IListingReview;
     className?: string;
-    styles?: IListingReviewStyles;
 }
 
 const getReviewName = (activity : IListingReview) : string => {
@@ -51,14 +57,14 @@ class ListingReviewUser extends React.Component<IListingReviewProps, any> {
 
 class ListingReview extends React.Component<IListingReviewProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
+        //const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         const review = this.props.review;
         return (
-            <ActivityItem className={classNames.root} activityDescription={
+            <ActivityItem className={listingReviewStyles.root} activityDescription={
                 [
                     <strong key="user"><ListingReviewUser {...this.props} /></strong>,
                     <Rating key="rating" rating={review.rate} readOnly={true} />,
-                    <div key="text" className={classNames.text}>
+                    <div key="text" className={listingReviewStyles.text}>
                         {review.text}
                     </div>
                 ]

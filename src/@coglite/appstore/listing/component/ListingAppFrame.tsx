@@ -1,6 +1,7 @@
-import * as React from "react";
-import { IAppHostBaseProps, AppFrame } from "@coglite/apphost";
-import { IListing } from "../../listing/IListing";
+import { AppFrame, IAppHostBaseProps } from '@coglite/apphost';
+import * as React from 'react';
+
+import { IListing } from '../types';
 
 
 interface IListingAppFrameProps extends IAppHostBaseProps {

@@ -1,9 +1,10 @@
-import * as React from "react";
-import { IAppViewProps, AppView, IAppView } from "./view";
-import { IAppHostBaseProps } from "./IAppHostBaseProps";
-//import { IContextualMenuItem } from "office-ui-fabric-react";
-import { observer } from "mobx-react";
-import { createBackItem } from "./nav/NavMenuHelper";
+import { observer } from 'mobx-react';
+import * as React from 'react';
+
+import { IAppHostBaseProps } from './types';
+import { createBackItem } from './nav/NavMenuHelper';
+import { AppView, IAppViewProps } from './view';
+
 
 interface IHostAppViewProps extends IAppHostBaseProps, IAppViewProps {
     hideBackNavigation?: boolean;
@@ -17,21 +18,6 @@ interface IHostAppViewProps extends IAppHostBaseProps, IAppViewProps {
 
 @observer
 class HostAppView extends React.Component<IHostAppViewProps, any> {
-    private _appView: IAppView;
-    private _onAppViewRef = (appView : IAppView) => {
-        this._appView = appView;
-    }
-    private _onHostResize = () => {
-        if(this._appView) {
-            this._appView.remeasure();
-        }
-    }
-    componentDidMount() {
-        this.props.host.addEventListener("resize", this._onHostResize);
-    }
-    componentWillUnmount() {
-        this.props.host.removeEventListener("resize", this._onHostResize);
-    }
     render() {
         const myCommandBarItems : any[] = [];
         if(!this.props.hideBackNavigation) {
@@ -43,7 +29,7 @@ class HostAppView extends React.Component<IHostAppViewProps, any> {
         const commandBarProps = Object.assign({}, this.props.commandBarProps);
         commandBarProps.items = commandBarProps.items ? myCommandBarItems.concat(commandBarProps.items) : myCommandBarItems;
         return (
-            <AppView {...this.props} root={this.props.host.root} commandBarProps={commandBarProps} ref={this._onAppViewRef}>
+            <AppView {...this.props} root={this.props.host.root} commandBarProps={commandBarProps}>
                 {this.props.children}
             </AppView>
         );

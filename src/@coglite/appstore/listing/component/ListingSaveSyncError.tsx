@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import * as React from 'react';
 
-import { IListingModel } from '../model/IListingModel';
+import { IListingModel } from '../types';
 
 interface IListingSaveSyncErrorProps {
     listing: IListingModel;

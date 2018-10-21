@@ -1,5 +1,6 @@
-import { observable, computed, action } from "mobx";
-import {IStateManager, ISupplierFunc, IPredicateFunc} from '../types'
+import { action, computed, observable } from 'mobx';
+
+import { IPredicateFunc, IStateManager, ISupplierFunc } from '../types';
 
 class StateManager implements IStateManager {
     @observable protected _state = {};

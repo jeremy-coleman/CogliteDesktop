@@ -2,7 +2,7 @@ export * from "./AppPortalManager";
 export * from "./ComponentRemove";
 export * from "./ComponentView";
 export * from "./dashboard";
-export * from "./dashboard-add";
+export * from "./dashboard-add-panel";
 export * from "./dashboard-list";
 export * from "./dashboard-remove";
 export * from "./DashboardLayoutMenuHelper";

@@ -1,6 +1,4 @@
-import { IPortal } from "../types/IPortal";
-import { IPortalManager } from "../types/IPortalManager";
-import { IWindow } from "../types/IWindow";
+import { IPortal, IPortalManager, IWindow } from '../types';
 
 export class MockPortal implements IPortal {
     window: IWindow;

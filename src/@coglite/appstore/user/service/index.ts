@@ -1,5 +1,3 @@
-export * from "./IUserDataService";
-export * from "./IUserService";
 export * from "./MockUserDataService";
 export * from "./MockUserService";
 export * from "./RestUserDataService";

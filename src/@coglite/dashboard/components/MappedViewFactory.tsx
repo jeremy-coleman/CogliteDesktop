@@ -1,6 +1,6 @@
-import * as React from "react";
-import { IViewFactory } from "../types/IViewFactory";
-import { IComponent } from "../types/IComponent";
+import * as React from 'react';
+
+import { IComponent, IViewFactory } from '../types';
 
 class MappedViewFactory implements IViewFactory {
     private _map : { [key : string] : IViewFactory } = {};

@@ -1,14 +1,12 @@
-import * as React from "react";
-import { IRouter, IRequest } from "@coglite/router";
-import { DashboardModel } from "../models/Dashboard";
-import { IDashboard } from "../types/IDashboard";
-import { DashboardContainer } from "./dashboard";
-import { IEventEmitter } from "@coglite/apphost";
-import { IDashboardStyles } from "./dashboard/Dashboard.styles";
-import { ISupplierFunc } from "@coglite/apphost";
-import { IComponentFactory } from "../types/IComponentFactory";
-import { ComponentFactory } from "../models/ComponentFactory";
-import {computed, observable} from 'mobx'
+import { IEventEmitter, ISupplierFunc } from '@coglite/apphost';
+import { IRequest, IRouter } from '@coglite/router';
+import { computed, observable } from 'mobx';
+import * as React from 'react';
+
+import { ComponentFactory } from '../models/ComponentFactory';
+import { DashboardModel } from '../models/Dashboard';
+import { IComponentFactory, IDashboard } from '../types';
+import { DashboardContainer } from './dashboard';
 
 interface IDashboardWrapperProps {
     className?: string;
@@ -18,10 +16,10 @@ interface IDashboardWrapperProps {
     saver?: (data : any) => Promise<any>;
     saveDelay?: number;
     host?: IEventEmitter;
-    styles?: IDashboardStyles;
     router?: IRouter;
     componentFactory?: IComponentFactory;
     afterConfig?: (dashboard : IDashboard) => void;
+    //styles?: any
 }
 
 interface IDashboardWrapper {
@@ -69,7 +67,13 @@ class DashboardWrapper extends React.Component<IDashboardWrapperProps, any> impl
         this.dashboard.close();
     }
     render() {
-        return <DashboardContainer className={this.props.className} dashboard={this.dashboard} host={this.props.host} styles={this.props.styles} />
+        return (
+            <DashboardContainer
+                className={this.props.className}
+                dashboard={this.dashboard}
+                host={this.props.host}
+            />
+        )
     }
 }
 

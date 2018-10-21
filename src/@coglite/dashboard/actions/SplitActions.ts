@@ -1,7 +1,7 @@
 import { action } from 'mobx';
 
 import { HSplitModel, VSplitModel } from '../models/Split';
-import { IComponent } from '../types/IComponent';
+import { IComponent } from '../types';
 
 const splitHorizontal = action((replace : IComponent, left : IComponent, right : IComponent) => {
     const split = new HSplitModel();

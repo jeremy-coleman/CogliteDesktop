@@ -1,6 +1,6 @@
+import * as ComponentTypes from '../../constants/ComponentTypes';
 import { GridModel } from '../../models';
-import * as ComponentTypes from '../../types/ComponentTypes';
-import { IDashboard } from '../../types/IDashboard';
+import { IDashboard } from '../../types';
 
 const applyLayout = (dashboard : IDashboard) => {
     const windows = dashboard.windows;

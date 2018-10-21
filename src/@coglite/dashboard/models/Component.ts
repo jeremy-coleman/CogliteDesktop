@@ -2,10 +2,7 @@ import { IConsumerFunc, IPredicateFunc, ISupplierFunc } from '@coglite/apphost';
 import { IRequest, IRouter } from '@coglite/router';
 import { action, computed, observable } from 'mobx';
 
-import { IComponent } from '../types/IComponent';
-import { IComponentFactory } from '../types/IComponentFactory';
-import { IDashboard } from '../types/IDashboard';
-import { IPortalManager } from '../types/IPortalManager';
+import { IComponent, IComponentFactory, IDashboard, IPortalManager } from '../types';
 import { ComponentIdSequence } from './ComponentIdSequence';
 
 const NotConfiguredComponentFactory : IComponentFactory = (type : string) => {

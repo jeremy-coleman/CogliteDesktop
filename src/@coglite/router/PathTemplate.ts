@@ -1,6 +1,5 @@
-import { IPathTemplateOptions } from './IPathTemplateOptions';
-import { IPathTestResult } from './IPathTestResult';
 import { compile, PathFunction, pathToRegexp } from './path-to-regexp';
+import { IPathTemplateOptions, IPathTestResult } from './types';
 
 class PathTemplate {
     

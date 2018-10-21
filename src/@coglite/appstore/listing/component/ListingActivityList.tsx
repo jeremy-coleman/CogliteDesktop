@@ -2,19 +2,33 @@ import { isWhitespace, split, SyncComponent } from '@coglite/apphost';
 import { observer } from 'mobx-react';
 import { ActivityItem, Link, MessageBar, MessageBarType, TooltipHost } from 'office-ui-fabric-react';
 import * as React from 'react';
+import { stylesheet } from 'typestyle';
 
 import { UserInfo } from '../../user/component/UserProfile';
-import { IListingActivity, IListingChange } from '../IListingActivity';
-import { ListingActivityAction } from '../ListingActivityAction';
-import { IListingActivityListModel } from '../model/IListingActivityListModel';
-import { getClassNames, IListingActivityListClassNames } from './ListingActivityList.classNames';
-import { getStyles, IListingActivityListStyles } from './ListingActivityList.styles';
+import { ListingActivityAction } from '../constants';
+import { IListingActivity, IListingActivityListModel, IListingChange } from '../types';
+
+
 
 //import { timestampIO } from "@coglite/framework/common/MomentDataUtils";
+
+
+const ListingActivityStyles = stylesheet({
+            root: {
+            
+        },
+        activities: {
+            padding: 8
+        },
+        activity: {
+           marginBottom: 12
+        }
+})
+
 interface IListingActivityListProps {
     activityList: IListingActivityListModel;
     className?: string;
-    styles?: IListingActivityListStyles;
+    //styles?: IListingActivityListStyles;
 }
 
 interface IListingActivityProps {
@@ -135,15 +149,15 @@ class ListingModifiedActivity extends React.Component<IListingActivityProps, any
 
 @observer
 class ListingActivityListItems extends React.Component<IListingActivityListProps, any> {
-    private _classNames : IListingActivityListClassNames;
+    //private _classNames : IListingActivityListClassNames;
     private _onRenderActivity = (item : IListingActivity, idx : number) => {
         if(item.action === ListingActivityAction.MODIFIED) {
-            return <ListingModifiedActivity className={this._classNames.activity} key={idx} activity={item} />;
+            return <ListingModifiedActivity className={ListingActivityStyles.activity} key={idx} activity={item} />;
         }
-        return <ListingActivity className={this._classNames.activity} key={idx} activity={item} />;
+        return <ListingActivity className={ListingActivityStyles.activity} key={idx} activity={item} />;
     }
     render() {
-        this._classNames = getClassNames(getStyles(undefined, this.props.styles), this.props.className);
+        //ListingActivityStyles = getClassNames(getStyles(undefined, this.props.styles), this.props.className);
         let content;
         const activityViews = this.props.activityList.itemsView.map(this._onRenderActivity);
         if(activityViews.length > 0) {
@@ -156,7 +170,7 @@ class ListingActivityListItems extends React.Component<IListingActivityListProps
             );
         }
         return (
-            <div className={this._classNames.activities}>
+            <div className={ListingActivityStyles.activities}>
                 {content}
             </div>
         );
@@ -165,9 +179,9 @@ class ListingActivityListItems extends React.Component<IListingActivityListProps
 
 class ListingActivityList extends React.Component<IListingActivityListProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(undefined, this.props.styles), this.props.className);
+        //const classNames = getClassNames(getStyles(undefined, this.props.styles), this.props.className);
         return (
-            <div className={classNames.root}>
+            <div className={ListingActivityStyles.root}>
                 <ListingActivityListItems {...this.props} />
             </div>
         );

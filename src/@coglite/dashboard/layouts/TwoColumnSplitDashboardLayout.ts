@@ -1,7 +1,6 @@
-import { IDashboardLayout } from "../types/IDashboardLayout";
-import { IDashboard } from "../types/IDashboard";
-import { assignWindows, getColumnCount } from "./DashboardLayoutHelper";
-import { HSplitModel, StackModel } from "../models";
+import { HSplitModel, StackModel } from '../models';
+import { IDashboard, IDashboardLayout } from '../types';
+import { assignWindows, getColumnCount } from './DashboardLayoutHelper';
 
 
 const applyLayout = (dashboard : IDashboard) => {

@@ -1,6 +1,7 @@
-import { IDashboardList } from "../types/IDashboardList";
-import { IContextualMenuItem, ContextualMenuItemType } from "office-ui-fabric-react";
-import { addDashboard, removeDashboard, clearDashboards } from "../actions";
+import { ContextualMenuItemType } from 'office-ui-fabric-react';
+
+import { addDashboard, clearDashboards, removeDashboard } from '../actions';
+import { IDashboardList } from '../types';
 
 const onAddDashboardClick = (e, item) => {
     addDashboard({ dashboardList: item.dashboardList });
@@ -18,12 +19,12 @@ const onClickRemoveItem = (e, item) => {
     removeDashboard(item.dashboard);
 };
 
-const createMenuItems = (dashboardList : IDashboardList) : IContextualMenuItem[] => {
-    const items : IContextualMenuItem[] = [];
+const createMenuItems = (dashboardList : IDashboardList) : any[] => {
+    const items : any[] = [];
     const dashboards = dashboardList.dashboards;
     const active = dashboardList.active;
     if(dashboards.length > 0) {
-        const dashboardItems : IContextualMenuItem[] = dashboards.map(d => {
+        const dashboardItems : any[] = dashboards.map(d => {
             return {
                 key: d.id,
                 name: d.title,
@@ -55,7 +56,7 @@ const createMenuItems = (dashboardList : IDashboardList) : IContextualMenuItem[]
                 }
             };
         });
-        const dashboardSectionItem : IContextualMenuItem = {
+        const dashboardSectionItem : any = {
             key: "dashboardSectionItem",
             itemType: ContextualMenuItemType.Section,
             sectionProps: {
@@ -66,7 +67,7 @@ const createMenuItems = (dashboardList : IDashboardList) : IContextualMenuItem[]
         };
         items.push(dashboardSectionItem);
     }
-    const actionItems : IContextualMenuItem[] = [];
+    const actionItems : any[] = [];
     actionItems.push({
         key: "add",
         name: "Add Dashboard",
@@ -89,7 +90,7 @@ const createMenuItems = (dashboardList : IDashboardList) : IContextualMenuItem[]
             iconProps: { iconName: "Clear" }
         });
     }
-    const actionSectionItem : IContextualMenuItem = {
+    const actionSectionItem : any = {
         key: "actionSectionItem",
         itemType: ContextualMenuItemType.Section,
         sectionProps: {
@@ -103,7 +104,7 @@ const createMenuItems = (dashboardList : IDashboardList) : IContextualMenuItem[]
     return items;
 };
 
-const createCommandBarMenuItem = (dashboardList : IDashboardList) : IContextualMenuItem => {
+const createCommandBarMenuItem = (dashboardList : IDashboardList) => {
     const sync = dashboardList.sync;
     const active = dashboardList.active;
     const title = sync.syncing ? "Loading Dashboards..." : sync.error ? "Error" : active ? active.title : "Dashboards";

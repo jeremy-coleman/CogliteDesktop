@@ -1,5 +1,6 @@
-import { Router,exactPath , reactRouter } from "@coglite/router";
-import { launchHandler } from "./listing/ListingLaunch";
+import { exactPath, reactRouter, Router } from '@coglite/router';
+
+import { launchHandler } from './listing/ListingLaunch';
 
 const r = new Router();
 r.use("/bookmarks", reactRouter(() => import("./listing/component/ListingBookmarksApp")));

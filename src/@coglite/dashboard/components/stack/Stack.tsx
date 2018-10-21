@@ -1,20 +1,28 @@
+import { css } from '@coglite/design-system';
+import Add from '@material-ui/icons/Add';
+import Close from '@material-ui/icons/Close';
 import { observer } from 'mobx-react';
-import { css, Icon } from 'office-ui-fabric-react';
 import * as React from 'react';
+import { classes } from 'typestyle';
 
 import { removeComponent } from '../../actions';
-import { IStack } from '../../types/IStack';
-import { IWindow } from '../../types/IWindow';
-import { getClassNames } from './Stack.classNames';
-import { getStyles, IStackStyles } from './Stack.styles';
+import { IComponent, IStack, IViewFactory, IWindow } from '../../types';
+import { stackStyles } from './styles';
 
-import Close from '@material-ui/icons/Close'
+
+
 
 interface IStackProps {
     stack: IStack;
     className?: string;
-    styles?: IStackStyles;
+    window?: IWindow;
+    first?: boolean;
+    last?: boolean;
 }
+
+
+// <Icon className={stackStyles.actionIcon} iconName="ChromeClose" />
+//-- THIS IS ONLY THE END X ON THE FAR RIGHT SIDE, STYLING THE <CLOSE/> DOESNT EFFECT ANYTHING ELSE --//
 
 
 @observer
@@ -29,60 +37,53 @@ class StackCloseAction extends React.Component<IStackProps, any> {
             this.props.stack.close();
         }
     }
-// <Icon className={classNames.actionIcon} iconName="ChromeClose" />
 
     render() {
-        const { stack, styles, className } = this.props;
+        const { stack, className } = this.props;
         if(!stack.closeDisabled) {
-            const classNames = getClassNames(getStyles(null, styles), className);
             return (
-                <button type="button"
+                <i 
+                        //type="button"
                         style={{ width: stack.headerHeight }}
-                        className={css(classNames.action, "close-action")}
+                        className={classes(stackStyles.action, "close-action")}
                         title="Close all Tabs"
                         onClick={this._onClick}>
                    <Close/>
-                </button>
+                </i>
             );
         }
         return null;
     }
 }
 
+// -------- this is the toolbar that holds the tabs and the X on the right -----------//
+
 @observer
 class StackActionBar extends React.Component<IStackProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         return (
-            <div className={classNames.actionBar} style={{ position: "absolute", top: 0, right: 0, bottom: 0 }}>
+            <div className={stackStyles.actionBar} style={{ position: "absolute", top: 0, right: 0, bottom: 0 }}>
                 <StackCloseAction {...this.props} />
             </div>
         )
     }
 }
 
-interface IStackWindowProps extends IStackProps {
-    window: IWindow;
-    first?: boolean;
-    last?: boolean;
-}
+
 
 @observer
-class StackTabTitle extends React.Component<IStackWindowProps, any> {
+class StackTabTitle extends React.Component<IStackProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         return (
-            <div className={classNames.tabTitleContainer}>
-                <div className={classNames.tabTitle}>
+            <span className={classes(stackStyles.tabTitleContainer, stackStyles.tabTitle) }>
                     {this.props.window.title}
-                </div>
-            </div>
+            </span>
         );
     }
 }
 
 @observer
-class StackTabCloseAction extends React.Component<IStackWindowProps, any> {
+class StackTabCloseAction extends React.Component<IStackProps, any> {
     private _onMouseDown = (e : React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
     }
@@ -91,26 +92,28 @@ class StackTabCloseAction extends React.Component<IStackWindowProps, any> {
         this.props.window.close();
     }
     render() {
+        const {stack} = this.props
         if(this.props.window && !this.props.window.closeDisabled) {
-            const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
             return (
-                <button type="button" className={css(classNames.tabAction, "close-action", { active: this.props.window.active })}
-                               title={`Close ${this.props.window.title || "Tab"}`}
-                               onMouseDown={this._onMouseDown}
-                               onClick={this._onClick}>
-                    <Icon className={classNames.tabActionIcon} iconName="ChromeClose" />
-                </button>
+                <span
+                    style={{ width: stack.headerHeight }}
+                    className={classes(stackStyles.action, stackStyles.tabAction, "close-action", this.props.window.active ? 'active' : '')}
+                    title={`Close ${this.props.window.title || "Tab"}`}
+                    onMouseDown={this._onMouseDown}
+                   onClick={this._onClick}
+                >
+                    <Close/>
+                </span>
             );
         }
         return null;
     }
 }
 
-class StackTabActionBar extends React.Component<IStackWindowProps, any> {
+class StackTabActionBar extends React.Component<IStackProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         return (
-            <div className={classNames.tabActionBar}>
+            <div className={stackStyles.tabAction}>
                 <StackTabCloseAction {...this.props} />
             </div>
         );
@@ -118,7 +121,7 @@ class StackTabActionBar extends React.Component<IStackWindowProps, any> {
 }
 
 @observer
-class StackTab extends React.Component<IStackWindowProps, any> {
+class StackTab extends React.Component<IStackProps, any> {
     private _ref : HTMLElement;
     private _dragOverStart : number;
     private _onClick = () => {
@@ -179,9 +182,12 @@ class StackTab extends React.Component<IStackWindowProps, any> {
         this._ref = ref;
     }
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         return (
-            <div className={css(classNames.tab, { active: this.props.window.active, first: this.props.first, last: this.props.last })}
+            <div className={classes(stackStyles.tab,
+                this.props.window.active ? 'active' : '',
+                this.props.first ? 'first' : '',
+                this.props.last ? 'last' : ''
+                )}
                  role="tab"
                  id={`${this.props.window.id}-tab`}
                  aria-controls={`${this.props.window.id}-tab-panel`}
@@ -202,9 +208,8 @@ class StackTab extends React.Component<IStackWindowProps, any> {
 }
 
 @observer
-class StackTabPanel extends React.Component<IStackWindowProps, any> {
+class StackTabPanel extends React.Component<IStackProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         const active = this.props.window.active;
         let style : React.CSSProperties = {
             position: "absolute",
@@ -220,7 +225,7 @@ class StackTabPanel extends React.Component<IStackWindowProps, any> {
             style.height = 0;
         }
         return (
-            <div className={css(classNames.tabPanel, { active: active })}
+            <div className={css(stackStyles.tabPanel, { active: active })}
                  style={style}
                  role="tabpanel"
                  id={`${this.props.window.id}-tab-panel`}>
@@ -235,16 +240,15 @@ class StackAddAction extends React.Component<IStackProps, any> {
         this.props.stack.addNew({ makeActive: true });
     }
     render() {
-        const { stack, styles, className } = this.props;
+        const { stack, className } = this.props;
         if(stack.addApp) {
-            const classNames = getClassNames(getStyles(null, styles), className);
             return (
                 <button type="button"
                         title="Add Tab"
-                        className={classNames.addAction}
+                        className={stackStyles.addAction}
                         onClick={this._onClick}
                         style={{ width: stack.headerHeight }}>
-                    <Icon className="stack-add-action-icon" iconName="Add" />
+                    <Add/>
                 </button>
             );
         }
@@ -272,12 +276,11 @@ class StackTabBar extends React.Component<IStackProps, any> {
         this.props.stack.dropWindow();
     }
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         const tabs = this.props.stack.windows.map((w, idx) => {
             return <StackTab key={w.id} stack={this.props.stack} window={w} first={idx === 0} last={idx === this.props.stack.windowCount - 1} />;
         });
         return (
-            <div className={classNames.tabBar} role="tablist" onDragOver={this._onDragOver} onDrop={this._onDrop}>
+            <div className={stackStyles.tabBar} role="tablist" onDragOver={this._onDragOver} onDrop={this._onDrop}>
                 {tabs}
                 <StackAddAction {...this.props} />
             </div>
@@ -288,9 +291,8 @@ class StackTabBar extends React.Component<IStackProps, any> {
 @observer
 class StackHeader extends React.Component<IStackProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         return (
-            <div className={classNames.header} style={{ height: this.props.stack.headerHeight }}>
+            <div className={stackStyles.header} style={{ height: this.props.stack.headerHeight }}>
                 <StackTabBar {...this.props} />
                 <StackActionBar {...this.props} />
             </div>
@@ -420,7 +422,6 @@ class StackDragOverlay extends React.Component<IStackProps, any> {
         const headerHeight: React.CSSProperties = {top: stack.headerHeight}
         const drag = stack.dashboard ? stack.dashboard.drag : undefined;
         if(drag) {
-            const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
             const feedbackStyles : React.CSSProperties = drag.dragState.over === stack ? drag.dragState.feedbackStyles : {
                 top: 0,
                 left: 0,
@@ -429,7 +430,7 @@ class StackDragOverlay extends React.Component<IStackProps, any> {
             };
             return [
                 <div key="overlay"
-                     className={classNames.dragOverlay}
+                     className={stackStyles.dragOverlay}
                      onDragOver={this._onDragOver}
                      onDrop={this._onDrop}
                      onDragLeave={this._onDragLeave}
@@ -437,9 +438,9 @@ class StackDragOverlay extends React.Component<IStackProps, any> {
                      style={{...headerHeight}}>
                 </div>,
                 <div key="feedbackContainer"
-                     className={classNames.dragFeedbackContainer}
+                     className={stackStyles.dragFeedbackContainer}
                      style={{ top: stack.headerHeight }}>
-                    <div className={css(classNames.dragFeedback, drag.dragState.pos)} style={{...feedbackStyles}}>
+                    <div className={css(stackStyles.dragFeedback, drag.dragState.pos)} style={{...feedbackStyles}}>
                     </div>
                 </div>
             ];
@@ -451,23 +452,22 @@ class StackDragOverlay extends React.Component<IStackProps, any> {
 @observer
 class StackBody extends React.Component<IStackProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         const panels = this.props.stack.windows.map(w => {
             return <StackTabPanel key={w.id} stack={this.props.stack} window={w} />;
         });
         return (
-            <div className={classNames.body} style={{ top: this.props.stack.headerHeight }}>
+            <div className={stackStyles.body} style={{ top: this.props.stack.headerHeight }}>
                 {panels}
             </div>
         );
     }
 }
 
+@observer
 class Stack extends React.Component<IStackProps, any> {
     render() {
-        let classNames = getClassNames(getStyles(null, this.props.styles), this.props.className);
         return (
-            <div id={this.props.stack.id} className={classNames.root}>
+            <div id={this.props.stack.id} className={stackStyles.root}>
                 <StackDragOverlay {...this.props} />
                 <StackHeader {...this.props} />
                 <StackBody {...this.props} />
@@ -476,4 +476,15 @@ class Stack extends React.Component<IStackProps, any> {
     }
 }
 
-export { IStackProps, Stack }
+
+
+class StackViewFactory implements IViewFactory {
+    className: string = undefined;
+    
+    createView(comp : IComponent) : React.ReactNode {
+        return <Stack stack={comp as IStack} className={this.className} />
+    }
+}
+
+
+export { IStackProps, Stack , StackViewFactory}

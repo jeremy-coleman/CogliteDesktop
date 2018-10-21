@@ -1,14 +1,46 @@
-import { ISyncSupplier, SyncComponent } from '@coglite/apphost';
+import { ISyncSupplier, SyncComponent, theme } from '@coglite/apphost';
 import { observer } from 'mobx-react';
 import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
 import * as React from 'react';
+import { stylesheet } from 'typestyle';
 
-import { IListing } from '../IListing';
-import { IListingStoreFront } from '../IListingStoreFront';
+import { IListing, IListingStoreFront } from '../types';
 import { ListingList } from './ListingList';
-import { getClassNames } from './ListingStoreFront.classNames';
-import { getStyles, IListingStoreFrontStyles } from './ListingStoreFront.styles';
 import { ListingTile } from './ListingTile';
+
+
+
+let storefrontStyles = stylesheet({
+            root: {
+            
+        },
+        header: {
+            paddingTop: 8,
+            paddingBottom: 0,
+            paddingLeft: 16,
+            paddingRight: 16
+        },
+        searchInputContainer: {
+            backgroundColor: theme.palette.white
+    
+        },
+        body: {
+
+        },
+        section: {
+            marginTop: 16
+        },
+        sectionHeader: {
+            marginLeft: 16
+        },
+        sectionTitle: Object.assign({}, theme.fonts.large, {
+            fontWeight: 500
+        }),
+        sectionBody: {
+            
+        }
+})
+
 
 interface IListingStoreFrontProps {
     storeFront: ISyncSupplier<IListingStoreFront>;
@@ -17,7 +49,6 @@ interface IListingStoreFrontProps {
     onAdd?: () => void;
     onShowAllListings?: () => void;
     className?: string;
-    styles?: IListingStoreFrontStyles;
     adminGroup?: string;
 }
 
@@ -28,13 +59,12 @@ interface IListingStoreFrontSectionProps {
 @observer
 class ListingStoreFrontSection extends React.Component<IListingStoreFrontSectionProps, any> {
     render() {
-        const classNames = getClassNames(getStyles(undefined));
         return (
-            <div className={classNames.section}>
-                <div className={classNames.sectionHeader}>
-                    <div className={classNames.sectionTitle}>{this.props.title}</div>
+            <div className={storefrontStyles.section}>
+                <div className={storefrontStyles.sectionHeader}>
+                    <div className={storefrontStyles.sectionTitle}>{this.props.title}</div>
                 </div>
-                <div className={classNames.sectionBody}>
+                <div className={storefrontStyles.sectionBody}>
                     {this.props.children}
                 </div>
             </div>
@@ -104,10 +134,8 @@ class ListingStoreFrontRecentSection extends React.Component<IListingStoreFrontP
 
 class ListingStoreFront extends React.Component<IListingStoreFrontProps, any> {
     render() {
-        const styles = getStyles(undefined, this.props.styles);
-        const classNames = getClassNames(styles);
         return (
-            <div className={classNames.root}>
+            <div className={storefrontStyles.root}>
                 <ListingStoreFrontFeaturedSection {...this.props} />
                 <ListingStoreFrontMostPopularSection {...this.props} />
                 <ListingStoreFrontRecommendedSection {...this.props} />

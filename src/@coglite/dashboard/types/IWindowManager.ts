@@ -3,7 +3,7 @@ import { IComponent } from "./IComponent";
 import { IRequest } from "@coglite/router";
 import { IWindowSettings } from "./IWindowSettings";
 import { IDragManager } from "./IDragManager";
-import { WindowResizeType } from "./WindowResizeType";
+import { WindowResizeType } from "../constants";
 
 interface IWindowManager extends IComponent, IDragManager {
     first : IWindow;

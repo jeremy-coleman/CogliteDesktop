@@ -1,11 +1,10 @@
-import { IGrid, IGridConfig } from "../types/IGrid";
-import { observable, computed, action, autorun, IReactionDisposer } from "mobx";
-import * as ComponentTypes from "../types/ComponentTypes";
-import { IWindow } from "../types/IWindow";
-import { WindowModel } from "./Window";
-import { WindowManager } from "./WindowManager";
-import { IGridBounds } from "../types/IGridBounds";
-import { WindowResizeType } from "../types/WindowResizeType";
+import { action, autorun, computed, IReactionDisposer, observable } from 'mobx';
+
+import * as ComponentTypes from '../constants/ComponentTypes';
+import { WindowResizeType } from '../constants/WindowResizeType';
+import { IGrid, IGridBounds, IGridConfig, IWindow } from '../types';
+import { WindowModel } from './Window';
+import { WindowManager } from './WindowManager';
 
 const isCollision = (a : IGridBounds, b : IGridBounds) => {
     if(b.colIndex + b.colSpan <= a.colIndex) {
