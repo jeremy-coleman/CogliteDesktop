@@ -1,7 +1,7 @@
 import { SyncModel } from '@coglite/apphost';
 import { action, autorun, computed, IReactionDisposer, observable, reaction } from 'mobx';
 
-import * as ComponentTypes from '../constants/ComponentTypes';
+import {ComponentTypes} from '../constants';
 import { IComponent, IDashboard, IDashboardList } from '../types';
 import { ComponentModel } from './Component';
 import { DashboardModel } from './Dashboard';

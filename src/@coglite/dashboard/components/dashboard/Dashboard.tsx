@@ -119,23 +119,28 @@ class DashboardPortals extends React.Component<IDashboardProps, any> {
 @observer
 class DashboardViewTemplate extends React.Component<IDashboardProps, any> {
     private _ref : HTMLDivElement;
+    
     private _onRef = (ref : HTMLDivElement) => {
         this._ref = ref;
     }
+
     private _resizeToViewport() {
         if(this._ref) {
             const bounds = this._ref.getBoundingClientRect();
             this.props.dashboard.resize(bounds.width, bounds.height);
         }
     }
+
     private _onHostResize = () => {
         this._resizeToViewport();
     }
+
     private _addHostListener(host : IEventTarget) {
         if(host) {
             host.addEventListener("resize", this._onHostResize);
         }
     }
+    
     private _removeHostListener(host : IEventTarget) {
         if(host) {
             host.removeEventListener("resize", this._onHostResize);

@@ -1,4 +1,4 @@
-import * as ComponentTypes from '../constants/ComponentTypes';
+import {ComponentTypes} from '../constants';
 import { StackModel } from '../models';
 import { IDashboard, IDashboardLayout } from '../types';
 

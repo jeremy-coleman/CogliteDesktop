@@ -16,6 +16,13 @@ import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import AddIcon from '@material-ui/icons/LibraryAdd';
 import * as React from 'react';
 
+
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import PermIdentity from '@material-ui/icons/PermIdentityOutlined';
+
+
+import { IUserProfile ,UserGroups, UserInfo  } from '@coglite/appstore';
+
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -26,7 +33,7 @@ const styles = theme => ({
   },
 });
 
-class TestMenuButton extends React.Component<any, any> {
+class UserButtonBase extends React.Component<any, any> {
   state = {
     open: false,
   };
@@ -43,10 +50,10 @@ class TestMenuButton extends React.Component<any, any> {
   
   anchorEl: any;
 
+
+
+
   render() {
-    console.log('TEST BUTTON STATE')
-    console.log(JSON.stringify(this.props))
-    console.log(JSON.stringify(this.state))
     const { classes } = this.props;
     const { open } = this.state;
 
@@ -59,7 +66,8 @@ class TestMenuButton extends React.Component<any, any> {
             aria-haspopup="true"
             onClick={this.handleToggle}
           >
-            Workspaces
+    <PermIdentity/>
+    <ExpandMore/>
           </Button>
           <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
             {({ TransitionProps, placement }) => (
@@ -72,51 +80,9 @@ class TestMenuButton extends React.Component<any, any> {
                 <Paper>
                   <ClickAwayListener onClickAway={this.handleClose}>
                     <MenuList>
-                    <ListSubheader>Active</ListSubheader>
-                      
-                      <MenuItem 
-                        onClick={this.handleClose}
-                      >
-            <Checkbox
-                checked={false}
-                tabIndex={-1}
-                disableRipple
-              />
-                      <ListItemText primary="UntitledWorkspace1"/>
-
-                      <IconButton aria-label="Delete">
-                        <TrashIcon />
-                      </IconButton>
-                  
-                      </MenuItem>
-                      <Divider inset />
-
-<ListSubheader>New</ListSubheader>
-
-                      <MenuItem onClick={this.handleClose}>
-                      <AddIcon/>
-                       <ListItemText primary="Blank"/>
-                      </MenuItem>
-
-                      <MenuItem onClick={this.handleClose}>
-                      <AddIcon/>
-                       <ListItemText primary="From Template"/>
-                      </MenuItem>
-
-                      <MenuItem onClick={this.handleClose}>
-                      <AddIcon/>
-                       <ListItemText primary="From Existing"/>
-                      </MenuItem>
-
-<Divider inset />
-
-<ListSubheader>Delete</ListSubheader>
-
-                      <MenuItem onClick={this.handleClose}>
-                        <DeleteSweepIcon/>
-                       <ListItemText primary="Remove All Workspaces"/>
-                      </MenuItem>
-
+                      {this.props.userInfo}
+                    <ListSubheader>Groups</ListSubheader>
+                      {this.props.userGroups}
                     </MenuList>
                   </ClickAwayListener>
                 </Paper>
@@ -130,5 +96,5 @@ class TestMenuButton extends React.Component<any, any> {
 }
 
 
-export let TestButton =  withStyles(styles)(TestMenuButton);
-export default TestButton
+export let UserButton =  withStyles(styles)(UserButtonBase);
+export default UserButton

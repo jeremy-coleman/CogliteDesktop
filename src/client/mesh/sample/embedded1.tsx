@@ -10,10 +10,6 @@ import Help from '@material-ui/icons/Settings';
 import * as React from 'react';
 import styled from 'styled-jss';
 
-
-
-import {observable} from 'mobx'
-
 //import 
 const MyButton = styled(Button)(({theme}) => ({
         borderRadius: 1,
@@ -23,27 +19,38 @@ const MyButton = styled(Button)(({theme}) => ({
         width: '100%'
 }))
 
+const CmdBarDimensions = styled(Button)(({theme}) => ({
+        borderRadius: 1,
+        color: theme.palette.primary.themeSecondary,
+        backgroundColor: theme.palette.themePrimary,
+        padding: '1px 1px',
+        width: '100%'
+}))
 
 
-function CommandBarTester(props) {
-    return (
-    <AppBar color='primary' position='relative'>
-    <Toolbar variant='dense' disableGutters style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-    <span style={{marginLeft: 0}}>{props.items}</span>
-    <span style={{marginRight: 0}}>{props.farItems}</span>
-    </Toolbar>
-    </AppBar>
-)}
 
-let B1 = () => <Button color='secondary'>Dashboard<ExpandMore/></Button>
-let B2 = () => <Button color='secondary'>Layout<ExpandMore/></Button>
-let B3 = () => <Button color='secondary'><Apps/></Button>
-let B4 = () => <Button color='secondary'><Help/><ExpandMore/></Button>
-let B5 = () => <Button variant='text' color='secondary' component='span'><PermIdentity/><ExpandMore/></Button>
+// function CommandBarTester(props) {
+//     return (
+//     <ul style={{listStyleType: 'none'}}>
+//     <li style={{float: 'left', left: 0}}>
+//     {...props.items}
+//     </li>
+//     <li style={{float: 'right'}}>
+//     {...props.farItems}
+//     </li>
+//     </ul>
+// )}
+
+// import {observable} from 'mobx'
+
+// const mousePoint =  ({x: 0, y: 0})
+
+// document.addEventListener("mousemove", function(event) {
+//   mousePoint.set({x: event.clientX, y: event.clientY })
+// });
 
 
 const EmbeddedApp = class extends React.Component<IAppProps, any> {
-
 
 
     get host() : IAppHostModel {
@@ -53,18 +60,22 @@ const EmbeddedApp = class extends React.Component<IAppProps, any> {
         return this.props.match.userProfile;
     }
     render() {
-        const items = [<B1/>, <B2/>]
-        items.push(<B3/>)
-
+        //@ts-ignore
+        //const {theme} = this.props.theme
+        const animals = ['dog','cat'];
         return (
         <div>
-        <CommandBarTester
-        items={items}
-        farItems={[<B4/>,<B5/>]}
-        />
+            <AppBar color='primary' position='relative'>
+            <Toolbar variant='dense'>
 
-
-
+            <Button color='secondary'>Dashboard<ExpandMore/></Button>
+            <Button color='secondary'>Layout<ExpandMore/></Button>
+            <Button color='secondary'><Apps/></Button>
+            <Button color='secondary'><Help/><ExpandMore/></Button>
+            <Button
+            variant='text' color='secondary' component='span'><PermIdentity/><ExpandMore/></Button>
+            </Toolbar>
+            </AppBar>
         
         <MyButton variant="contained" color="primary" component="span">jss styled</MyButton>
         </div>

@@ -1,6 +1,6 @@
 import { action, autorun, computed, IReactionDisposer, observable } from 'mobx';
 
-import * as ComponentTypes from '../constants/ComponentTypes';
+import {ComponentTypes} from '../constants';
 import { WindowResizeType } from '../constants/WindowResizeType';
 import { IGrid, IGridBounds, IGridConfig, IWindow } from '../types';
 import { WindowModel } from './Window';

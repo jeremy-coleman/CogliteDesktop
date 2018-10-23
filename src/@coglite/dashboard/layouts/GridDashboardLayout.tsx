@@ -1,19 +1,19 @@
 import { ContextualMenuItemType } from 'office-ui-fabric-react';
-import * as React from 'react';
 
+import * as React from 'react';
 import { GridCellMarginSlider, GridCellSizeSlider } from '../components/grid';
-import * as ComponentTypes from '../constants/ComponentTypes';
+import {ComponentTypes} from '../constants';
 import { GridModel } from '../models/Grid';
 import { IDashboard, IDashboardLayout, IGrid } from '../types';
 
-const applyLayout = (dashboard : IDashboard) => {
+const applyGridLayout = (dashboard : IDashboard) => {
     const windows = dashboard.windows;
     const grid = new GridModel();
     dashboard.setComponent(grid);
     windows.forEach(w => grid.add(w));
 };
 
-const isLayoutApplied = (dashboard : IDashboard) => {
+const isGridLayoutApplied = (dashboard : IDashboard) => {
     return dashboard.component && dashboard.component.type === ComponentTypes.grid;
 };
 
@@ -32,8 +32,8 @@ const GridDashboardLayout : IDashboardLayout = {
     key: "grid",
     name: "Grid",
     iconProps: { iconName: "GridViewMedium"},
-    applyLayout: applyLayout,
-    isLayoutApplied: isLayoutApplied,
+    applyLayout: applyGridLayout,
+    isLayoutApplied: isGridLayoutApplied,
     createActions(dashboard : IDashboard) {
         const items : any[] = [];
         const grid = dashboard.component as IGrid;
@@ -72,6 +72,7 @@ const GridDashboardLayout : IDashboardLayout = {
                 }
             }
         );
+        
         if(grid.addApp) {
             items.push(
                 {

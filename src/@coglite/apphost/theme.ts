@@ -3,7 +3,7 @@ import { observable, computed, action } from "mobx"
 import {loadTheme} from 'office-ui-fabric-react'
 import * as _ from 'lodash'
 
-
+import {createTheme} from 'office-ui-fabric-react'
 
 export const palette = {
   myriad: {

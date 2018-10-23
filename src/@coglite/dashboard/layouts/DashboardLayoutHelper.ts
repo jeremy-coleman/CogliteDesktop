@@ -1,4 +1,4 @@
-import * as ComponentTypes from '../constants/ComponentTypes';
+import {ComponentTypes} from '../constants';
 import { IDashboard, IHSplit, IStack, IVSplit, IWindow } from '../types';
 
 const getColumnCount = (dashboard : IDashboard) : number => {

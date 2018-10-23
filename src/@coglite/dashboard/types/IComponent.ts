@@ -7,9 +7,6 @@ import { IViewport } from "./IViewport";
 import { IPortalManager } from "./IPortalManager";
 import { IComponentFactory } from "./IComponentFactory";
 
-//recent change
-import * as _ComponentTypes from '../constants/ComponentTypes'
-type ComponentTypes = keyof typeof _ComponentTypes
 
 interface IComponent extends IViewport {
     id: string;

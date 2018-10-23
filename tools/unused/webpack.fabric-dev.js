@@ -13,6 +13,7 @@ const webpack = require('webpack')
 const contains = (...values) => filename => values.some(value => filename.indexOf(value) >= 0)
 const endsWith = (...extensions) => filename => extensions.some(ext => filename.endsWith(ext));
 const isNodeModuleFile = contains("node_modules");
+
 const some = (...p) => filename => p.some(e => e(filename));
 
 
@@ -74,24 +75,26 @@ const createConfig = (env) => {
                     ],
                     exclude: isNodeModuleFile
                 },
-                
                 {
                     test: endsWith(".css"),
                     use: [
-                        { loader: "style-loader" },
+                        { loader: "@microsoft/loader-load-themed-styles" },
                         { loader: "css-loader" }
                     ]
                 },
-
                 {
                     test: endsWith(".scss"),
                     use: [
-                        { loader: "style-loader" },
+                        { loader: "@microsoft/loader-load-themed-styles" },
                         { loader: "css-loader" },
-                        { loader: "sass-loader" }
+                        { 
+                            loader: "sass-loader",
+                            options: {
+                                data: `$ms-font-cdn-path: "${AppConfig.fabricFontBasePath}";`
+                            }
+                        }
                     ]
                 },
-
                 {
                     test: endsWith(".woff", ".woff2", ".font.svg", ".ttf", ".eot"),
                     use: [
@@ -106,7 +109,7 @@ const createConfig = (env) => {
                 }
             ]
         },
-
+        
         resolve: {
             extensions: [".js", ".tsx", ".ts"],
             modules: [

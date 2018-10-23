@@ -1,4 +1,5 @@
-import { grid, hsplit, stack, vsplit, window } from '../constants/ComponentTypes';
+//import { grid, hsplit, stack, vsplit, window } from '../constants';
+import {ComponentTypes} from '../constants';
 import { IComponent, IComponentFactory } from '../types';
 import { GridModel } from './Grid';
 import { HSplitModel, VSplitModel } from './Split';
@@ -10,19 +11,19 @@ interface IComponentFactoryMap {
 }
 
 const ComponentFactoryMap : IComponentFactoryMap = {};
-ComponentFactoryMap[window] = () => {
+ComponentFactoryMap[ComponentTypes.window] = () => {
     return new WindowModel();
 };
-ComponentFactoryMap[stack] = () => {
+ComponentFactoryMap[ComponentTypes.stack] = () => {
     return new StackModel();
 };
-ComponentFactoryMap[hsplit] = () => {
+ComponentFactoryMap[ComponentTypes.hsplit] = () => {
     return new HSplitModel();
 };
-ComponentFactoryMap[vsplit] = () => {
+ComponentFactoryMap[ComponentTypes.vsplit] = () => {
     return new VSplitModel();
 };
-ComponentFactoryMap[grid] = () => {
+ComponentFactoryMap[ComponentTypes.grid] = () => {
     return new GridModel();   
 };
 

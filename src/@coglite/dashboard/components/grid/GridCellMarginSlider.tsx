@@ -15,7 +15,7 @@ function _GridCellMarginSlider(props) {
         return (
             <input
                 type='range'
-                aria-label={`Grid Cell Margin ${this.props.grid.cellMargin}`} 
+                aria-label={`Grid Cell Margin ${props.grid.cellMargin}`} 
                 min={this.props.min || 0} 
                 max={this.props.max || 16}
                 step={1}

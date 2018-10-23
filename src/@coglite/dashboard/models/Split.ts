@@ -1,6 +1,6 @@
 import { action, autorun, computed, IReactionDisposer, observable } from 'mobx';
 
-import * as ComponentTypes from '../constants/ComponentTypes';
+import {ComponentTypes} from '../constants';
 import { IComponent, IHSplit, IHSplitConfig, ISplit, IVSplit, IVSplitConfig } from '../types';
 import { ComponentModel } from './Component';
 

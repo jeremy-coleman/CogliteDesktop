@@ -6,19 +6,19 @@ const stack = "stack";
 const grid = "grid";
 const hsplit = "hsplit";
 const vsplit = "vsplit";
-const win = "window";
+const window = "window";
 
 const isSplit = (comp : IComponent) => {
     return comp && (comp.type === hsplit || comp.type === vsplit);
 };
 
-export {
+export let ComponentTypes = {
     dashboard, 
     dashboardList,
     stack,
     grid,
     hsplit,
     vsplit,
-    win as window,
+    window,
     isSplit
 }

@@ -1,0 +1,200 @@
+timport {
+    ComponentTypes,
+    GridCellMarginSlider,
+    GridCellSizeSlider,
+    GridModel,
+    IDashboard,
+    IDashboardLayout,
+    IGrid,
+    
+} from '@coglite/dashboard';
+//import { ContextualMenuItemType } from 'office-ui-fabric-react';
+import * as React from 'react';
+
+
+import Button from '@material-ui/core/Button';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import { withStyles } from '@material-ui/core/styles';
+import GridSizeIcon from '@material-ui/icons/Tune';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+
+
+const applyLayout = (dashboard : IDashboard) => {
+    const windows = dashboard.windows;
+    const grid = new GridModel();
+    dashboard.setComponent(grid);
+    windows.forEach(w => grid.add(w));
+};
+
+const isLayoutApplied = (dashboard : IDashboard) => {
+    return dashboard.component && dashboard.component.type === ComponentTypes.grid;
+};
+
+
+const onRenderGridCellSize = (item : any) => {
+    const grid = item.grid as IGrid;
+    return <GridCellSizeSlider key={item.key} grid={grid} />;
+};
+
+const onRenderGridCellMargin = (item : any) => {
+    const grid = item.grid as IGrid;
+    return <GridCellMarginSlider key={item.key} grid={grid} />;
+};
+
+const GridDashboardLayout : IDashboardLayout = {
+    key: "grid",
+    name: "Grid",
+    iconProps: { iconName: "GridViewMedium"},
+    applyLayout: applyLayout,
+    isLayoutApplied: isLayoutApplied,
+    createActions(dashboard : IDashboard) {
+        const items : any[] = [];
+        const grid = dashboard.component as IGrid;
+        // this is the grid settings icon
+        items.push(
+            {
+                key: "settings",
+                iconProps: {
+                    iconName: "Equalizer"
+                },
+                subMenuProps: {
+                    items: [
+                        {
+                            key: "gridCellSizeHeader",
+                            itemType: ContextualMenuItemType.Header,
+                            name: "Cell Size"
+                        },
+                        {
+                            key: "gridCellSize",
+                            name: "Cell Size",
+                            grid: grid,
+                            onRender: onRenderGridCellSize
+                        },
+                        {
+                            key: "gridCellMarginHeader",
+                            itemType: ContextualMenuItemType.Header,
+                            name: "Cell Margin"
+                        },
+                        {
+                            key: "gridCellMargin",
+                            name: "Cell Margin",
+                            grid: grid,
+                            onRender: onRenderGridCellMargin
+                        }
+                    ]
+                }
+            }
+        );
+        
+        if(grid.addApp) {
+            items.push(
+                {
+                    key: "add",
+                    name: "Add",
+                    iconProps: {
+                        iconName: "Add"
+                    },
+                    onClick() {
+                        grid.addNew();
+                    }
+                }
+            );
+        }
+        return items;
+    }
+};
+
+const styles = theme => ({
+  root: {
+    display: 'flex',
+  },
+  paper: {
+    marginRight: theme.spacing.unit * 2,
+    margin: 0
+  },
+});
+
+class _InfoDropdown extends React.Component<any, any> {
+  state = {
+    open: false,
+  };
+
+  handleToggle = () => this.setState(state => ({ open: !state.open }));
+  
+
+  handleClose = event => {
+    if (this.anchorEl.contains(event.target)) {
+      return;
+      //return this.setState({ open: false });
+    }
+     this.setState({ open: false });
+  };
+  
+  
+  anchorEl: any;
+
+  render() {
+    const { classes } = this.props;
+    const { open } = this.state;
+
+    return (
+      <div className={classes.root}>
+        <div>
+          <Button
+            buttonRef={node => this.anchorEl = node}
+            aria-owns={open ? 'menu-list-grow' : null}
+            aria-haspopup="true"
+            onClick={this.handleToggle}
+          >
+            <GridSizeIcon/>
+            <ExpandMoreIcon/>
+          </Button>
+          <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                //@ts-ignore
+                id="menu-list-grow"
+                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={this.handleClose}>
+                    <MenuList>
+                    <ListSubheader>Resize Layout</ListSubheader>
+
+          <MenuItem onClick={this.handleClose}>
+              {this.props.sliderMarginComponent}
+          </MenuItem>
+
+        <MenuItem onClick={this.handleClose}>
+            {this.props.sliderMarginComponent}
+        </MenuItem>
+
+        <MenuItem onClick={this.handleClose}>
+            <Button onClick={this.props.addGridFunction}>+ add</Button>
+        </MenuItem>
+
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
+        </div>
+      </div>
+    );
+  }
+}
+
+
+export { GridDashboardLayout }

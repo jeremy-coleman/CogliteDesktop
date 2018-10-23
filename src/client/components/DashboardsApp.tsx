@@ -1,6 +1,6 @@
 import { AppPanelContainer, getRequestSupplier, IAppHostModel, IAppProps, IMutableSupplier } from '@coglite/apphost';
 import { AppstorePathsContext, createUserProfileMenu, ListingViewConfig } from '@coglite/appstore';
-import { DashboardListAppView } from '@coglite/dashboard';
+import { DashboardListAppView, GridCellSizeSlider, GridCellMarginSlider, IGrid, IDashboardList } from '@coglite/dashboard';
 import { IRequest } from '@coglite/router';
 import { PanelType } from 'office-ui-fabric-react';
 import * as React from 'react';
@@ -9,6 +9,20 @@ import { DashboardListStore } from '../model/DashboardListStore';
 import { BrandButton } from './BrandButton';
 import { TestButton } from './TestButton';
 
+import {WorkspaceDropdown} from './WorkspaceDropdown'
+import {LayoutDropdown} from './LayoutDropdown'
+import { InfoDropdown } from './InfoDropdown';
+
+import {UserButton} from './UserButton'
+import { IUserProfile ,UserGroups, UserInfo  } from '@coglite/appstore';
+
+//import { UserDropdownTest} from '@coglite/appstore'
+//import {UserProfileDropdown} from '@coglite/appstore'
+
+import Apps from '@material-ui/icons/Apps';
+import Button from '@material-ui/core/Button';
+
+let AppStoreIcon = props => <Button color='secondary' {...props}><Apps/></Button>
 
 class DashboardsApp extends React.Component<IAppProps, any> {
     get host() : IAppHostModel {
@@ -43,11 +57,47 @@ class DashboardsApp extends React.Component<IAppProps, any> {
         return <BrandButton onClick={this._onClickBrand} />;
     }
 
-    private _onRenderTester = () => {
-        return <TestButton/>;
+    private _onRenderWorkspaceDropdown = () => {
+        return <WorkspaceDropdown/>;
     }
 
+    private _onRenderLayoutDropdown = () => {
+        return <LayoutDropdown/>;
+    }
+    
+    private _onRenderInfoDropdown = () => {
+        return (
+            <InfoDropdown
+                onClickHelp={this._onClickHelp}
+                onClickAbout={this._onClickAbout}
+            />
+        )
+    }
 
+    private _onRenderAppStoreIcon = () => {
+        return (
+            <AppStoreIcon
+                onClick={this._onClickShop}
+            />
+        )
+    }
+
+    private _onRenderUserProfileDropdown = () => {
+        return ( 
+        <UserButton
+         userInfo={<UserInfo userProfile={this.userProfile}/>}
+            userGroups={<UserGroups userProfile={this.userProfile}/>}
+        />
+        )
+    }
+
+// private _onRenderGridCellSize = () => {
+//     return <GridCellSizeSlider  grid={DashboardListStore.active.dashboard.component} />;
+// };
+
+// private _onRenderGridCellMargin = () => {
+//     return <GridCellMarginSlider grid={DashboardListStore.active.dashboard.component} />;
+// };
 
     render() {
         const items = [
@@ -57,12 +107,36 @@ class DashboardsApp extends React.Component<IAppProps, any> {
                 onRender: this._onRenderBrand
             },
             {
-                key: "test",
+                key: "workspaces",
                 //text: "Coglite",
-                onRender: this._onRenderTester
+                onRender: this._onRenderWorkspaceDropdown
+            },
+            {
+                key: "layouts",
+                //text: "Coglite",
+                onRender: this._onRenderLayoutDropdown
+            },
+            {
+                key: "info",
+                //text: "Coglite",
+                onRender: this._onRenderInfoDropdown
+            },
+
+            {
+                key: "userProfileDropdown",
+                //text: "Coglite",
+                onRender: this._onRenderUserProfileDropdown
+            },
+            {
+                key: "cogliteAppStore",
+                //text: "Coglite",
+                onRender: this._onRenderAppStoreIcon
             }
+
         ];
         const farItems = [];
+
+        //farItems.push(<UserDropdownTest/>)
 
         // shop/store
         const storeMenu = {

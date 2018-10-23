@@ -1,7 +1,7 @@
 import { action, autorun, computed, IReactionDisposer, observable } from 'mobx';
 
 import { splitHorizontal, splitVertical } from '../actions/SplitActions';
-import * as ComponentTypes from '../constants/ComponentTypes';
+import {ComponentTypes} from '../constants';
 import { IComponent, IStack, IStackConfig, IWindow } from '../types';
 import { WindowModel } from './Window';
 import { WindowManager } from './WindowManager';

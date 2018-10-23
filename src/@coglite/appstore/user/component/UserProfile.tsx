@@ -5,6 +5,7 @@ import * as React from 'react';
 import { stylesheet } from 'typestyle';
 
 import { IGroup, IUserProfile } from '../types';
+import { observer } from 'mobx-react';
 
 
 var userProfileStyles = stylesheet({
@@ -57,15 +58,15 @@ interface IUserGroupProps {
     className?: string;
 }
 
-class UserGroup extends React.Component<IUserGroupProps, any> {
-    render() {
-        return (
-            <div className={this.props.className} role="listitem">
-                {this.props.group.name}
+
+ let UserGroup = observer((props: IUserGroupProps) => {
+    return(
+            <div className={props.className} role="listitem">
+                {props.group.name}
             </div>
-        )
-    }
-}
+    )
+})
+
 
 interface IUserProfileProps {
     userProfile: IUserProfile;
@@ -96,19 +97,22 @@ class UserInfo extends React.Component<IUserProfileProps, any> {
     }
 }
 
-class UserGroups extends React.Component<IUserProfileProps, any> {
-    render() {
-        const groups = this.props.userProfile.user.groups;
-        if(groups && groups.length > 0) {
-            return (
-                <div className={userProfileStyles.groupList} role="list">
-                    {groups.map(g => <UserGroup key={g.name} group={g} className={userProfileStyles.group} />)}
-                </div>
-            );
-        }
-        return null;
-    }
-}
+
+
+ let UserGroups = observer((props: IUserProfileProps) => {
+    const groups = props.userProfile.user.groups;
+    
+    if(groups && groups.length > 0) {
+        return (
+            <div className={userProfileStyles.groupList} role="list">
+                {groups.map(g => <UserGroup key={g.name} group={g} className={userProfileStyles.group} />)}
+            </div>
+    )}
+    else return null;  
+})
+
+
+
 
 class UserProfile extends React.Component<IUserProfileProps, any> {
     private _renderHeader() : React.ReactNode {

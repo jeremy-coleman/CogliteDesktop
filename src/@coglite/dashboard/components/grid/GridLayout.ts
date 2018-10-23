@@ -1,4 +1,4 @@
-import * as ComponentTypes from '../../constants/ComponentTypes';
+import {ComponentTypes} from '../../constants';
 import { GridModel } from '../../models';
 import { IDashboard } from '../../types';
 

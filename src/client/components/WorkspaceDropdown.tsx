@@ -16,6 +16,8 @@ import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import AddIcon from '@material-ui/icons/LibraryAdd';
 import * as React from 'react';
 
+import ExpandMore from '@material-ui/icons/ExpandMore';
+
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -26,7 +28,7 @@ const styles = theme => ({
   },
 });
 
-class TestMenuButton extends React.Component<any, any> {
+class _WorkspaceDropdown extends React.Component<any, any> {
   state = {
     open: false,
   };
@@ -44,9 +46,6 @@ class TestMenuButton extends React.Component<any, any> {
   anchorEl: any;
 
   render() {
-    console.log('TEST BUTTON STATE')
-    console.log(JSON.stringify(this.props))
-    console.log(JSON.stringify(this.state))
     const { classes } = this.props;
     const { open } = this.state;
 
@@ -60,6 +59,7 @@ class TestMenuButton extends React.Component<any, any> {
             onClick={this.handleToggle}
           >
             Workspaces
+            <ExpandMore/>
           </Button>
           <Popper open={open} anchorEl={this.anchorEl} transition disablePortal>
             {({ TransitionProps, placement }) => (
@@ -130,5 +130,5 @@ class TestMenuButton extends React.Component<any, any> {
 }
 
 
-export let TestButton =  withStyles(styles)(TestMenuButton);
-export default TestButton
+export let WorkspaceDropdown =  withStyles(styles)(_WorkspaceDropdown);
+export default WorkspaceDropdown
